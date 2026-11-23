@@ -41,7 +41,7 @@
   --rosa:#F6CBD3; --pesca:#F9D2B6; --giallo:#F7E7A8;
   --line:#EADCE6;
   --muted:#6E5E70;
-  --xmas:#8E2431; --gold:#C9A24B;
+  --xmas:#6E2A3A; --gold:#CDB27E;
   --display:"Young Serif", Georgia, "Times New Roman", serif;
   --body:"Figtree", system-ui, -apple-system, "Segoe UI", sans-serif;
   --hand:"Caveat", "Segoe Script", cursive;
@@ -235,7 +235,7 @@ fieldset{border:0;margin:0;padding:0;display:grid;gap:8px}
 .voucher .deco{position:absolute;left:46%;bottom:-30px;width:130px;opacity:.22;pointer-events:none;transform:rotate(-12deg)}
 .v-spark{position:absolute;width:14px;height:14px;fill:var(--vacc);animation:twinkle 2.2s ease-in-out infinite;pointer-events:none}
 .v-spark.a{top:70px;right:60px}.v-spark.b{top:130px;right:80px;width:10px;height:10px;animation-delay:.7s}.v-spark.c{bottom:70px;right:64px;width:9px;height:9px;animation-delay:1.4s}
-.voucher.t-natale{--vbg:#8E2431;--vink:#FBEFD9;--vacc:#E9C77B;--vrib:#D9B45F;--w1:#B2384A;--w2:#6E1825;border-color:#5E1420}
+.voucher.t-natale{--vbg:#6E2A3A;--vink:#F8EDE3;--vacc:#E6D0A3;--vrib:#CDB27E;--w1:#8C4152;--w2:#4F1C28;border-color:#4A1822}
 .voucher.t-compleanno{--vbg:#FFF6E6;--vacc:#C8661A;--vrib:#F09AAB;--w1:#F9D2B6;--w2:#F7E7A8}
 .voucher.t-valentino{--vbg:#FDEBEF;--vacc:#B03752;--vrib:#E0607A;--w1:#F6CBD3;--w2:#FBD9C9}
 .voucher.t-mamma{--vbg:#FFF1E8;--vacc:#A24F6B;--vrib:#C9BCE3;--w1:#F9D2B6;--w2:#E7D6EC}
@@ -302,9 +302,9 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
 .review .stars{color:#E8B931;font-size:20px;letter-spacing:3px}
 .review blockquote{margin:0;font-family:var(--display);font-size:19px;line-height:1.4;color:var(--ink)}
 .review figcaption{margin-top:auto;font-size:15px;color:var(--muted)}
-.xmas-strip{display:block;background:var(--xmas);color:#FBEFD9;text-align:center;padding:10px 16px;font-size:16px;text-decoration:none;line-height:1.35}
+.xmas-strip{display:block;background:var(--xmas);color:#F3E3CF;text-align:center;padding:10px 16px;font-size:16px;text-decoration:none;line-height:1.35}
 .xmas-strip b{color:#fff}
-.xmas-strip:hover{background:#7A1F2A}
+.xmas-strip:hover{background:#5A1F2D}
 .legal{background:#2E2033;color:#D9CCDD;padding:0 0 32px}
 .legal details{border-top:1px solid #ffffff22;border-bottom:0;padding:18px 0}
 .legal summary{color:#fff;font-size:17px}
@@ -791,7 +791,7 @@ const MOODS = {
   me:["Un piccolo rituale di calma e bellezza, dedicato solo a te.",["e-viso","e-chakra"]]
 };
 const OCC = {
-  natale:{title:"Buon Natale", deco:'<g fill="none" stroke="#C9A24B" stroke-width="2.5" stroke-linecap="round"><path d="M75 20v110M30 50l90 50M120 50l-90 50"/><path d="M75 20l-10 12M75 20l10 12M75 130l-10-12M75 130l10-12M30 50l15 1M30 50l7 13M120 100l-15-1M120 100l-7-13M120 50l-15 1M120 50l-7 13M30 100l15-1M30 100l7-13"/></g>'},
+  natale:{title:"Buon Natale", deco:'<g fill="none" stroke="#E6D0A3" stroke-width="2.5" stroke-linecap="round"><path d="M75 20v110M30 50l90 50M120 50l-90 50"/><path d="M75 20l-10 12M75 20l10 12M75 130l-10-12M75 130l10-12M30 50l15 1M30 50l7 13M120 100l-15-1M120 100l-7-13M120 50l-15 1M120 50l-7 13M30 100l15-1M30 100l7-13"/></g>'},
   compleanno:{title:"Buon compleanno", deco:'<g fill="none" stroke="#EE9F2E" stroke-width="3" stroke-linecap="round"><circle cx="75" cy="75" r="14" fill="#EE9F2E" fill-opacity=".35"/>'+[0,40,80,120,160,200,240,280,320].map(a=>`<ellipse cx="75" cy="44" rx="10" ry="22" transform="rotate(${a} 75 75)"/>`).join("")+'</g>'},
   valentino:{title:"Buon San Valentino", deco:'<g fill="#E0607A" fill-opacity=".25" stroke="#C0405A" stroke-width="2.5"><path d="M75 120 C30 90 30 50 55 45 C66 43 72 50 75 58 C78 50 84 43 95 45 C120 50 120 90 75 120Z"/></g>'},
   mamma:{title:"Buona Festa della mamma", deco:'<g fill="none" stroke="#C2758B" stroke-width="3" stroke-linecap="round"><circle cx="75" cy="75" r="12" fill="#F7E7A8"/>'+[0,60,120,180,240,300].map(a=>`<ellipse cx="75" cy="47" rx="13" ry="22" transform="rotate(${a} 75 75)"/>`).join("")+'</g>'},
