@@ -483,7 +483,7 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
       <h2 style="margin-top:10px">Regala un momento di benessere</h2>
       <p class="lead" style="margin-top:14px">Componi il tuo buono qui sotto: lo vedi prendere forma mentre scrivi. Poi mandami la richiesta su WhatsApp con un tocco.</p>
 
-      <div class="promo-banner hidden" id="promo-banner"><span style="font-size:26px" aria-hidden="true">🎄</span><p><span class="big">Promo di Natale</span>Regala più trattamenti di Osteonatura: <b>2 trattamenti 15 € in meno</b>, <b>3 trattamenti 30 € in meno</b>. Fino al 6 gennaio.</p></div>
+      <div class="promo-banner hidden" id="promo-banner"><span style="font-size:26px" aria-hidden="true">🎄</span><p><span class="big">Promo di Natale</span>Regala più trattamenti, anche in studi diversi: <b>2 trattamenti 15 € in meno</b>, <b>3 trattamenti 30 € in meno</b>. Fino al 6 gennaio, escluso il Rituale Viso.</p></div>
       <div class="tabs" role="tablist" aria-label="Occasione" id="occ-tabs"></div>
 
       <div class="gift-grid">
@@ -913,14 +913,15 @@ $$("#buoni .tab").forEach(t=>t.addEventListener("click",()=>{
 }));
 const val = name => (document.querySelector(`input[name="${name}"]:checked`)||{}).value;
 
-/* PROMO DI NATALE: solo Osteonatura (studio 0), fino al 6 gennaio */
-const PROMO = { from:new Date(2026,10,1), until:new Date(2027,0,6,23,59), studio:0, off:{2:15, 3:30} };
+/* PROMO DI NATALE: tutti e due gli studi, escluso il Rituale Viso, fino al 6 gennaio */
+const PROMO = { from:new Date(2026,10,1), until:new Date(2027,0,6,23,59), exclude:["e-viso"], off:{2:15, 3:30} };
+const promoOk = id => !PROMO.exclude.includes(id);
 const promoOn = () => { const d=new Date(); return d>=PROMO.from && d<=PROMO.until; };
 const optionsHTML = () => TREATMENTS.map((list,si)=>`<optgroup label="${CONFIG.studios[si]}">`+list.map(t=>`<option value="${t[0]}">${t[1]} · ${PRICES[t[0]]} €</option>`).join("")+"</optgroup>").join("");
 function selTratts(){ return [$("#g-tratt").value, ...$$("#extra-tratts select").map(s=>s.value)]; }
 function trattPrice(){
   const ids=selTratts(), full=ids.reduce((a,id)=>a+ALL[id].price,0);
-  const allPromo = ids.length>1 && ids.every(id=>ALL[id].si===PROMO.studio);
+  const allPromo = ids.length>1 && ids.every(promoOk);
   const off = promoOn() && allPromo ? (PROMO.off[ids.length]||0) : 0;
   return {ids, full, off, total: full-off, mixed: ids.length>1 && !allPromo};
 }
@@ -1034,8 +1035,8 @@ function updateGift(){
     $("#tratt-value").innerHTML = tp.off ? `Totale: <s>${tp.full} €</s> <b>${tp.total} €</b> con la promo di Natale (−${tp.off} €)` : `Valore del buono: <b>${tp.total} €</b>`;
     $("#add-tratt").classList.toggle("hidden", tp.ids.length>=3);
     const pn=$("#promo-note");
-    if(promoOn() && tp.ids.length===1 && ALL[tp.ids[0]].si===PROMO.studio){ pn.textContent="🎄 Aggiungi un altro trattamento di Osteonatura e risparmi 15 €, con tre ne risparmi 30 €."; pn.classList.remove("hidden"); }
-    else if(promoOn() && tp.mixed){ pn.textContent="La promo di Natale vale quando tutti i trattamenti del buono sono di Osteonatura."; pn.classList.remove("hidden"); }
+    if(promoOn() && tp.ids.length===1 && promoOk(tp.ids[0])){ pn.textContent="🎄 Aggiungi un altro trattamento e risparmi 15 €, con tre ne risparmi 30 €."; pn.classList.remove("hidden"); }
+    else if(promoOn() && tp.mixed){ pn.textContent="La promo di Natale non vale per il Rituale Viso: toglilo per avere lo sconto."; pn.classList.remove("hidden"); }
     else pn.classList.add("hidden");
   }
   let payHint, payNow = null;
