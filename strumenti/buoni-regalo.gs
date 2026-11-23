@@ -78,6 +78,7 @@ function installa() {
 
   // la spunta "Pagato" fa partire l'invio
   ScriptApp.getProjectTriggers().forEach(t => ScriptApp.deleteTrigger(t));
+  PropertiesService.getScriptProperties().deleteProperty('TRIGGER_GIORNALIERO');
   ScriptApp.newTrigger('quandoModifichi').forSpreadsheet(ss).onEdit().create();
 
   // prova d'invio email a te stessa, così Google chiede subito tutti i permessi
@@ -237,8 +238,27 @@ function trovaRiga(sh, codice) {
   return 0;
 }
 function impostaStato(sh, riga) {
-  const f = '=IF(S{r}<>"","Usato",IF(AND(O{r}<>"",O{r}<TODAY()),"Scaduto",IF(R{r}<>"","Inviato",IF(D{r}=TRUE,"Pagato","Da pagare"))))';
-  sh.getRange(riga, C['Stato']).setFormula(f.replace(/\{r\}/g, riga));
+  // stato scritto come testo (niente formule: così non dà errori con le impostazioni italiane)
+  const v = n => sh.getRange(riga, C[n]).getValue();
+  let stato = 'Da pagare';
+  const scad = v('Scadenza'), oggi = new Date(); oggi.setHours(0, 0, 0, 0);
+  if (v('Usato il')) stato = 'Usato';
+  else if (scad && new Date(scad) < oggi) stato = 'Scaduto';
+  else if (v('Inviato il')) stato = 'Inviato';
+  else if (v('Pagato') === true) stato = 'Pagato';
+  sh.getRange(riga, C['Stato']).setValue(stato);
+  controllaScadenzeOgniGiorno();
+}
+// una volta al giorno ricontrolla gli stati (per segnare i buoni scaduti)
+function controllaScadenzeOgniGiorno() {
+  const props = PropertiesService.getScriptProperties();
+  if (props.getProperty('TRIGGER_GIORNALIERO')) return;
+  ScriptApp.newTrigger('aggiornaTuttiGliStati').timeBased().everyDays(1).atHour(6).create();
+  props.setProperty('TRIGGER_GIORNALIERO', 'si');
+}
+function aggiornaTuttiGliStati() {
+  const sh = foglio(), n = sh.getLastRow();
+  for (let r = 2; r <= n; r++) if (String(sh.getRange(r, C['Codice']).getValue()).trim()) impostaStato(sh, r);
 }
 function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
 function risposta(t) { return ContentService.createTextOutput(t); }
