@@ -7,7 +7,11 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Irene Argenio · Naturopata a Roma">
 <meta property="og:description" content="Riflessologia plantare, massaggi e consulenze naturopatiche. Prenota online o regala un buono.">
-<meta property="og:image" content="img/anteprima.jpg">
+<meta property="og:image" content="https://ireneargenionaturopata.github.io/irenaturopata/img/anteprima.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://ireneargenionaturopata.github.io/irenaturopata/">
+<link rel="canonical" href="https://ireneargenionaturopata.github.io/irenaturopata/">
 <meta property="og:locale" content="it_IT">
 <meta name="theme-color" content="#F6CBD3">
 <link rel="icon" href="img/icona-192.png">
@@ -327,30 +331,8 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
     </div>
   </section>
 
-  <!-- COME TI SENTI -->
-  <section class="mood">
-    <div class="wrap">
-      <p class="eyebrow">Non sai da dove iniziare?</p>
-      <h2 style="margin-top:10px">Dimmi come ti senti oggi</h2>
-      <div class="mood-box">
-        <div class="moods" role="group" aria-label="Come ti senti">
-          <button class="mood-btn" type="button" data-m="testa" aria-pressed="true">Ho la testa piena, non riesco a staccare</button>
-          <button class="mood-btn" type="button" data-m="relax" aria-pressed="false">Ho bisogno di rilassarmi</button>
-          <button class="mood-btn" type="button" data-m="gambe" aria-pressed="false">Ho le gambe pesanti, mi sento gonfia</button>
-          <button class="mood-btn" type="button" data-m="capire" aria-pressed="false">Vorrei capire cosa mi sta succedendo</button>
-          <button class="mood-btn" type="button" data-m="me" aria-pressed="false">Voglio un momento solo per me</button>
-        </div>
-        <div class="mood-out" aria-live="polite">
-          <p class="eyebrow">Potrebbe piacerti</p>
-          <p id="mood-text"></p>
-          <div class="suggest" id="mood-list"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- TRATTAMENTI -->
-  <section id="trattamenti" style="padding-top:24px">
+  <section id="trattamenti">
     <div class="wrap">
       <p class="eyebrow">I trattamenti</p>
       <h2 style="margin-top:10px">Cosa facciamo insieme</h2>
@@ -512,6 +494,28 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
             <p class="iban" id="iban-text">IBAN da inserire</p>
             <button class="copy" type="button" id="copy-iban">Copia IBAN</button>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COME TI SENTI -->
+  <section class="mood">
+    <div class="wrap">
+      <p class="eyebrow">Non sai da dove iniziare?</p>
+      <h2 style="margin-top:10px">Dimmi come ti senti oggi</h2>
+      <div class="mood-box">
+        <div class="moods" role="group" aria-label="Come ti senti">
+          <button class="mood-btn" type="button" data-m="testa" aria-pressed="true">Ho la testa piena, non riesco a staccare</button>
+          <button class="mood-btn" type="button" data-m="relax" aria-pressed="false">Ho bisogno di rilassarmi</button>
+          <button class="mood-btn" type="button" data-m="gambe" aria-pressed="false">Ho le gambe pesanti, mi sento gonfia</button>
+          <button class="mood-btn" type="button" data-m="capire" aria-pressed="false">Vorrei capire cosa mi sta succedendo</button>
+          <button class="mood-btn" type="button" data-m="me" aria-pressed="false">Voglio un momento solo per me</button>
+        </div>
+        <div class="mood-out" aria-live="polite">
+          <p class="eyebrow">Potrebbe piacerti</p>
+          <p id="mood-text"></p>
+          <div class="suggest" id="mood-list"></div>
         </div>
       </div>
     </div>
