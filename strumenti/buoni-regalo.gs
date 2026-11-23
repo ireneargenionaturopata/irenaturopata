@@ -99,7 +99,7 @@ function doPost(e) {
   lock.waitLock(20000);
   try {
     const sh = foglio();
-    const riga = trovaRiga(sh, codice) || (sh.getLastRow() + 1);
+    const riga = trovaRiga(sh, codice) || primaRigaLibera(sh);
 
     // immagine e PDF del buono (il sito li manda già compilati).
     // Se qualcosa va storto con i file, la riga viene scritta lo stesso e l'errore finisce nelle Note.
@@ -220,6 +220,14 @@ function inviaEmail(sh, riga) {
 /* ---------- utilità ---------- */
 function foglio() {
   return SpreadsheetApp.openById(PropertiesService.getScriptProperties().getProperty('FOGLIO_ID')).getSheetByName('Buoni');
+}
+// prima riga con la colonna "Codice" vuota (le caselle "Pagato" già pronte non contano)
+function primaRigaLibera(sh) {
+  const n = Math.max(sh.getLastRow(), 2);
+  const codici = sh.getRange(2, 1, n - 1, 1).getValues();
+  let ultima = 1;
+  codici.forEach((r, i) => { if (String(r[0]).trim() !== '') ultima = i + 2; });
+  return ultima + 1;
 }
 function trovaRiga(sh, codice) {
   const n = sh.getLastRow();
