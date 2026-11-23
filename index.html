@@ -212,20 +212,20 @@ fieldset{border:0;margin:0;padding:0;display:grid;gap:8px}
 .wiz-nav{display:flex;gap:10px;flex-wrap:wrap}
 /* Buono regalo: come quello stampato di Irene. Carta crema, cornice dorata, righe "per / da / validità".
    A Natale lo sfondo è la sua grafica; nelle altre occasioni la stessa impaginazione disegnata in CSS/SVG. */
-.voucher{--vacc:#2F4A3A;position:relative;aspect-ratio:993/472;border-radius:14px;overflow:hidden;background:#FBF6EE;color:#2F4A3A;
+.voucher{--vacc:#2F4A3A;position:relative;aspect-ratio:2000/920;border-radius:14px;overflow:hidden;background:#FBF6EE;color:#2F4A3A;
   box-shadow:0 20px 34px -20px #0006,0 1px 0 #0001;transform:rotate(-1deg);container-type:inline-size}
 .v-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none}
 .voucher.t-natale .v-bg{display:block}
 .v-paper{position:absolute;inset:0;width:100%;height:100%}
 .voucher.t-natale .v-paper,.voucher.t-natale .v-occ,.voucher.t-natale .deco{display:none}
 .voucher .v-occ{position:absolute;left:0;right:0;top:4.2%;text-align:center;font-family:var(--hand);font-size:3.6cqw;font-weight:700;color:var(--vacc);line-height:1}
-.v-row{position:absolute;right:25.5%;transform:translateY(-92%);font-family:var(--hand);font-weight:700;font-size:4.7cqw;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#2F4A3A}
-.v-row.what{left:28.5%;top:46.8%;font-size:5.1cqw;text-align:center}
-.v-row.to{left:36.5%;top:57.2%}
-.v-row.from{left:36.5%;top:69.4%}
-.v-row.val{left:41.5%;top:81.4%;font-weight:500}
+.v-row{position:absolute;right:25.3%;transform:translateY(-90%);font-family:var(--hand);font-weight:700;font-size:4.7cqw;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#2F4A3A}
+.v-row.what{left:27.5%;top:47.3%;font-size:5cqw;text-align:center}
+.v-row.to{left:36%;top:58%}
+.v-row.from{left:36%;top:71%}
+.v-row.msg{left:30%;top:83.9%;font-weight:500}
 .voucher .deco{position:absolute;right:3%;bottom:4%;width:15%;opacity:.9;pointer-events:none}
-.v-msg{font-family:var(--hand);font-size:24px;line-height:1.2;text-align:center;color:var(--ink);min-height:1.2em;margin-top:6px}
+
 .voucher.t-compleanno{--vacc:#C8661A}
 .voucher.t-valentino{--vacc:#B03752}
 .voucher.t-mamma{--vacc:#A24F6B}
@@ -509,7 +509,7 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
           </div>
           <div class="field">
             <label for="g-msg">Una dedica <span class="hint">(se vuoi)</span></label>
-            <textarea id="g-msg" maxlength="90" placeholder="Es. Per staccare un po' da tutto, te lo meriti!"></textarea>
+            <textarea id="g-msg" maxlength="60" placeholder="Es. Per staccare un po' da tutto, te lo meriti!"></textarea>
           </div>
           <div class="wiz-nav"><button type="button" class="btn btn-ghost" data-go="1">← Indietro</button><button type="button" class="btn btn-main" data-go="3">Avanti →</button></div>
           </div>
@@ -542,29 +542,27 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
         <div class="voucher-wrap">
           <div class="voucher t-natale" id="voucher" aria-label="Anteprima del buono regalo">
             <img class="v-bg" src="img/buono-natale.jpg" alt="">
-            <svg class="v-paper" viewBox="0 0 993 472" preserveAspectRatio="none" aria-hidden="true">
-              <rect x="14" y="14" width="965" height="444" rx="10" fill="none" stroke="#C9A86A" stroke-width="2"/>
-              <rect x="60" y="58" width="873" height="352" fill="none" stroke="#B8B2A8" stroke-width="1.4" stroke-dasharray="5 6"/>
-              <text x="496" y="128" text-anchor="middle" font-family="Caveat, cursive" font-size="92" font-weight="700" fill="#2F4A3A">buono regalo</text>
-              <path d="M335 158 C380 146 420 160 470 152 M526 152 C576 160 616 146 661 158" stroke="#C9A86A" stroke-width="2" fill="none"/>
-              <path d="M498 160 c-6-7-14-2-10 4 l10 9 l10-9 c4-6-4-11-10-4z" fill="var(--vacc)"/>
-              <g stroke="#B8A98C" stroke-width="1.6" stroke-dasharray="2 4"><path d="M280 223 H735"/><path d="M352 270 H735"/><path d="M352 328 H735"/><path d="M408 385 H735"/></g>
-              <g font-family="Caveat, cursive" font-size="34" fill="#2F4A3A"><text x="304" y="268">per:</text><text x="304" y="326">da:</text><text x="304" y="384">validità</text></g>
-              <g fill="none" stroke="var(--vacc)" stroke-width="2.4" stroke-linejoin="round"><rect x="252" y="246" width="34" height="26" rx="2"/><path d="M252 254 H286 M269 246 V272 M269 246 c-6-10-18-8-14 0 M269 246 c6-10 18-8 14 0"/></g>
-              <path d="M269 334 c-14-10-20-26-8-32 c5-2 8 2 8 6 c0-4 3-8 8-6 c12 6 6 22-8 32z" fill="#2F4A3A"/>
-              <path d="M268 350 l6 14 15 1-12 9 5 15-14-9-14 9 5-15-12-9 15-1z" fill="#D9B45F"/>
-              <g transform="translate(20 300) scale(1.05)"><g fill="none" stroke="#6F8F72" stroke-width="2.2" stroke-linecap="round"><path d="M0 0 C40 40 70 90 80 160"/><path d="M22 30 C10 34 2 48 4 58 C16 54 24 44 22 30Z" fill="#9DBB93" stroke="none"/><path d="M40 58 C54 56 66 64 70 74 C56 78 44 72 40 58Z" fill="#9DBB93" stroke="none"/><path d="M52 92 C40 98 34 112 38 122 C50 116 56 104 52 92Z" fill="#B9D1AE" stroke="none"/><path d="M68 120 C82 118 94 128 96 138 C82 140 70 134 68 120Z" fill="#9DBB93" stroke="none"/></g></g>
-              <g transform="translate(975 30) scale(-1 1) rotate(-20)"><g fill="none" stroke="#6F8F72" stroke-width="2.2" stroke-linecap="round"><path d="M0 0 C40 40 70 90 80 160"/><path d="M22 30 C10 34 2 48 4 58 C16 54 24 44 22 30Z" fill="#9DBB93" stroke="none"/><path d="M40 58 C54 56 66 64 70 74 C56 78 44 72 40 58Z" fill="#9DBB93" stroke="none"/><path d="M52 92 C40 98 34 112 38 122 C50 116 56 104 52 92Z" fill="#B9D1AE" stroke="none"/><path d="M68 120 C82 118 94 128 96 138 C82 140 70 134 68 120Z" fill="#9DBB93" stroke="none"/></g></g>
-              <g fill="var(--vacc)"><circle cx="150" cy="70" r="5"/><circle cx="880" cy="420" r="5"/><circle cx="905" cy="100" r="4"/><circle cx="110" cy="410" r="4"/></g>
+            <svg class="v-paper" viewBox="0 0 2000 920" preserveAspectRatio="none" aria-hidden="true">
+              <rect x="26" y="26" width="1948" height="868" rx="22" fill="none" stroke="#C9A86A" stroke-width="3"/>
+              <text x="1000" y="235" text-anchor="middle" font-family="Caveat, cursive" font-size="190" font-weight="700" fill="#2F4A3A">buono regalo</text>
+              <path d="M670 292 C760 270 840 300 940 284 M1060 284 C1160 300 1240 270 1330 292" stroke="#C9A86A" stroke-width="3.5" fill="none"/>
+              <path d="M1000 300 c-12-14-30-4-20 8 l20 18 l20-18 c10-12-8-22-20-8z" fill="var(--vacc)"/>
+              <g stroke="#B8A98C" stroke-width="3" stroke-dasharray="3 7"><path d="M550 435 H1495"/><path d="M705 534 H1495"/><path d="M705 653 H1495"/><path d="M705 772 H1495"/></g>
+              <g font-family="Caveat, cursive" font-size="68" fill="#2F4A3A"><text x="612" y="528">per:</text><text x="612" y="648">da:</text></g>
+              <g fill="none" stroke="var(--vacc)" stroke-width="5" stroke-linejoin="round"><rect x="500" y="478" width="70" height="56" rx="3"/><path d="M500 496 H570 M535 478 V534 M535 478 c-12-22-36-16-28 0 M535 478 c12-22 36-16 28 0"/></g>
+              <path d="M535 655 c-28-20-40-52-16-64 c10-4 16 4 16 12 c0-8 6-16 16-12 c24 12 12 44-16 64z" fill="#2F4A3A"/>
+              <path d="M535 698 l12 28 30 2-24 18 10 30-28-18-28 18 10-30-24-18 30-2z" fill="#D9B45F"/>
+              <g transform="translate(30 560) scale(2.2)"><g fill="none" stroke="#6F8F72" stroke-width="2.2" stroke-linecap="round"><path d="M0 0 C40 40 70 90 80 160"/><path d="M22 30 C10 34 2 48 4 58 C16 54 24 44 22 30Z" fill="#9DBB93" stroke="none"/><path d="M40 58 C54 56 66 64 70 74 C56 78 44 72 40 58Z" fill="#9DBB93" stroke="none"/><path d="M52 92 C40 98 34 112 38 122 C50 116 56 104 52 92Z" fill="#B9D1AE" stroke="none"/><path d="M68 120 C82 118 94 128 96 138 C82 140 70 134 68 120Z" fill="#9DBB93" stroke="none"/></g></g>
+              <g transform="translate(1965 60) scale(-2.2 2.2) rotate(-20)"><g fill="none" stroke="#6F8F72" stroke-width="2.2" stroke-linecap="round"><path d="M0 0 C40 40 70 90 80 160"/><path d="M22 30 C10 34 2 48 4 58 C16 54 24 44 22 30Z" fill="#9DBB93" stroke="none"/><path d="M40 58 C54 56 66 64 70 74 C56 78 44 72 40 58Z" fill="#9DBB93" stroke="none"/><path d="M52 92 C40 98 34 112 38 122 C50 116 56 104 52 92Z" fill="#B9D1AE" stroke="none"/><path d="M68 120 C82 118 94 128 96 138 C82 140 70 134 68 120Z" fill="#9DBB93" stroke="none"/></g></g>
+              <g fill="var(--vacc)"><circle cx="300" cy="140" r="9"/><circle cx="1760" cy="820" r="9"/><circle cx="1820" cy="200" r="7"/><circle cx="220" cy="800" r="7"/></g>
             </svg>
             <svg class="deco" id="v-deco" viewBox="0 0 150 150" aria-hidden="true"></svg>
             <p class="v-occ" id="v-occ">Buon Natale</p>
             <p class="v-row what" id="v-what">Riflessologia plantare</p>
             <p class="v-row to" id="v-to"></p>
             <p class="v-row from" id="v-from"></p>
-            <p class="v-row val">12 mesi dall'acquisto</p>
+            <p class="v-row msg" id="v-msg"></p>
           </div>
-          <p class="v-msg" id="v-msg"></p>
           
         </div>
       </div>
@@ -896,6 +894,14 @@ function giftWhat(){
   if(a==="altro"){ a = ($("#g-amount-other").value||"").replace(/[^\d]/g,""); return a ? a+" €" : "Importo a tua scelta"; }
   return a+" €";
 }
+function fitRows(){
+  $$("#voucher .v-row").forEach(el=>{
+    el.style.fontSize="";
+    let size=parseFloat(getComputedStyle(el).fontSize), min=size*(el.id==="v-msg"?0.5:0.6);
+    while(el.scrollWidth>el.clientWidth+1 && size>min){ size-=0.5; el.style.fontSize=size+"px"; }
+  });
+}
+window.addEventListener("resize",()=>{ try{fitRows()}catch(e){} });
 function updateGift(){
   const kind = val("kind"), deliver = val("deliver");
   $("#f-tratt").classList.toggle("hidden", kind!=="tratt");
@@ -915,6 +921,7 @@ function updateGift(){
   $("#v-to").textContent = to;
   $("#v-what").textContent = giftWhat();
   $("#v-msg").textContent = msg ? "“" + msg + "”" : "";
+  fitRows();
   $("#v-from").textContent = from;
 
   const lines = [
