@@ -201,7 +201,7 @@ fieldset{border:0;margin:0;padding:0;display:grid;gap:8px}
 .hidden{display:none!important}
 
 .voucher-wrap{position:sticky;top:90px;display:grid;gap:14px}
-@media (max-width:900px){.voucher-wrap{position:static;order:-1}.voucher{aspect-ratio:auto;min-height:200px;gap:12px}}
+@media (max-width:900px){.voucher-wrap{position:static;order:-1}}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .wstep{display:grid;gap:18px}
 .step-title{font-size:26px}
@@ -210,23 +210,37 @@ fieldset{border:0;margin:0;padding:0;display:grid;gap:8px}
 .wiz-dots i{width:28px;height:6px;border-radius:3px;background:var(--line)}
 .wiz-dots i.on{background:var(--calendula)}
 .wiz-nav{display:flex;gap:10px;flex-wrap:wrap}
-.voucher{position:relative;aspect-ratio:1.6/1;border-radius:20px;border:2px solid var(--ink);padding:26px 28px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;transition:background .3s,color .3s;background:#fff}
-.voucher .v-occ{font-family:var(--hand);font-size:30px;line-height:1}
-.voucher .v-what{font-family:var(--display);font-size:clamp(24px,3.4vw,32px);line-height:1.1}
-.voucher .v-to{font-size:16px}
-.voucher .v-msg{font-family:var(--hand);font-size:24px;line-height:1.15;max-height:2.4em;overflow:hidden}
-.voucher .v-foot{display:flex;justify-content:space-between;align-items:end;gap:10px;font-size:13px;letter-spacing:.04em;text-transform:uppercase}
-.voucher .deco{position:absolute;right:-20px;top:-20px;width:150px;opacity:.9;pointer-events:none}
-.voucher.t-natale{background:var(--xmas);color:#FBEFD9;border-color:var(--xmas)}
-.voucher.t-natale .v-occ{color:var(--gold)}
-.voucher.t-compleanno{background:#FFF3DE}
-.voucher.t-compleanno .v-occ{color:#C26A00}
-.voucher.t-valentino{background:#FCE3E8}
-.voucher.t-valentino .v-occ{color:#B03752}
-.voucher.t-mamma{background:#FDEBDD}
-.voucher.t-mamma .v-occ{color:#A24F6B}
-.voucher.t-altro{background:#F2EEF9}
-.voucher.t-altro .v-occ{color:#6A4FA0}
+/* Buono regalo: biglietto con matrice staccabile, nastro e fiocco, macchie ad acquerello */
+.voucher{--vbg:#fff;--vink:var(--ink);--vacc:var(--leaf);--vrib:var(--calendula);--w1:#F6CBD3;--w2:#F7E7A8;
+  position:relative;display:grid;grid-template-columns:52px 1fr;min-height:250px;border-radius:22px;border:2px solid var(--ink);overflow:hidden;
+  background:var(--vbg);color:var(--vink);box-shadow:0 14px 30px -18px #3B2A4099, 0 2px 0 var(--ink);transition:background .35s,color .35s;transform:rotate(-1deg)}
+.voucher::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(40% 55% at 85% 15%,var(--w1),transparent 70%),radial-gradient(35% 50% at 30% 100%,var(--w2),transparent 70%),radial-gradient(30% 40% at 60% 55%,#ffffff22,transparent 70%);opacity:.85}
+.v-stub{position:relative;border-right:2px dashed color-mix(in srgb,var(--vink) 45%,transparent);display:grid;place-items:center}
+.v-stub span{writing-mode:vertical-rl;transform:rotate(180deg);font-size:12px;font-weight:700;letter-spacing:.32em;color:var(--vacc)}
+.v-stub::before,.v-stub::after{content:"";position:absolute;right:-13px;width:24px;height:24px;border-radius:50%;background:#FCF4F6;border:2px solid var(--ink)}
+.v-stub::before{top:-14px}.v-stub::after{bottom:-14px}
+.v-main{position:relative;padding:22px 66px 18px 22px;display:flex;flex-direction:column;gap:6px;z-index:1}
+.v-rib{position:absolute;top:0;bottom:0;right:26px;width:20px;background:var(--vrib);opacity:.9;box-shadow:inset 3px 0 0 #ffffff55,inset -3px 0 0 #00000014}
+.v-bow{position:absolute;top:-6px;right:-7px;width:86px;height:60px;filter:drop-shadow(0 2px 1px #0002)}
+.voucher .v-label{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--vacc);margin-top:4px}
+.voucher .v-occ{font-family:var(--hand);font-size:34px;line-height:1;color:var(--vacc);max-width:70%}
+.voucher .v-to{font-size:16px;margin-top:4px}
+.voucher .v-to b{font-family:var(--hand);font-size:26px;font-weight:700}
+.voucher .v-what{font-family:var(--display);font-size:clamp(22px,3vw,30px);line-height:1.12;margin-top:8px;max-width:78%;text-wrap:balance}
+.voucher .v-msg{font-family:var(--hand);font-size:23px;line-height:1.15;max-height:2.4em;overflow:hidden;opacity:.95}
+.voucher .v-foot{margin-top:auto;padding-top:12px;border-top:1px solid color-mix(in srgb,var(--vink) 25%,transparent);display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.v-brand{display:flex;align-items:center;gap:8px;text-align:right}
+.v-brand img{width:28px;height:28px;border-radius:50%;background:#fff;padding:2px;mix-blend-mode:normal}
+.voucher .deco{position:absolute;left:46%;bottom:-30px;width:130px;opacity:.22;pointer-events:none;transform:rotate(-12deg)}
+.v-spark{position:absolute;width:14px;height:14px;fill:var(--vacc);animation:twinkle 2.2s ease-in-out infinite;pointer-events:none}
+.v-spark.a{top:70px;right:60px}.v-spark.b{top:130px;right:80px;width:10px;height:10px;animation-delay:.7s}.v-spark.c{bottom:70px;right:64px;width:9px;height:9px;animation-delay:1.4s}
+.voucher.t-natale{--vbg:#8E2431;--vink:#FBEFD9;--vacc:#E9C77B;--vrib:#D9B45F;--w1:#B2384A;--w2:#6E1825;border-color:#5E1420}
+.voucher.t-compleanno{--vbg:#FFF6E6;--vacc:#C8661A;--vrib:#F09AAB;--w1:#F9D2B6;--w2:#F7E7A8}
+.voucher.t-valentino{--vbg:#FDEBEF;--vacc:#B03752;--vrib:#E0607A;--w1:#F6CBD3;--w2:#FBD9C9}
+.voucher.t-mamma{--vbg:#FFF1E8;--vacc:#A24F6B;--vrib:#C9BCE3;--w1:#F9D2B6;--w2:#E7D6EC}
+.voucher.t-altro{--vbg:#F6F2FC;--vacc:#6A4FA0;--vrib:#F7E7A8;--w1:#D7C8EE;--w2:#F6CBD3}
+@media (max-width:420px){.voucher{grid-template-columns:40px 1fr}.v-main{padding:18px 48px 14px 16px}.v-bow{right:-14px;width:70px}.v-rib{right:18px}.voucher .v-foot{font-size:11px;letter-spacing:.03em}.v-brand img{width:24px;height:24px}}
 .pack{background:var(--card);border:2px dashed var(--xmas);border-radius:var(--r);padding:18px;font-size:16px}
 .pack b{color:var(--xmas)}
 
@@ -537,18 +551,21 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
 
         <div class="voucher-wrap">
           <div class="voucher t-natale" id="voucher" aria-label="Anteprima del buono regalo">
-            <svg class="deco" id="v-deco" viewBox="0 0 150 150" aria-hidden="true"></svg>
-            <div>
+            <div class="v-stub"><span>BUONO REGALO</span></div>
+            <div class="v-main">
+              <span class="v-rib" aria-hidden="true"></span>
+              <svg class="v-bow" viewBox="0 0 86 60" aria-hidden="true"><g fill="var(--vrib)" stroke="color-mix(in srgb,var(--vink) 35%,transparent)" stroke-width="1.5"><path d="M43 26 C30 4 6 6 10 22 C13 34 32 32 43 26Z"/><path d="M43 26 C56 4 80 6 76 22 C73 34 54 32 43 26Z"/><path d="M41 28 L30 58 L37 54 L40 60 L43 30Z"/><path d="M45 28 L56 58 L49 54 L46 60 L43 30Z"/><circle cx="43" cy="27" r="6"/></g></svg>
+              <svg class="deco" id="v-deco" viewBox="0 0 150 150" aria-hidden="true"></svg>
+              <svg class="v-spark a" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg><svg class="v-spark b" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg><svg class="v-spark c" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg>
+              <p class="v-label">Buono regalo</p>
               <p class="v-occ" id="v-occ">Buon Natale</p>
-              <p class="v-to" id="v-to" style="margin-top:6px">Per te</p>
-            </div>
-            <div>
+              <p class="v-to" id="v-to">per te</p>
               <p class="v-what" id="v-what">Riflessologia plantare</p>
               <p class="v-msg" id="v-msg"></p>
-            </div>
-            <div class="v-foot">
-              <span id="v-from">Con affetto</span>
-              <span>Irene Argenio · Naturopata</span>
+              <div class="v-foot">
+                <span id="v-from">Con affetto</span>
+                <span class="v-brand"><img src="img/mandala.png" alt="">Irene Argenio<br>naturopata</span>
+              </div>
             </div>
           </div>
           <p class="hint" style="text-align:center">Valido 12 mesi dalla data di acquisto</p>
@@ -898,10 +915,10 @@ function updateGift(){
   $("#v-deco").innerHTML = OCC[occ].deco;
   $("#v-occ").textContent = OCC[occ].title;
   const to = $("#g-to").value.trim(), from = $("#g-from").value.trim(), msg = $("#g-msg").value.trim();
-  $("#v-to").textContent = to ? "Per " + to : "Per te";
+  $("#v-to").innerHTML = to ? "per <b>" + esc(to) + "</b>" : "per te";
   $("#v-what").textContent = giftWhat();
   $("#v-msg").textContent = msg ? "“" + msg + "”" : "";
-  $("#v-from").textContent = from ? "Da " + from : "Con affetto";
+  $("#v-from").textContent = from ? "Con affetto, " + from : "Con affetto";
 
   const lines = [
     "Ciao Irene! Vorrei un buono regalo 🎁",
