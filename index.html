@@ -922,11 +922,13 @@ const ART = {
              what:{cx:1022,y:425,max:930,size:100}, per:{x:720,y:522,max:770,size:94}, da:{x:720,y:641,max:770,size:94},
              ded:{x:600,y:760,max:890,size:90}, code:{x:1495,y:806,size:24}, contact:{cx:1015,y:850,size:26}},
   compleanno:{src:"img/buono-compleanno.jpg", w:1584, h:672,
-             what:{cx:818,y:290,max:520,size:44}, per:{x:590,y:333,max:530,size:60}, da:{x:590,y:408,max:530,size:60},
-             ded:{x:515,y:483,max:605,size:54}, code:{x:1125,y:520,size:18}, contact:{cx:818,y:592,size:23}},
+             what:{cx:812,y:332,max:610,size:62}, line:{x0:500,x1:1125,y:342,gap:5.5,r:1.3,color:"#9C8E74"},
+             per:{x:590,y:381,max:530,size:60}, da:{x:590,y:456,max:530,size:60},
+             ded:{x:515,y:531,max:605,size:54}, code:{x:1125,y:567,size:17}, contact:{cx:818,y:609,size:22}},
   occasioni:{src:"img/buono-occasioni.jpg", w:1024, h:474,
-             what:{cx:550,y:197,max:340,size:27}, per:{x:380,y:231,max:340,size:38}, da:{x:380,y:284,max:340,size:38},
-             ded:{x:330,y:336,max:395,size:35}, code:{x:727,y:360,size:12}, contact:{cx:540,y:410,size:15}, occ:{cx:512,y:50,size:22}}
+             what:{cx:528,y:229,max:390,size:40}, line:{x0:330,x1:727,y:237,gap:4,r:0.85,color:"#A39276"},
+             per:{x:380,y:263,max:340,size:38}, da:{x:380,y:316,max:340,size:38},
+             ded:{x:330,y:368,max:395,size:35}, code:{x:727,y:391,size:11}, contact:{cx:520,y:426,size:13.5}, occ:{cx:512,y:50,size:22}}
 };
 const artFor = o => o==="natale" ? ART.natale : o==="compleanno" ? ART.compleanno : ART.occasioni;
 const BG = {}; Object.keys(ART).forEach(k=>{ const im=new Image(); im.onload=()=>{ try{ drawVoucher($("#voucher")); }catch(e){} }; im.src=ART[k].src; BG[k]=im; });
@@ -941,9 +943,10 @@ function drawVoucher(c){
   const put=(t,p,weight,align)=>{ if(!t) return; let z=p.size*s; x.textAlign=align||"left";
     do { x.font=`${weight} ${z}px Caveat, cursive`; } while(p.max && x.measureText(t).width>p.max*s && (z-=2)>p.size*s*0.5);
     x.fillText(t,(p.cx!=null?p.cx:p.x)*s,p.y*s); };
+  if(A.line){ x.fillStyle=A.line.color; for(let px=A.line.x0; px<=A.line.x1; px+=A.line.gap){ x.beginPath(); x.arc(px*s, A.line.y*s, A.line.r*s, 0, Math.PI*2); x.fill(); } }
   x.fillStyle="#2F4A3A"; x.textBaseline="alphabetic";
   const to=$("#g-to").value.trim(), from=$("#g-from").value.trim(), msg=$("#g-msg").value.trim();
-  put(giftWhat(), A.what, 700, "center");
+  put(giftWhat().split(" – ")[0], A.what, 700, "center");   // sul buono basta il nome principale (es. "Rituale Balinese")
   put(to, A.per, 700); put(from, A.da, 700);
   if(msg) put("“"+msg+"”", A.ded, 500);
   if(A.occ){ x.fillStyle=OCC_COLOR[occ]||"#4F7457"; put(OCC[occ].title, A.occ, 700, "center"); }
