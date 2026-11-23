@@ -314,8 +314,8 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
 .preg-ic svg{width:42px;height:42px}
 .preg-facts{margin:14px 0 0;padding-left:20px;display:grid;gap:4px}
 .preg-more{margin-top:10px}
-.preg-cta{float:right;margin-top:16px;margin-left:10px}
-@media (max-width:620px){.preg-cta{float:none;margin:16px 0 0}}
+.preg-book{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.preg-wa{display:inline-block;margin-top:12px;font-weight:600;color:var(--leaf)}
 .pregnancy p{max-width:62ch}
 .session{background:#F8FAF5;border-top:1.5px solid var(--edge);border-bottom:1.5px solid var(--edge)}
 .sess-steps{list-style:none;margin:28px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
@@ -431,15 +431,19 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
           <p>Un percorso dolce per accompagnarti nei mesi dell'attesa: un momento di rilassamento e di ascolto, per te e per il tuo corpo che cambia. Lo costruiamo insieme, seduta dopo seduta, in base a come ti senti: vieni quando ne senti il bisogno, senza un numero fisso di sedute.</p>
           <ul class="preg-facts">
             <li><b>Dal 4° mese</b> di gravidanza</li>
-            <li><b>55 € a seduta</b> (60 minuti), come la riflessologia plantare</li>
+            <li><b>60 minuti</b> · <b>55 €</b> a Osteonatura · <b>60 €</b> a Eagles Studio</li>
             <li>Tocco delicato e posizione comoda, adatta alla gravidanza</li>
           </ul>
           <details class="more preg-more"><summary>Quando non è indicata</summary>
             <p>Non lo propongo in caso di gravidanza a rischio o di complicazioni, per esempio perdite di sangue, minaccia di parto prematuro, placenta previa, pressione alta o preeclampsia, trombosi o problemi di coagulazione. In questi casi, e ogni volta che hai un dubbio, il primo riferimento è il tuo ginecologo o la tua ostetrica.</p>
           </details>
           <p class="good" style="margin-top:12px">Prima di iniziare ne parliamo con calma, e ti chiedo di confrontarti anche con il tuo ginecologo o la tua ostetrica.</p>
-          <div class="preg-cta"><a class="btn btn-ghost" href="#buoni" id="preg-gift">Regalalo con un buono</a></div>
-          <a class="btn btn-main" href="https://wa.me/393928938682?text=Ciao%20Irene!%20Vorrei%20informazioni%20sul%20percorso%20di%20riflessologia%20in%20gravidanza%20%F0%9F%A4%B0" target="_blank" rel="noopener" style="margin-top:16px">Chiedimi informazioni</a>
+          <div class="preg-book">
+            <a class="btn btn-main" id="preg-cal-0" href="https://cal.com/ireneargenio-osteonatura" target="_blank" rel="noopener">Prenota a Osteonatura</a>
+            <a class="btn btn-main" id="preg-cal-1" href="https://cal.com/ireneargenio-eaglestudio" target="_blank" rel="noopener">Prenota a Eagles Studio</a>
+            <a class="btn btn-ghost" href="#buoni" id="preg-gift">Regalalo con un buono</a>
+          </div>
+          <a class="preg-wa" href="https://wa.me/393928938682?text=Ciao%20Irene!%20Vorrei%20informazioni%20sul%20percorso%20di%20riflessologia%20in%20gravidanza%20%F0%9F%A4%B0" target="_blank" rel="noopener">Hai domande? Scrivimi su WhatsApp</a>
         </div>
       </div>
       <div class="gallery" aria-label="Foto dallo studio">
@@ -860,7 +864,7 @@ const toast = msg => { const t=$("#toast"); t.textContent=msg; t.classList.add("
 const fill = (sel, items) => { $(sel).innerHTML = items.map(([v,l])=>`<option value="${v}">${l}</option>`).join(""); };
 
 /* PREZZI: si cambiano solo qui */
-const PRICES = {"o-grav":55,"e-grav":55,"o-rifl":55,"o-sved":60,"o-linfo":60,"o-nat":60,"e-bali":60,"e-chakra":70,"e-viso":55,"e-legg":70};
+const PRICES = {"o-grav":55,"e-grav":60,"o-rifl":55,"o-sved":60,"o-linfo":60,"o-nat":60,"e-bali":60,"e-chakra":70,"e-viso":55,"e-legg":70};
 const ALL = {}; TREATMENTS.forEach((list,si)=>list.forEach(t=>ALL[t[0]]={si,name:t[1],price:PRICES[t[0]]}));
 const esc = s => s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 $("#g-tratt").innerHTML = TREATMENTS.map((list,si)=>`<optgroup label="${CONFIG.studios[si]}">`+list.map(t=>`<option value="${t[0]}">${t[1]} · ${PRICES[t[0]]} €</option>`).join("")+"</optgroup>").join("");
