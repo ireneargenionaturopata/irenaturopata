@@ -159,6 +159,8 @@ header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--paper
 .card .cta:hover{text-decoration:underline}
 .card .cta{display:inline-flex;align-self:flex-start;background:var(--calendula);color:var(--ink);border:1.5px solid #8FAE87;border-radius:999px;padding:10px 20px;min-height:48px;align-items:center}
 .card .cta:hover{text-decoration:none;background:#BCD3B4}
+.card .price{position:absolute;top:22px;right:22px;font-family:var(--display);font-size:24px;color:var(--ink);background:var(--sage);border-radius:999px;padding:4px 14px}
+.card h3{padding-right:86px}
 .card .dur{display:flex;align-items:center;gap:6px;font-size:15px;color:var(--muted);margin-top:-4px}
 .card .dur svg{width:17px;height:17px;flex:none}
 .card .cta-alt{font-size:15px;color:var(--muted);font-weight:500}
@@ -315,7 +317,7 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
 
 </style>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"HealthAndBeautyBusiness","name":"Irene Argenio Naturopata","telephone":"+393928938682","email":"argenioirene@gmail.com","vatID":"IT17500241009","priceRange":"Su richiesta",
+{"@context":"https://schema.org","@type":"HealthAndBeautyBusiness","name":"Irene Argenio Naturopata","telephone":"+393928938682","email":"argenioirene@gmail.com","vatID":"IT17500241009","priceRange":"55–70 €",
  "sameAs":["https://www.instagram.com/irenaturopata/"],
  "location":[
   {"@type":"Place","name":"Osteonatura","address":{"@type":"PostalAddress","streetAddress":"Via Augusto Tebaldi, 61","addressLocality":"Roma","addressCountry":"IT"}},
@@ -386,7 +388,7 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
     <div class="wrap">
       <p class="eyebrow">I trattamenti</p>
       <h2 style="margin-top:10px">Cosa facciamo insieme</h2>
-      <p class="lead" style="margin-top:14px">Ogni studio ha i suoi trattamenti. Scegli lo studio per vederli. Per informazioni sui costi scrivimi su WhatsApp: ti rispondo volentieri.</p>
+      <p class="lead" style="margin-top:14px">Ogni studio ha i suoi trattamenti. Scegli lo studio per vederli: tutti durano 60 minuti.</p>
       <div class="tabs" role="tablist" aria-label="Scegli lo studio" id="studio-tabs"></div>
       <div class="cards" id="cards"></div>
       <div class="gallery" aria-label="Foto dallo studio">
@@ -487,6 +489,7 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
           <div class="field" id="f-tratt">
             <label for="g-tratt">Scegli il trattamento</label>
             <select id="g-tratt"></select>
+            <p class="hint" id="tratt-value"></p>
           </div>
 
           <div class="field hidden" id="f-importo">
@@ -768,7 +771,7 @@ const TREATMENTS = [
     ["o-rifl","Riflessologia plantare","Si lavora su piedi e caviglie",
      "Pressioni delicate su punti precisi del piede, per sciogliere le tensioni e lasciarti andare a un rilassamento profondo.",
      "Secondo la riflessologia, ogni zona del piede è collegata a un'area del corpo. Lavorando con pressioni mirate si favoriscono le naturali capacità di riequilibrio dell'organismo.",
-     "Resti vestita/o: si lavora solo su piedi e caviglie."],
+     "Resti vestita/o: si lavora solo su piedi e caviglie. Dopo il trattamento è inclusa una piccola consulenza di naturopatia."],
     ["o-sved","Massaggio rilassante svedese","Per corpo e mente",
      "Manovre fluide e avvolgenti che distendono i muscoli e aiutano a lasciare andare le tensioni di stress e postura.",
      "Un massaggio completo che favorisce la circolazione e ti restituisce una bella sensazione di benessere, fisico e mentale.",
@@ -831,9 +834,11 @@ const $$ = s => [...document.querySelectorAll(s)];
 const toast = msg => { const t=$("#toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),2600); };
 const fill = (sel, items) => { $(sel).innerHTML = items.map(([v,l])=>`<option value="${v}">${l}</option>`).join(""); };
 
-const ALL = {}; TREATMENTS.forEach((list,si)=>list.forEach(t=>ALL[t[0]]={si,name:t[1]}));
+/* PREZZI: si cambiano solo qui */
+const PRICES = {"o-rifl":55,"o-sved":60,"o-linfo":60,"o-nat":60,"e-bali":60,"e-chakra":70,"e-viso":55,"e-legg":70};
+const ALL = {}; TREATMENTS.forEach((list,si)=>list.forEach(t=>ALL[t[0]]={si,name:t[1],price:PRICES[t[0]]}));
 const esc = s => s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-$("#g-tratt").innerHTML = TREATMENTS.map((list,si)=>`<optgroup label="${CONFIG.studios[si]}">`+list.map(t=>`<option value="${t[0]}">${t[1]}</option>`).join("")+"</optgroup>").join("");
+$("#g-tratt").innerHTML = TREATMENTS.map((list,si)=>`<optgroup label="${CONFIG.studios[si]}">`+list.map(t=>`<option value="${t[0]}">${t[1]} · ${PRICES[t[0]]} €</option>`).join("")+"</optgroup>").join("");
 const studioOpts = CONFIG.studios.map((s,i)=>[String(i),s]);
 fill("#g-studio", studioOpts);
 fill("#b-studio", studioOpts);
@@ -850,7 +855,8 @@ function renderCards(){
     <article class="card${id==="o-nat"?" highlight":""}" id="t-${id}">
       <h3>${name}</h3>
       <p class="meta">${meta}</p>
-      <p class="dur"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>60 minuti · mini consulenza inclusa</p>
+      <p class="dur"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>60 minuti · ${id==="o-nat" ? "scheda personalizzata inclusa" : "mini consulenza inclusa"}</p>
+      <p class="price">${PRICES[id]} €</p>
       <p>${short}</p>
       <details class="more"><summary>Leggi di più</summary><p>${more}</p></details>
       ${good?`<p class="good">${good}</p>`:""}
@@ -926,7 +932,7 @@ function fitRows(){
 }
 window.addEventListener("resize",()=>{ try{fitRows()}catch(e){} });
 function giftAmount(){
-  if(val("kind")!=="importo") return null;
+  if(val("kind")==="tratt") return String(ALL[$("#g-tratt").value].price);
   const a = ($("#g-amount-other").value||"").replace(/[^\d]/g,"");
   return a || null;
 }
@@ -941,13 +947,14 @@ function updateGift(){
     : "Ti mando il buono digitale su WhatsApp, pronto da inoltrare.";
   $("#f-email").classList.toggle("hidden", deliver!=="email");
   const pay = val("pay"), amount = giftAmount();
+  if(kind==="tratt") $("#tratt-value").innerHTML = "Valore del buono: <b>" + amount + " €</b>";
   let payHint, payNow = null;
   if(pay==="Bonifico") payHint = "Ti mando l'IBAN insieme alla conferma.";
   else if(pay==="In studio") payHint = "Paghi quando passi in studio, anche con la carta.";
-  else if(kind==="importo" && amount){
+  else if(amount){
     payHint = "Puoi pagare subito con il bottone qui sotto, oppure aspettare la mia conferma.";
     payNow = pay==="PayPal" ? CONFIG.paypal + "/" + amount + "EUR" : CONFIG.sumup;
-  } else payHint = "Ti scrivo io l'importo e il link per pagare.";
+  } else payHint = "Scrivi l'importo al passo 1 per poter pagare subito.";
   $("#pay-hint").textContent = payHint;
   const pn = $("#gift-paynow");
   pn.classList.toggle("hidden", !payNow);
@@ -968,7 +975,7 @@ function updateGift(){
   const lines = [
     "Ciao Irene! Vorrei un buono regalo 🎁",
     "Occasione: " + OCC[occ].title,
-    "Regalo: " + giftWhat() + (val("kind")==="tratt" ? " (" + CONFIG.studios[ALL[$("#g-tratt").value].si] + ")" : ""),
+    "Regalo: " + giftWhat() + (val("kind")==="tratt" ? " (" + CONFIG.studios[ALL[$("#g-tratt").value].si] + ", " + ALL[$("#g-tratt").value].price + " €)" : ""),
     to && "Per: " + to,
     from && "Da parte di: " + from,
     msg && "Dedica: " + msg,
