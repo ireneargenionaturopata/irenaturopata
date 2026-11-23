@@ -208,6 +208,9 @@ fieldset{border:0;margin:0;padding:0;display:grid;gap:8px}
 @media (max-width:900px){.voucher-wrap{position:static;order:-1}}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .wstep{display:grid;gap:18px}
+.euro{position:relative;max-width:220px}
+.euro input{padding-right:44px;font-size:22px;font-weight:600}
+.euro span{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:22px;font-weight:600;color:var(--muted)}
 .step-title{font-size:26px}
 .wiz-head{display:flex;align-items:center;justify-content:space-between;font-weight:600;color:var(--muted);font-size:15px}
 .wiz-dots{display:flex;gap:6px}
@@ -486,17 +489,11 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
             <select id="g-tratt"></select>
           </div>
 
-          <fieldset id="f-importo" class="hidden">
-            <legend>Scegli l'importo</legend>
-            <div class="choices">
-              <label class="choice"><input type="radio" name="amount" value="30"><span>30 €</span></label>
-              <label class="choice"><input type="radio" name="amount" value="50" checked><span>50 €</span></label>
-              <label class="choice"><input type="radio" name="amount" value="80"><span>80 €</span></label>
-              <label class="choice"><input type="radio" name="amount" value="100"><span>100 €</span></label>
-              <label class="choice"><input type="radio" name="amount" value="altro"><span>Altro</span></label>
-            </div>
-            <input type="text" id="g-amount-other" class="hidden" inputmode="numeric" placeholder="Scrivi l'importo, es. 70" aria-label="Importo libero in euro">
-          </fieldset>
+          <div class="field hidden" id="f-importo">
+            <label for="g-amount-other">Quanto vuoi regalare?</label>
+            <div class="euro"><input type="text" id="g-amount-other" inputmode="numeric" placeholder="Es. 60" autocomplete="off"><span>€</span></div>
+            <p class="hint">Scrivi l'importo che preferisci: chi lo riceve lo usa per il trattamento che vuole.</p>
+          </div>
           <div class="wiz-nav"><button type="button" class="btn btn-main" data-go="2">Avanti →</button></div>
           </div>
 
@@ -917,9 +914,8 @@ const val = name => (document.querySelector(`input[name="${name}"]:checked`)||{}
 
 function giftWhat(){
   if(val("kind")==="tratt") return ALL[$("#g-tratt").value].name;
-  let a = val("amount");
-  if(a==="altro"){ a = ($("#g-amount-other").value||"").replace(/[^\d]/g,""); return a ? a+" €" : "Importo a tua scelta"; }
-  return a+" €";
+  const a = ($("#g-amount-other").value||"").replace(/[^\d]/g,"");
+  return a ? a+" €" : "Importo a tua scelta";
 }
 function fitRows(){
   $$("#voucher .v-row").forEach(el=>{
@@ -931,15 +927,13 @@ function fitRows(){
 window.addEventListener("resize",()=>{ try{fitRows()}catch(e){} });
 function giftAmount(){
   if(val("kind")!=="importo") return null;
-  let a = val("amount");
-  if(a==="altro") a = ($("#g-amount-other").value||"").replace(/[^\d]/g,"");
+  const a = ($("#g-amount-other").value||"").replace(/[^\d]/g,"");
   return a || null;
 }
 function updateGift(){
   const kind = val("kind"), deliver = val("deliver");
   $("#f-tratt").classList.toggle("hidden", kind!=="tratt");
   $("#f-importo").classList.toggle("hidden", kind!=="importo");
-  $("#g-amount-other").classList.toggle("hidden", val("amount")!=="altro");
   $("#f-studio").classList.toggle("hidden", deliver!=="studio");
   $("#deliver-hint").textContent = deliver==="studio"
     ? (occ==="natale" ? "Ti preparo il buono nella confezione natalizia e lo ritiri quando vuoi." : "Ti preparo il buono nella sua confezione e lo ritiri quando vuoi.")
