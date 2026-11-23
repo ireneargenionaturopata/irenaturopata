@@ -159,6 +159,8 @@ header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--paper
 .card .cta:hover{text-decoration:underline}
 .card .cta{display:inline-flex;align-self:flex-start;background:var(--calendula);color:var(--ink);border:1.5px solid #8FAE87;border-radius:999px;padding:10px 20px;min-height:48px;align-items:center}
 .card .cta:hover{text-decoration:none;background:#BCD3B4}
+.card .dur{display:flex;align-items:center;gap:6px;font-size:15px;color:var(--muted);margin-top:-4px}
+.card .dur svg{width:17px;height:17px;flex:none}
 .card .cta-alt{font-size:15px;color:var(--muted);font-weight:500}
 .studio-tag{font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
 .suggest{display:grid;gap:10px}
@@ -778,7 +780,7 @@ const TREATMENTS = [
      "Movimenti dolci e ritmici che seguono il percorso naturale della linfa.",
      "Aiuta ad alleviare la sensazione di gonfiore e pesantezza, soprattutto alle gambe, e lascia una piacevole leggerezza in tutto il corpo.",
      "Se hai problemi circolatori o cardiaci, sei in gravidanza o hai patologie in corso, scrivimi prima di prenotare."],
-    ["o-nat","Consulenza naturopatica","Più di un'ora, con calma",
+    ["o-nat","Consulenza naturopatica","Un'ora tutta per te",
      "Parliamo con calma di te: alimentazione, sonno, stile di vita e gestione dello stress.",
      "Alla fine ti propongo un percorso su misura, con rimedi naturali ed erboristici e qualche indicazione pratica per la vita di tutti i giorni. La consulenza non sostituisce il parere del tuo medico.",
      "Porta con te gli integratori o i prodotti che usi già."]
@@ -851,6 +853,7 @@ function renderCards(){
     <article class="card${id==="o-nat"?" highlight":""}" id="t-${id}">
       <h3>${name}</h3>
       <p class="meta">${meta}</p>
+      <p class="dur"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>60 minuti · mini consulenza inclusa</p>
       <p>${short}</p>
       <details class="more"><summary>Leggi di più</summary><p>${more}</p></details>
       ${good?`<p class="good">${good}</p>`:""}
