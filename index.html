@@ -170,6 +170,7 @@ header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--paper
 .studios{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:32px}
 @media (max-width:760px){.studios{grid-template-columns:1fr}}
 .studio{background:var(--card);border:2px solid var(--ink);border-radius:var(--r);overflow:hidden}
+.studio-pic{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;border-bottom:2px solid var(--ink)}
 .studio .top{background:var(--rosa);padding:22px 26px;border-bottom:2px solid var(--ink)}
 .studio .top h3{font-size:28px}
 .studio .body{padding:22px 26px;display:grid;gap:12px}
@@ -364,7 +365,7 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
         </div>
       </div>
       <div class="facts">
-        <img class="about-img" src="img/copertina.jpg" alt="Piedi tra fiori di lavanda, camomilla e oli essenziali">
+        <img class="about-img" src="img/irene-eagles.jpg" alt="Irene durante un trattamento di riflessologia plantare" style="aspect-ratio:1/1;object-position:center 30%">
       </div>
     </div>
   </section>
@@ -383,7 +384,7 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
       </div>
       <div class="gallery" aria-label="Foto dallo studio">
         <img src="img/studio1.jpg" alt="Riflessologia plantare in studio">
-        <img src="img/piede.jpg" alt="Pressione su un punto riflesso del piede">
+        <img src="img/oli.jpg" alt="Una goccia di olio essenziale cade da una pipetta">
         <img src="img/svedese.jpg" alt="Irene durante un massaggio rilassante" style="object-position:center 20%">
         <img src="img/studio2.jpg" alt="Irene al lavoro sul lettino">
       </div>
@@ -433,6 +434,7 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
       <h2 style="margin-top:10px">Due studi a Roma</h2>
       <div class="studios">
         <article class="studio">
+          <img class="studio-pic" src="img/studio2.jpg" alt="Irene al lavoro nello studio Osteonatura" style="object-position:center 60%">
           <div class="top" style="background:var(--lavender)"><h3 data-studio="0">Osteonatura</h3></div>
           <div class="body">
             <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Via Augusto Tebaldi, 61, Roma<br><a href="https://www.google.com/maps/search/?api=1&amp;query=Via+Augusto+Tebaldi+61+Roma" target="_blank" rel="noopener">Apri in Google Maps</a></span></div>
@@ -441,6 +443,7 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
           </div>
         </article>
         <article class="studio">
+          <img class="studio-pic" src="img/viso.jpg" alt="Massaggio al viso da Eagles Studio">
           <div class="top"><h3 data-studio="1">Eagles Studio</h3></div>
           <div class="body">
             <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Via Cortina d'Ampezzo, 345, Roma<br><a href="https://www.google.com/maps/search/?api=1&amp;query=Via+Cortina+d%27Ampezzo+345+Roma" target="_blank" rel="noopener">Apri in Google Maps</a></span></div>
