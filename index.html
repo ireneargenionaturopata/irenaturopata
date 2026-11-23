@@ -280,6 +280,13 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
 
 .toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 20px;border-radius:999px;font-weight:600;opacity:0;transition:opacity .2s;pointer-events:none;z-index:30}
 .toast.show{opacity:1}
+.reviews-sec{background:linear-gradient(180deg,var(--paper),#FDF3EE)}
+.reviews{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(280px,1fr);gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 2px 14px;margin-top:26px}
+@media (max-width:760px){.reviews{grid-auto-columns:84%}}
+.review{margin:0;scroll-snap-align:start;background:var(--card);border:2px solid var(--ink);border-radius:var(--r);padding:22px;display:flex;flex-direction:column;gap:12px}
+.review .stars{color:#E8B931;font-size:20px;letter-spacing:3px}
+.review blockquote{margin:0;font-family:var(--display);font-size:19px;line-height:1.4;color:var(--ink)}
+.review figcaption{margin-top:auto;font-size:15px;color:var(--muted)}
 .xmas-strip{display:block;background:var(--xmas);color:#FBEFD9;text-align:center;padding:10px 16px;font-size:16px;text-decoration:none;line-height:1.35}
 .xmas-strip b{color:#fff}
 .xmas-strip:hover{background:#7A1F2A}
@@ -380,6 +387,42 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
         <img src="img/svedese.jpg" alt="Irene durante un massaggio rilassante" style="object-position:center 20%">
         <img src="img/studio2.jpg" alt="Irene al lavoro sul lettino">
       </div>
+    </div>
+  </section>
+
+  <!-- RECENSIONI -->
+  <section class="reviews-sec" id="recensioni">
+    <div class="wrap">
+      <p class="eyebrow">Dicono di me</p>
+      <h2 style="margin-top:10px">Le parole di chi è già venuto</h2>
+      <div class="reviews" tabindex="0" aria-label="Recensioni, scorri di lato">
+        <figure class="review">
+          <div class="stars" aria-label="5 stelle su 5">★★★★★</div>
+          <blockquote>“Fin dalla prima seduta mi sono sentita più leggera e carica. Oltre a essere super preparata e professionale, trasmette tutta la passione che ha per il suo lavoro.”</blockquote>
+          <figcaption><b>Arianna</b> · Riflessologia plantare</figcaption>
+        </figure>
+        <figure class="review">
+          <div class="stars" aria-label="5 stelle su 5">★★★★★</div>
+          <blockquote>“Sono uscita leggera, con piedi e mente rigenerati e con una piacevole sensazione di benessere che è durata giorni.”</blockquote>
+          <figcaption><b>Claudia M.</b> · Riflessologia plantare</figcaption>
+        </figure>
+        <figure class="review">
+          <div class="stars" aria-label="5 stelle su 5">★★★★★</div>
+          <blockquote>“Ringrazio Irene per la profonda attenzione e l'ascolto che pone al benessere della mia persona: corpo, mente e spirito. Il suo sorriso accoglie e crea armonia.”</blockquote>
+          <figcaption><b>Teresa M.</b></figcaption>
+        </figure>
+        <figure class="review">
+          <div class="stars" aria-label="5 stelle su 5">★★★★★</div>
+          <blockquote>“Ormai Irene è diventata un appuntamento fisso per me e mia figlia. Ti spiega sempre tutto ed è una persona gentile e disponibile. Super raccomandata a chi vuole concedersi una coccola!”</blockquote>
+          <figcaption><b>Mihaela V.</b></figcaption>
+        </figure>
+        <figure class="review">
+          <div class="stars" aria-label="5 stelle su 5">★★★★★</div>
+          <blockquote>“Ho trovato in lei accoglienza, cordialità, professionalità. Giovane ma molto preparata. Un piacere ogni seduta.”</blockquote>
+          <figcaption><b>Monica D.</b></figcaption>
+        </figure>
+      </div>
+      <p style="margin-top:18px"><a class="btn btn-ghost" href="https://www.google.com/maps/search/?api=1&amp;query=Irene+Argenio+Riflessologia+plantare+e+Naturopatia+Roma" target="_blank" rel="noopener">Leggi tutte le recensioni su Google</a></p>
     </div>
   </section>
 
