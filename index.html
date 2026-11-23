@@ -317,6 +317,11 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
 
 .toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 20px;border-radius:999px;font-weight:600;opacity:0;transition:opacity .2s;pointer-events:none;z-index:30}
 .toast.show{opacity:1}
+.faq-overlay{position:fixed;inset:0;z-index:40;background:#2E3B3366;display:flex;align-items:flex-end;justify-content:center}
+.faq-overlay[hidden]{display:none}
+.faq-panel{position:relative;width:100%;max-width:720px;max-height:88vh;overflow-y:auto;background:var(--paper);border-radius:24px 24px 0 0;padding:28px 22px calc(28px + env(safe-area-inset-bottom));box-shadow:0 -10px 40px #0003}
+@media (min-width:761px){.faq-overlay{align-items:center}.faq-panel{border-radius:24px}}
+.faq-close{position:absolute;top:14px;right:14px;width:44px;height:44px;border-radius:50%;border:1.5px solid var(--edge);background:#fff;font-size:26px;line-height:1;cursor:pointer;color:var(--ink)}
 .insta{margin-top:20px;min-height:48px;font-size:16px}
 .insta svg{width:20px;height:20px}
 .pregnancy{margin-top:28px;display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:start;background:linear-gradient(135deg,#FDF1F3,#FBF6EE 60%,#F1F6EE);border:1.5px solid var(--edge);border-radius:22px;padding:26px}
@@ -706,18 +711,19 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
   </section>
 
   <!-- FAQ -->
-  <section style="padding-top:16px" id="faq">
-    <div class="wrap" style="max-width:820px">
+  <div class="faq-overlay" id="faq" role="dialog" aria-modal="true" aria-label="Domande frequenti" hidden>
+    <div class="faq-panel">
+      <button type="button" class="faq-close" id="faq-close" aria-label="Chiudi le domande">×</button>
       <p class="eyebrow">Domande frequenti</p>
       <h2 style="margin:10px 0 12px">Prima di venire</h2>
       <details><summary>È la prima volta, cosa mi consigli?</summary><p>Se non sai da dove partire, scrivimi due righe su come stai: ti aiuto io a scegliere. Molte persone iniziano con la riflessologia plantare o con una consulenza.</p></details>
       <details><summary>Devo portare qualcosa?</summary><p>Niente di particolare. Vieni con abiti comodi. Se prendi farmaci o integratori, portami la lista: mi aiuta a consigliarti meglio.</p></details>
-      <details><summary>Come si paga in studio?</summary><p>In studio puoi pagare in contanti o con il bancomat. I buoni regalo si possono pagare anche online, con carta, PayPal o bonifico.</p></details>
+      <details><summary>Come si paga in studio?</summary><p>In studio puoi pagare come preferisci: contanti, bancomat o carta. I buoni regalo si possono pagare anche online, con carta, PayPal o bonifico.</p></details>
       <details><summary>Posso venire in gravidanza?</summary><p>Sì, dal 4° mese, se la gravidanza procede senza complicazioni: c'è un <a href="#gravidanza">percorso di riflessologia dedicato</a> in tutti e due gli studi. Prima di iniziare ti chiedo di parlarne con il tuo ginecologo o la tua ostetrica.</p></details>
       <details><summary>Quanto dura il buono regalo?</summary><p>Il buono vale 12 mesi dalla data di acquisto e si può usare in entrambi gli studi.</p></details>
       <details><summary>Come posso disdire un appuntamento?</summary><p>Scrivimi su WhatsApp appena puoi, così posso offrire l'orario a qualcun altro. Ti chiedo un preavviso di almeno 24 ore.</p></details>
     </div>
-  </section>
+  </div>
 </main>
 
 <footer>
@@ -772,7 +778,7 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
   <a href="#trattamenti" data-sec="trattamenti"><span class="ic"><svg class="main" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20c-1-9 5-15 15-16 0 10-6 16-15 16z"/><path d="M5 20l9-9"/></svg></span>Trattamenti</a>
   <a href="#studi" data-sec="studi"><span class="ic"><svg class="main" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span>Studi</a>
   <a href="#buoni" data-sec="buoni"><span class="ic"><svg class="main" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="9" width="18" height="12" rx="2"/><path d="M12 9v12M3 13h18M12 9c-2-4-6-4-6-1.5S10 9 12 9zm0 0c2-4 6-4 6-1.5S14 9 12 9z"/></svg><svg class="spark s1" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg><svg class="spark s2" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg><svg class="spark s3" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0l2.6 9.4L24 12l-9.4 2.6L12 24l-2.6-9.4L0 12l9.4-2.6z"/></svg></span>Buoni</a>
-  <a href="#faq" data-sec="faq"><span class="ic"><svg class="main" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.6V14"/><circle cx="12" cy="17.3" r=".6" fill="currentColor"/></svg></span>Domande</a>
+  <a href="#faq" data-sec="faq-btn"><span class="ic"><svg class="main" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.6V14"/><circle cx="12" cy="17.3" r=".6" fill="currentColor"/></svg></span>Domande</a>
   <a href="#prenota" data-sec="prenota" class="prenota"><span class="ic"><svg class="main" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg></span>Prenota</a>
 </nav>
 <div class="toast" id="toast" role="status"></div>
@@ -1128,6 +1134,17 @@ $("#book-form").addEventListener("change", updateBook);
 $("#book-form").addEventListener("submit", e=>e.preventDefault());
 
 updateGift(); updateBook();
+/* Domande frequenti: si aprono in una finestra */
+(function(){
+  const ov=$("#faq");
+  const open=e=>{ if(e) e.preventDefault(); ov.hidden=false; document.body.style.overflow="hidden"; $("#faq-close").focus(); };
+  const close=()=>{ ov.hidden=true; document.body.style.overflow=""; };
+  document.querySelectorAll('a[href="#faq"]').forEach(a=>a.addEventListener("click",open));
+  $("#faq-close").addEventListener("click",close);
+  ov.addEventListener("click",e=>{ if(e.target===ov) close(); });
+  document.addEventListener("keydown",e=>{ if(e.key==="Escape" && !ov.hidden) close(); });
+  ov.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener("click",close));
+})();
 /* Striscia di Natale: dal 1 novembre al 6 gennaio (come la promo) */
 (function(){
   const d=new Date(), m=d.getMonth(), g=d.getDate();
@@ -1141,7 +1158,7 @@ updateGift(); updateBook();
   const links=$$(".bar a"), secs=links.map(a=>document.getElementById(a.dataset.sec));
   function mark(){
     const y=window.innerHeight*0.4; let cur=null;
-    secs.forEach((s,i)=>{ const r=s.getBoundingClientRect(); if(r.top<=y && r.bottom>y) cur=i; });
+    secs.forEach((s,i)=>{ if(!s) return; const r=s.getBoundingClientRect(); if(r.top<=y && r.bottom>y) cur=i; });
     links.forEach((a,i)=>a.classList.toggle("on", i===cur && !a.classList.contains("prenota")));
   }
   window.addEventListener("scroll",mark,{passive:true}); mark();
