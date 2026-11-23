@@ -94,6 +94,10 @@ header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--paper
 .hero h1 span{position:relative;z-index:1}
 .hero .lead{margin:22px 0 30px}
 .cta-row{display:flex;flex-wrap:wrap;gap:14px}
+.hello{display:none;align-items:center;gap:14px;margin-bottom:6px}
+.hello img{width:76px;height:76px;border-radius:50%;object-fit:cover;object-position:center 25%;border:2px solid var(--ink);box-shadow:0 0 0 5px var(--rosa)}
+.hello .eyebrow{font-size:30px}
+@media (max-width:820px){.hello{display:flex}.eyebrow.desk{display:none}.hero .portrait{display:none}.hero{padding-top:28px}}
 .portrait{position:relative;width:100%;aspect-ratio:4/5;border-radius:200px 200px var(--r) var(--r);background:var(--rosa);border:2px solid var(--ink);display:grid;place-items:center;text-align:center;padding:24px}
 .portrait .tag{position:absolute;left:-18px;bottom:28px;background:var(--card);border:2px solid var(--ink);border-radius:10px;padding:8px 14px;transform:rotate(-4deg);font-family:var(--hand);font-size:24px;line-height:1.1}
 .portrait .tag i{display:block;font-family:var(--body);font-style:italic;font-size:13px;color:var(--muted)}
@@ -151,6 +155,9 @@ header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--paper
 .card .good{font-size:15px;background:#FBF3F8;border-left:3px solid var(--calendula);padding:8px 12px;border-radius:0 8px 8px 0;color:var(--ink)}
 .card .cta{margin-top:auto;padding-top:6px;font-weight:700;color:var(--leaf);text-decoration:none}
 .card .cta:hover{text-decoration:underline}
+.card .cta{display:inline-flex;align-self:flex-start;background:var(--calendula);color:var(--ink);border:2px solid var(--ink);border-radius:999px;padding:10px 20px;min-height:48px;align-items:center}
+.card .cta:hover{text-decoration:none;background:#F4AEBC}
+.card .cta-alt{font-size:15px;color:var(--muted);font-weight:500}
 .studio-tag{font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
 .suggest{display:grid;gap:10px}
 .suggest a{display:flex;flex-direction:column;gap:2px;background:#fff;border:2px solid var(--ink);border-radius:14px;padding:12px 16px;text-decoration:none;color:var(--ink)}
@@ -193,6 +200,15 @@ fieldset{border:0;margin:0;padding:0;display:grid;gap:8px}
 .hidden{display:none!important}
 
 .voucher-wrap{position:sticky;top:90px;display:grid;gap:14px}
+@media (max-width:900px){.voucher-wrap{position:static;order:-1}.voucher{aspect-ratio:auto;min-height:200px;gap:12px}}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.wstep{display:grid;gap:18px}
+.step-title{font-size:26px}
+.wiz-head{display:flex;align-items:center;justify-content:space-between;font-weight:600;color:var(--muted);font-size:15px}
+.wiz-dots{display:flex;gap:6px}
+.wiz-dots i{width:28px;height:6px;border-radius:3px;background:var(--line)}
+.wiz-dots i.on{background:var(--calendula)}
+.wiz-nav{display:flex;gap:10px;flex-wrap:wrap}
 .voucher{position:relative;aspect-ratio:1.6/1;border-radius:20px;border:2px solid var(--ink);padding:26px 28px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;transition:background .3s,color .3s;background:#fff}
 .voucher .v-occ{font-family:var(--hand);font-size:30px;line-height:1}
 .voucher .v-what{font-family:var(--display);font-size:clamp(24px,3.4vw,32px);line-height:1.1}
@@ -264,6 +280,9 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
 
 .toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 20px;border-radius:999px;font-weight:600;opacity:0;transition:opacity .2s;pointer-events:none;z-index:30}
 .toast.show{opacity:1}
+.xmas-strip{display:block;background:var(--xmas);color:#FBEFD9;text-align:center;padding:10px 16px;font-size:16px;text-decoration:none;line-height:1.35}
+.xmas-strip b{color:#fff}
+.xmas-strip:hover{background:#7A1F2A}
 .legal{background:#2E2033;color:#D9CCDD;padding:0 0 32px}
 .legal details{border-top:1px solid #ffffff22;border-bottom:0;padding:18px 0}
 .legal summary{color:#fff;font-size:17px}
@@ -286,6 +305,7 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
 </head>
 <body>
 
+<a class="xmas-strip hidden" id="xmas-strip" href="#buoni">🎄 <b>Buoni regalo di Natale</b>: ordinali entro il 20 dicembre <span aria-hidden="true">→</span></a>
 <header>
   <div class="wrap nav">
     <a class="brand" href="#top"><img src="img/mandala.png" alt=""><span>Irene Argenio<small>naturopata</small></span></a>
@@ -304,7 +324,8 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
   <section class="hero wash">
     <div class="wrap hero-grid">
       <div>
-        <p class="eyebrow">Naturopata a Roma</p>
+        <div class="hello"><img src="img/irene.jpg" alt="Irene Argenio"><p><span class="eyebrow">Ciao, sono Irene</span><br><span class="hint">Naturopata a Roma</span></p></div>
+        <p class="eyebrow desk">Naturopata a Roma</p>
         <h1 style="margin-top:12px"><span>Il benessere comincia quando qualcuno ti </span><em><span>ascolta</span></em><span> davvero.</span></h1>
         <p class="lead">Riflessologia plantare, massaggi, linfodrenaggio e consulenze naturopatiche. Ti aspetto in due studi a Roma.</p>
         <div class="cta-row">
@@ -399,8 +420,11 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
 
       <div class="gift-grid">
         <form id="gift-form" novalidate>
+          <div class="wiz-head"><span id="wiz-count">Passo 1 di 3</span><div class="wiz-dots"><i class="on"></i><i></i><i></i></div></div>
+          <div class="wstep" data-step="1">
+          <h3 class="step-title">Cosa vuoi regalare?</h3>
           <fieldset>
-            <legend>Cosa vuoi regalare?</legend>
+            <legend class="sr">Cosa vuoi regalare?</legend>
             <div class="choices">
               <label class="choice"><input type="radio" name="kind" value="tratt" checked><span>Un trattamento</span></label>
               <label class="choice"><input type="radio" name="kind" value="importo"><span>Un importo</span></label>
@@ -423,9 +447,14 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
             </div>
             <input type="text" id="g-amount-other" class="hidden" inputmode="numeric" placeholder="Scrivi l'importo, es. 70" aria-label="Importo libero in euro">
           </fieldset>
+          <div class="wiz-nav"><button type="button" class="btn btn-main" data-go="2">Avanti →</button></div>
+          </div>
+
+          <div class="wstep hidden" data-step="2">
+          <h3 class="step-title">Per chi è?</h3>
 
           <div class="field">
-            <label for="g-to">Per chi è?</label>
+            <label for="g-to">Nome di chi lo riceve</label>
             <input type="text" id="g-to" placeholder="Es. Giulia" autocomplete="off">
           </div>
           <div class="field">
@@ -436,9 +465,14 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
             <label for="g-msg">Una dedica <span class="hint">(se vuoi)</span></label>
             <textarea id="g-msg" maxlength="90" placeholder="Es. Per staccare un po' da tutto, te lo meriti!"></textarea>
           </div>
+          <div class="wiz-nav"><button type="button" class="btn btn-ghost" data-go="1">← Indietro</button><button type="button" class="btn btn-main" data-go="3">Avanti →</button></div>
+          </div>
+
+          <div class="wstep hidden" data-step="3">
+          <h3 class="step-title">Come lo vuoi ricevere?</h3>
 
           <fieldset>
-            <legend>Come lo vuoi ricevere?</legend>
+            <legend class="sr">Come lo vuoi ricevere?</legend>
             <div class="choices">
               <label class="choice"><input type="radio" name="deliver" value="studio" checked><span>Lo ritiro in studio</span></label>
               <label class="choice"><input type="radio" name="deliver" value="whatsapp"><span>Su WhatsApp</span></label>
@@ -455,6 +489,8 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.3.5-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l2 1c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>
             Chiedi il buono su WhatsApp</a>
           <p class="hint">Ti rispondo io per confermare e ti spiego come pagare.</p>
+          <div class="wiz-nav"><button type="button" class="btn btn-ghost" data-go="2">← Indietro</button></div>
+          </div>
         </form>
 
         <div class="voucher-wrap">
@@ -474,12 +510,12 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
             </div>
           </div>
           <p class="hint" style="text-align:center">Valido 12 mesi dalla data di acquisto</p>
-          <div class="pack" id="pack">
-            <b>Confezione di Natale 2026.</b> Ogni anno la preparo diversa e completamente nuova. La foto di quest'anno arriva presto: intanto lasciati sorprendere.
-          </div>
         </div>
       </div>
 
+      <div class="pack" style="margin-top:24px" id="pack">
+            <b>Confezione di Natale 2026.</b> Ogni anno la preparo diversa e completamente nuova. La foto di quest'anno arriva presto: intanto lasciati sorprendere.
+          </div>
       <div class="pay">
         <h3>Come funziona</h3>
         <div class="steps">
@@ -740,7 +776,8 @@ function renderCards(){
       <p>${short}</p>
       <details class="more"><summary>Leggi di più</summary><p>${more}</p></details>
       ${good?`<p class="good">${good}</p>`:""}
-      <a class="cta" href="#prenota" data-book="${id}">Prenota questo trattamento →</a>
+      <a class="cta" href="${CONFIG.calLinks[curStudio]}" target="_blank" rel="noopener">Prenota online →</a>
+      <a class="cta-alt" href="#prenota" data-book="${id}">oppure scrivimi su WhatsApp</a>
     </article>`).join("");
 }
 $("#studio-tabs").addEventListener("click",e=>{ const b=e.target.closest("[data-si]"); if(!b) return; curStudio=+b.dataset.si; renderCards(); });
@@ -781,7 +818,7 @@ $$(".mood-btn").forEach(b=>b.addEventListener("click",()=>{
 function showMood(m){
   const [txt,ids] = MOODS[m];
   $("#mood-text").textContent = txt;
-  $("#mood-list").innerHTML = ids.map(id=>`<a href="#prenota" data-book="${id}"><span class="studio-tag">${CONFIG.studios[ALL[id].si]}</span><b>${ALL[id].name}</b></a>`).join("");
+  $("#mood-list").innerHTML = ids.map(id=>`<a href="${CONFIG.calLinks[ALL[id].si]}" target="_blank" rel="noopener"><span class="studio-tag">${CONFIG.studios[ALL[id].si]} · prenota online</span><b>${ALL[id].name}</b></a>`).join("");
 }
 showMood("testa");
 
@@ -838,6 +875,16 @@ function updateGift(){
 $("#gift-form").addEventListener("input", updateGift);
 $("#gift-form").addEventListener("change", e=>{ if(e.target.id==="g-tratt") $("#g-studio").value=String(ALL[e.target.value].si); updateGift(); });
 $("#gift-form").addEventListener("submit", e=>e.preventDefault());
+function goStep(n){
+  $$("#gift-form .wstep").forEach(s=>s.classList.toggle("hidden", s.dataset.step!==String(n)));
+  $("#wiz-count").textContent = "Passo " + n + " di 3";
+  $$(".wiz-dots i").forEach((d,i)=>d.classList.toggle("on", i<n));
+  const top = $("#gift-form").getBoundingClientRect().top + window.scrollY - (window.innerWidth<=900 ? 360 : 100);
+  if(window.scrollY > top) window.scrollTo({top, behavior:"smooth"});
+  const first = $(`#gift-form .wstep[data-step="${n}"] input:not([type=radio]), #gift-form .wstep[data-step="${n}"] select`);
+  if(n===2 && first) setTimeout(()=>first.focus({preventScroll:true}), 250);
+}
+$("#gift-form").addEventListener("click", e=>{ const b=e.target.closest("[data-go]"); if(b) goStep(+b.dataset.go); });
 
 /* Prenotazione WhatsApp */
 function updateBook(){
@@ -857,6 +904,14 @@ $("#book-form").addEventListener("change", updateBook);
 $("#book-form").addEventListener("submit", e=>e.preventDefault());
 
 updateGift(); updateBook();
+/* Striscia di Natale: dal 1 novembre al 20 dicembre */
+(function(){
+  const d=new Date(), m=d.getMonth(), g=d.getDate();
+  if(m===10 || (m===11 && g<=20)){
+    const s=$("#xmas-strip"); s.classList.remove("hidden");
+    s.addEventListener("click",()=>{ const t=document.querySelector('#occ-tabs [data-occ="natale"]'); if(t) t.click(); goStep(1); });
+  }
+})();
 /* Barra in basso: evidenzia la sezione in cui ti trovi */
 (function(){
   const links=$$(".bar a"), secs=links.map(a=>document.getElementById(a.dataset.sec));
