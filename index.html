@@ -725,7 +725,7 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
       <h4>Chi tratta i tuoi dati</h4>
       <p>Irene Argenio, naturopata, P.IVA 17500241009. Per qualsiasi richiesta: <a href="mailto:argenioirene@gmail.com">argenioirene@gmail.com</a>.</p>
       <h4>Quali dati e perché</h4>
-      <p>Questo sito non raccoglie né salva dati: i moduli preparano soltanto un messaggio che decidi tu se inviare su WhatsApp. Ricevo i tuoi dati quando mi scrivi su WhatsApp o per email, prenoti con Cal.com o paghi un trattamento o un buono con SumUp, PayPal o bonifico. Si tratta di nome, contatti, appuntamento, dati del buono regalo e del pagamento. Li uso solo per:</p>
+      <p>Questo sito non raccoglie né salva dati: i moduli preparano soltanto un messaggio che decidi tu se inviare su WhatsApp. Ricevo i tuoi dati quando mi scrivi su WhatsApp o per email, prenoti con Cal.com o paghi un trattamento o un buono con SumUp, PayPal o bonifico. Si tratta di nome, contatti, appuntamento, dati del buono regalo e del pagamento. Se compri un buono regalo dal sito, i dati del buono (nomi, dedica, email se scegli di riceverlo così, metodo di pagamento) vengono salvati in un mio foglio Google privato, per prepararlo e mandartelo. Li uso solo per:</p>
       <ul>
         <li>gestire appuntamenti e buoni regalo (base giuridica: esecuzione di un servizio che mi richiedi);</li>
         <li>rispettare gli obblighi fiscali e contabili (base giuridica: obbligo di legge).</li>
@@ -734,7 +734,7 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
       <h4>Per quanto tempo</h4>
       <p>Conservo i dati per il tempo necessario a seguirti. I documenti fiscali li conservo per il tempo previsto dalla legge (di norma 10 anni).</p>
       <h4>Con chi li condivido</h4>
-      <p>Non vendo né cedo i tuoi dati. Possono passare dai servizi che usiamo per comunicare e pagare (WhatsApp, Cal.com, SumUp, PayPal, la banca) e dal mio commercialista, ciascuno con la propria informativa.</p>
+      <p>Non vendo né cedo i tuoi dati. Possono passare dai servizi che usiamo per comunicare, pagare e conservare i buoni (WhatsApp, Cal.com, SumUp, PayPal, la banca, Google) e dal mio commercialista, ciascuno con la propria informativa.</p>
       <h4>I tuoi diritti</h4>
       <p>Puoi chiedermi in ogni momento di vedere, correggere o cancellare i tuoi dati, limitarne o opporti al loro uso, riceverne una copia o revocare il consenso. Ti basta scrivermi. Puoi anche presentare reclamo al Garante per la protezione dei dati personali (<a href="https://www.garanteprivacy.it" target="_blank" rel="noopener">garanteprivacy.it</a>).</p>
     </details>
@@ -762,6 +762,7 @@ const CONFIG = {
   paypal: "https://paypal.me/irenearge",
   iban: "",                // IBAN per il bonifico
   ibanName: "Irene Argenio",
+  voucherEndpoint: "",   // link dell'App web Google (foglio dei buoni): lo inserisce Claude
   studios: ["Osteonatura", "Eagles Studio"],
   calLinks: ["https://cal.com/ireneargenio-osteonatura", "https://cal.com/ireneargenio-eaglestudio"]
 };
@@ -931,6 +932,44 @@ function fitRows(){
   });
 }
 window.addEventListener("resize",()=>{ try{fitRows()}catch(e){} });
+/* ---------- Buono come immagine + registrazione nel foglio Google ---------- */
+const GIFT_CODE = (()=>{ const d=new Date(), A="ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; let r=""; for(let i=0;i<4;i++) r+=A[Math.floor(Math.random()*A.length)];
+  return "IA-" + String(d.getFullYear()).slice(2) + String(d.getMonth()+1).padStart(2,"0") + "-" + r; })();
+const BG = {}; ["natale","generico"].forEach(k=>{ const im=new Image(); im.src = k==="natale" ? "img/buono-natale.jpg" : "img/buono-generico.jpg"; BG[k]=im; });
+const OCC_COLOR = {compleanno:"#C8661A", valentino:"#B03752", mamma:"#A24F6B", altro:"#4F7457"};
+function voucherImage(){
+  const W=2000, H=920, c=document.createElement("canvas"); c.width=W; c.height=H;
+  const x=c.getContext("2d"), bg = occ==="natale" ? BG.natale : BG.generico;
+  if(bg.complete && bg.naturalWidth) x.drawImage(bg,0,0,W,H); else { x.fillStyle="#FBF6EE"; x.fillRect(0,0,W,H); }
+  const fit=(t,max,size,weight)=>{ let s=size; do { x.font=`${weight} ${s}px Caveat, cursive`; } while(x.measureText(t).width>max && (s-=2)>size*0.5); };
+  x.fillStyle="#2F4A3A"; x.textBaseline="alphabetic";
+  const what=giftWhat(), to=$("#g-to").value.trim(), from=$("#g-from").value.trim(), msg=$("#g-msg").value.trim();
+  x.textAlign="center"; fit(what,930,100,700); x.fillText(what,1022,425);
+  x.textAlign="left";
+  if(to){ fit(to,770,94,700); x.fillText(to,720,522); }
+  if(from){ fit(from,770,94,700); x.fillText(from,720,641); }
+  if(msg){ const m="“"+msg+"”"; fit(m,890,90,500); x.fillText(m,600,760); }
+  if(occ!=="natale"){ x.textAlign="center"; x.fillStyle=OCC_COLOR[occ]||"#4F7457"; x.font="700 64px Caveat, cursive"; x.fillText(OCC[occ].title,1000,90); }
+  x.textAlign="left"; x.fillStyle="#7A7566"; x.font="600 28px Figtree, sans-serif"; x.fillText("N° " + GIFT_CODE, 705, 862);
+  return c.toDataURL("image/jpeg", 0.88);
+}
+function registerGift(){
+  if(!CONFIG.voucherEndpoint) return;
+  try{
+    const deliver=val("deliver"), tr=val("kind")==="tratt" ? ALL[$("#g-tratt").value] : null;
+    const data=new URLSearchParams({
+      codice: GIFT_CODE, per: $("#g-to").value.trim(), da: $("#g-from").value.trim(), dedica: $("#g-msg").value.trim(),
+      regalo: giftWhat(), valore: giftAmount()||"", studio: tr ? CONFIG.studios[tr.si] : (deliver==="studio" ? $("#g-studio").selectedOptions[0].textContent : ""),
+      occasione: OCC[occ].title, consegna: deliver==="studio" ? "Ritiro in studio" : deliver==="email" ? "Email" : "WhatsApp",
+      email: $("#g-email").value.trim(), pagamento: val("pay"), immagine: voucherImage()
+    });
+    fetch(CONFIG.voucherEndpoint, {method:"POST", mode:"no-cors", body:data}).catch(()=>{});
+  }catch(e){}
+}
+$("#gift-send").addEventListener("click", registerGift);
+$("#gift-mail").addEventListener("click", registerGift);
+try{ document.fonts.load("700 100px Caveat"); document.fonts.load("500 90px Caveat"); document.fonts.load("600 28px Figtree"); }catch(e){}
+
 function giftAmount(){
   if(val("kind")==="tratt") return String(ALL[$("#g-tratt").value].price);
   const a = ($("#g-amount-other").value||"").replace(/[^\d]/g,"");
@@ -943,7 +982,7 @@ function updateGift(){
   $("#f-studio").classList.toggle("hidden", deliver!=="studio");
   $("#deliver-hint").textContent = deliver==="studio"
     ? (occ==="natale" ? "Ti preparo il buono nella confezione natalizia e lo ritiri quando vuoi." : "Ti preparo il buono nella sua confezione e lo ritiri quando vuoi.")
-    : deliver==="email" ? "Ti mando il buono digitale per email, pronto da stampare o inoltrare."
+    : deliver==="email" ? "Appena ricevo il pagamento, il buono ti arriva per email in PDF, pronto da stampare o inoltrare."
     : "Ti mando il buono digitale su WhatsApp, pronto da inoltrare.";
   $("#f-email").classList.toggle("hidden", deliver!=="email");
   const pay = val("pay"), amount = giftAmount();
@@ -980,7 +1019,8 @@ function updateGift(){
     from && "Da parte di: " + from,
     msg && "Dedica: " + msg,
     "Consegna: " + (deliver==="studio" ? "ritiro in studio (" + $("#g-studio").selectedOptions[0].textContent + ")" : deliver==="email" ? "per email" + ($("#g-email").value.trim() ? " (" + $("#g-email").value.trim() + ")" : "") : "digitale su WhatsApp"),
-    "Pagamento: " + pay
+    "Pagamento: " + pay,
+    "Codice buono: " + GIFT_CODE
   ].filter(Boolean);
   setLink($("#gift-send"), waLink(lines.join("\n")), "Numero WhatsApp in arrivo");
   $("#gift-mail").href = "mailto:argenioirene@gmail.com?subject=" + encodeURIComponent("Buono regalo") + "&body=" + encodeURIComponent(lines.join("\n"));
