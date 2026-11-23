@@ -312,6 +312,10 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
 @media (max-width:620px){.pregnancy{grid-template-columns:1fr;padding:22px}}
 .preg-ic{width:72px;height:72px;border-radius:50%;background:#fff;border:1.5px solid #F3C6CE;display:grid;place-items:center;color:#B0566C}
 .preg-ic svg{width:42px;height:42px}
+.preg-facts{margin:14px 0 0;padding-left:20px;display:grid;gap:4px}
+.preg-more{margin-top:10px}
+.preg-cta{float:right;margin-top:16px;margin-left:10px}
+@media (max-width:620px){.preg-cta{float:none;margin:16px 0 0}}
 .pregnancy p{max-width:62ch}
 .session{background:#F8FAF5;border-top:1.5px solid var(--edge);border-bottom:1.5px solid var(--edge)}
 .sess-steps{list-style:none;margin:28px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
@@ -424,8 +428,17 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
         <div>
           <p class="eyebrow">In tutti e due gli studi</p>
           <h3 style="margin:6px 0 10px">Percorso di riflessologia in gravidanza</h3>
-          <p>Un percorso dolce per accompagnarti nei mesi dell'attesa: un momento di rilassamento e di ascolto, per te e per il tuo corpo che cambia. Lo costruiamo insieme, seduta dopo seduta, in base a come ti senti.</p>
+          <p>Un percorso dolce per accompagnarti nei mesi dell'attesa: un momento di rilassamento e di ascolto, per te e per il tuo corpo che cambia. Lo costruiamo insieme, seduta dopo seduta, in base a come ti senti: vieni quando ne senti il bisogno, senza un numero fisso di sedute.</p>
+          <ul class="preg-facts">
+            <li><b>Dal 4° mese</b> di gravidanza</li>
+            <li><b>55 € a seduta</b> (60 minuti), come la riflessologia plantare</li>
+            <li>Tocco delicato e posizione comoda, adatta alla gravidanza</li>
+          </ul>
+          <details class="more preg-more"><summary>Quando non è indicata</summary>
+            <p>Non lo propongo in caso di gravidanza a rischio o di complicazioni, per esempio perdite di sangue, minaccia di parto prematuro, placenta previa, pressione alta o preeclampsia, trombosi o problemi di coagulazione. In questi casi, e ogni volta che hai un dubbio, il primo riferimento è il tuo ginecologo o la tua ostetrica.</p>
+          </details>
           <p class="good" style="margin-top:12px">Prima di iniziare ne parliamo con calma, e ti chiedo di confrontarti anche con il tuo ginecologo o la tua ostetrica.</p>
+          <div class="preg-cta"><a class="btn btn-ghost" href="#buoni" id="preg-gift">Regalalo con un buono</a></div>
           <a class="btn btn-main" href="https://wa.me/393928938682?text=Ciao%20Irene!%20Vorrei%20informazioni%20sul%20percorso%20di%20riflessologia%20in%20gravidanza%20%F0%9F%A4%B0" target="_blank" rel="noopener" style="margin-top:16px">Chiedimi informazioni</a>
         </div>
       </div>
@@ -630,32 +643,7 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
       <div class="pack" style="margin-top:24px" id="pack">
             <b>Confezione di Natale 2026.</b> Ogni anno la preparo diversa e completamente nuova. La foto di quest'anno arriva presto: intanto lasciati sorprendere.
           </div>
-      <div class="pay">
-        <h3>Come funziona</h3>
-        <div class="steps">
-          <div class="step"><p><b>Componi il buono</b> e mandami la richiesta su WhatsApp.</p></div>
-          <div class="step"><p><b>Paghi come preferisci</b>: carta, PayPal, bonifico o in studio.</p></div>
-          <div class="step"><p><b>Ricevi il buono</b> su WhatsApp o per email, oppure lo ritiri in studio già confezionato.</p></div>
-        </div>
-        <div class="pay-methods">
-          <div class="method">
-            <h4>Carta con SumUp</h4>
-            <p class="hint">Paghi con la carta da un link sicuro.</p>
-            <a class="btn btn-ghost" id="pay-sumup" href="#" target="_blank" rel="noopener" style="justify-self:start;min-height:48px">Paga con carta</a>
-          </div>
-          <div class="method">
-            <h4>PayPal</h4>
-            <p class="hint">Se hai già un conto PayPal.</p>
-            <a class="btn btn-ghost" id="pay-paypal" href="#" target="_blank" rel="noopener" style="justify-self:start;min-height:48px">Paga con PayPal</a>
-          </div>
-          <div class="method">
-            <h4>Bonifico</h4>
-            <p class="hint">Intestato a <span id="iban-name">Irene Argenio</span></p>
-            <p class="iban" id="iban-text">IBAN da inserire</p>
-            <button class="copy" type="button" id="copy-iban">Copia IBAN</button>
-          </div>
-        </div>
-      </div>
+
     </div>
   </section>
 
@@ -818,7 +806,8 @@ const TREATMENTS = [
     ["o-nat","Consulenza naturopatica","Con scheda personalizzata",
      "Parliamo con calma di te: alimentazione, sonno, stile di vita e gestione dello stress. Alla fine ricevi una scheda personalizzata con i miei consigli.",
      "Nella scheda trovi il percorso pensato per te: rimedi naturali ed erboristici e indicazioni pratiche per la vita di tutti i giorni, da tenere e rileggere quando vuoi. La consulenza non sostituisce il parere del tuo medico.",
-     "Porta con te gli integratori o i prodotti che usi già."]
+     "Porta con te gli integratori o i prodotti che usi già."],
+    ["o-grav","Riflessologia plantare in gravidanza","Dal 4° mese","","","",""]
   ],
   [ // Eagles Studio
     ["e-bali","Rituale Balinese – Riflessologia plantare e gambe","Dai piedi a tutta la gamba",
@@ -836,7 +825,8 @@ const TREATMENTS = [
     ["e-legg","Rituale Leggerezza – Linfodrenaggio manuale","Leggerezza che si sente",
      "Movimenti lenti e ritmici che accompagnano il fluire naturale della linfa.",
      "Aiuta ad alleviare la sensazione di gonfiore e pesantezza e regala una leggerezza che si sente. Bello anche come percorso, o prima di un evento importante.",
-     "Se hai problemi circolatori o cardiaci o sei in gravidanza, scrivimi prima di prenotare."]
+     "Se hai problemi circolatori o cardiaci o sei in gravidanza, scrivimi prima di prenotare."],
+    ["e-grav","Riflessologia plantare in gravidanza","Dal 4° mese","","","",""]
   ]
 ];
 const MOODS = {
@@ -870,7 +860,7 @@ const toast = msg => { const t=$("#toast"); t.textContent=msg; t.classList.add("
 const fill = (sel, items) => { $(sel).innerHTML = items.map(([v,l])=>`<option value="${v}">${l}</option>`).join(""); };
 
 /* PREZZI: si cambiano solo qui */
-const PRICES = {"o-rifl":55,"o-sved":60,"o-linfo":60,"o-nat":60,"e-bali":60,"e-chakra":70,"e-viso":55,"e-legg":70};
+const PRICES = {"o-grav":55,"e-grav":55,"o-rifl":55,"o-sved":60,"o-linfo":60,"o-nat":60,"e-bali":60,"e-chakra":70,"e-viso":55,"e-legg":70};
 const ALL = {}; TREATMENTS.forEach((list,si)=>list.forEach(t=>ALL[t[0]]={si,name:t[1],price:PRICES[t[0]]}));
 const esc = s => s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 $("#g-tratt").innerHTML = TREATMENTS.map((list,si)=>`<optgroup label="${CONFIG.studios[si]}">`+list.map(t=>`<option value="${t[0]}">${t[1]} · ${PRICES[t[0]]} €</option>`).join("")+"</optgroup>").join("");
@@ -886,7 +876,7 @@ $$("[data-studio]").forEach(el=>el.textContent = CONFIG.studios[+el.dataset.stud
 let curStudio = 0;
 function renderCards(){
   $("#studio-tabs").innerHTML = CONFIG.studios.map((s,i)=>`<button class="tab" role="tab" type="button" data-si="${i}" aria-selected="${i===curStudio}">${s}</button>`).join("");
-  $("#cards").innerHTML = TREATMENTS[curStudio].map(([id,name,meta,short,more,good])=>`
+  $("#cards").innerHTML = TREATMENTS[curStudio].filter(t=>!t[0].endsWith("-grav")).map(([id,name,meta,short,more,good])=>`
     <article class="card${id==="o-nat"?" highlight":""}" id="t-${id}">
       <h3>${name}</h3>
       <p class="meta">${meta}</p>
@@ -918,16 +908,7 @@ if(CONFIG.whatsapp){ const n=CONFIG.whatsapp.slice(2); $("#wa-text").innerHTML =
 $("#cal-btns").innerHTML = CONFIG.studios.map((s,i)=>`<a class="btn btn-ghost" href="${CONFIG.calLinks[i]}" target="_blank" rel="noopener">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>${s}</a>`).join("");
 $$(".studio-cal").forEach((a,i)=>a.href=CONFIG.calLinks[i]);
-setLink($("#pay-sumup"), CONFIG.sumup, "Link SumUp in arrivo");
-setLink($("#pay-paypal"), CONFIG.paypal, "Link PayPal in arrivo");
-$("#iban-text").textContent = CONFIG.iban || "Ti mando l'IBAN su WhatsApp insieme alla conferma.";
-if(!CONFIG.iban) $("#copy-iban").classList.add("hidden");
-$("#iban-name").textContent = CONFIG.ibanName;
-$("#copy-iban").addEventListener("click", async () => {
-  if(!CONFIG.iban){ toast("IBAN in arrivo"); return; }
-  try{ await navigator.clipboard.writeText(CONFIG.iban.replace(/\s/g,"")); toast("IBAN copiato"); }
-  catch{ toast("Tieni premuto sull'IBAN per copiarlo"); }
-});
+
 
 /* Come ti senti */
 $$(".mood-btn").forEach(b=>b.addEventListener("click",()=>{
@@ -984,6 +965,7 @@ function addTratt(value){
   $("#extra-tratts").appendChild(row); updateGift();
 }
 $("#add-tratt").addEventListener("click",()=>addTratt());
+$("#preg-gift").addEventListener("click",()=>{ const k=document.querySelector("input[name=kind][value=tratt]"); if(k) k.checked=true; $("#g-tratt").value="o-grav"; syncExtraStudio(); goStep(1); updateGift(); });
 $("#g-tratt").addEventListener("change", syncExtraStudio);
 syncExtraStudio();
 if(promoOn()) $("#promo-banner").classList.remove("hidden");
