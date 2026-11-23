@@ -466,7 +466,7 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
 
       <div class="gift-grid">
         <form id="gift-form" novalidate>
-          <div class="wiz-head"><span id="wiz-count">Passo 1 di 3</span><div class="wiz-dots"><i class="on"></i><i></i><i></i></div></div>
+          <div class="wiz-head"><span id="wiz-count">Passo 1 di 4</span><div class="wiz-dots"><i class="on"></i><i></i><i></i><i></i></div></div>
           <div class="wstep" data-step="1">
           <h3 class="step-title">Cosa vuoi regalare?</h3>
           <fieldset>
@@ -522,6 +522,7 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
             <div class="choices">
               <label class="choice"><input type="radio" name="deliver" value="studio" checked><span>Lo ritiro in studio</span></label>
               <label class="choice"><input type="radio" name="deliver" value="whatsapp"><span>Su WhatsApp</span></label>
+              <label class="choice"><input type="radio" name="deliver" value="email"><span>Per email</span></label>
             </div>
             <p class="hint" id="deliver-hint">Ti preparo il buono nella sua confezione e lo ritiri quando vuoi.</p>
           </fieldset>
@@ -531,11 +532,32 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
             <select id="g-studio"></select>
           </div>
 
+          <div class="field hidden" id="f-email">
+            <label for="g-email">A quale email te lo mando?</label>
+            <input type="email" id="g-email" placeholder="nome@esempio.it" autocomplete="email" inputmode="email">
+          </div>
+          <div class="wiz-nav"><button type="button" class="btn btn-ghost" data-go="2">← Indietro</button><button type="button" class="btn btn-main" data-go="4">Avanti →</button></div>
+          </div>
+
+          <div class="wstep hidden" data-step="4">
+          <h3 class="step-title">Come preferisci pagare?</h3>
+          <fieldset>
+            <legend class="sr">Come preferisci pagare?</legend>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="pay" value="SumUp (carta)" checked><span>Carta (SumUp)</span></label>
+              <label class="choice"><input type="radio" name="pay" value="PayPal"><span>PayPal</span></label>
+              <label class="choice"><input type="radio" name="pay" value="Bonifico"><span>Bonifico</span></label>
+              <label class="choice"><input type="radio" name="pay" value="In studio"><span>In studio</span></label>
+            </div>
+            <p class="hint" id="pay-hint"></p>
+          </fieldset>
           <a class="btn btn-green" id="gift-send" href="#" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .5l-.3.5-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l2 1c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>
             Chiedi il buono su WhatsApp</a>
-          <p class="hint">Ti rispondo io per confermare e ti spiego come pagare.</p>
-          <div class="wiz-nav"><button type="button" class="btn btn-ghost" data-go="2">← Indietro</button></div>
+          <a class="btn btn-ghost hidden" id="gift-paynow" href="#" target="_blank" rel="noopener">Paga subito</a>
+          <p class="hint" id="send-hint">Ti rispondo io per confermare e ti mando il buono.</p>
+          <p class="hint"><a id="gift-mail" href="#">Preferisci scrivermi per email?</a></p>
+          <div class="wiz-nav"><button type="button" class="btn btn-ghost" data-go="3">← Indietro</button></div>
           </div>
         </form>
 
@@ -574,8 +596,8 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
         <h3>Come funziona</h3>
         <div class="steps">
           <div class="step"><p><b>Componi il buono</b> e mandami la richiesta su WhatsApp.</p></div>
-          <div class="step"><p><b>Paghi come preferisci</b>: SumUp, PayPal o bonifico.</p></div>
-          <div class="step"><p><b>Ricevi il buono</b> su WhatsApp, oppure lo ritiri in studio già confezionato.</p></div>
+          <div class="step"><p><b>Paghi come preferisci</b>: carta, PayPal, bonifico o in studio.</p></div>
+          <div class="step"><p><b>Ricevi il buono</b> su WhatsApp o per email, oppure lo ritiri in studio già confezionato.</p></div>
         </div>
         <div class="pay-methods">
           <div class="method">
@@ -902,6 +924,12 @@ function fitRows(){
   });
 }
 window.addEventListener("resize",()=>{ try{fitRows()}catch(e){} });
+function giftAmount(){
+  if(val("kind")!=="importo") return null;
+  let a = val("amount");
+  if(a==="altro") a = ($("#g-amount-other").value||"").replace(/[^\d]/g,"");
+  return a || null;
+}
 function updateGift(){
   const kind = val("kind"), deliver = val("deliver");
   $("#f-tratt").classList.toggle("hidden", kind!=="tratt");
@@ -910,7 +938,21 @@ function updateGift(){
   $("#f-studio").classList.toggle("hidden", deliver!=="studio");
   $("#deliver-hint").textContent = deliver==="studio"
     ? (occ==="natale" ? "Ti preparo il buono nella confezione natalizia e lo ritiri quando vuoi." : "Ti preparo il buono nella sua confezione e lo ritiri quando vuoi.")
+    : deliver==="email" ? "Ti mando il buono digitale per email, pronto da stampare o inoltrare."
     : "Ti mando il buono digitale su WhatsApp, pronto da inoltrare.";
+  $("#f-email").classList.toggle("hidden", deliver!=="email");
+  const pay = val("pay"), amount = giftAmount();
+  let payHint, payNow = null;
+  if(pay==="Bonifico") payHint = "Ti mando l'IBAN insieme alla conferma.";
+  else if(pay==="In studio") payHint = "Paghi quando passi in studio, anche con la carta.";
+  else if(kind==="importo" && amount){
+    payHint = "Puoi pagare subito con il bottone qui sotto, oppure aspettare la mia conferma.";
+    payNow = pay==="PayPal" ? CONFIG.paypal + "/" + amount + "EUR" : CONFIG.sumup;
+  } else payHint = "Ti scrivo io l'importo e il link per pagare.";
+  $("#pay-hint").textContent = payHint;
+  const pn = $("#gift-paynow");
+  pn.classList.toggle("hidden", !payNow);
+  if(payNow){ pn.href = payNow; pn.textContent = (pay==="PayPal" ? "Paga subito " + amount + " € con PayPal" : "Paga subito " + amount + " € con carta"); }
   $("#pack").classList.toggle("hidden", occ!=="natale");
 
   const v = $("#voucher");
@@ -931,16 +973,18 @@ function updateGift(){
     to && "Per: " + to,
     from && "Da parte di: " + from,
     msg && "Dedica: " + msg,
-    "Consegna: " + (deliver==="studio" ? "ritiro in studio (" + $("#g-studio").selectedOptions[0].textContent + ")" : "digitale su WhatsApp")
+    "Consegna: " + (deliver==="studio" ? "ritiro in studio (" + $("#g-studio").selectedOptions[0].textContent + ")" : deliver==="email" ? "per email" + ($("#g-email").value.trim() ? " (" + $("#g-email").value.trim() + ")" : "") : "digitale su WhatsApp"),
+    "Pagamento: " + pay
   ].filter(Boolean);
   setLink($("#gift-send"), waLink(lines.join("\n")), "Numero WhatsApp in arrivo");
+  $("#gift-mail").href = "mailto:argenioirene@gmail.com?subject=" + encodeURIComponent("Buono regalo") + "&body=" + encodeURIComponent(lines.join("\n"));
 }
 $("#gift-form").addEventListener("input", updateGift);
 $("#gift-form").addEventListener("change", e=>{ if(e.target.id==="g-tratt") $("#g-studio").value=String(ALL[e.target.value].si); updateGift(); });
 $("#gift-form").addEventListener("submit", e=>e.preventDefault());
 function goStep(n){
   $$("#gift-form .wstep").forEach(s=>s.classList.toggle("hidden", s.dataset.step!==String(n)));
-  $("#wiz-count").textContent = "Passo " + n + " di 3";
+  $("#wiz-count").textContent = "Passo " + n + " di 4";
   $$(".wiz-dots i").forEach((d,i)=>d.classList.toggle("on", i<n));
   const top = $("#gift-form").getBoundingClientRect().top + window.scrollY - (window.innerWidth<=900 ? 360 : 100);
   if(window.scrollY > top) window.scrollTo({top, behavior:"smooth"});
