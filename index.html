@@ -210,6 +210,16 @@ fieldset{border:0;margin:0;padding:0;display:grid;gap:8px}
 @media (max-width:900px){.voucher-wrap{position:static;order:-1}}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .wstep{display:grid;gap:18px}
+.extra-tratts{display:grid;gap:8px}
+.extra-row{display:flex;gap:8px;align-items:center}
+.extra-row select{flex:1}
+.extra-row button{flex:none;width:44px;height:44px;border-radius:50%;border:1.5px solid var(--edge);background:#fff;font-size:20px;cursor:pointer;color:var(--muted)}
+.add-tratt{justify-self:start;background:none;border:1.5px dashed #A9C5A0;border-radius:999px;padding:10px 16px;font:600 16px var(--body);color:var(--leaf);cursor:pointer}
+.add-tratt:hover{background:#F4F8F1}
+.promo-note{background:#FBEFF3;border-left:4px solid #E59AA9;border-radius:0 10px 10px 0;padding:10px 14px;font-size:16px}
+.promo-banner{margin-top:18px;display:flex;gap:12px;align-items:flex-start;background:linear-gradient(120deg,#6E2A3A,#8C4152);color:#F8EDE3;border-radius:16px;padding:16px 18px}
+.promo-banner b{color:#fff}
+.promo-banner .big{font-family:var(--display);font-size:22px;color:#E6D0A3;display:block;margin-bottom:2px}
 .euro{position:relative;max-width:220px}
 .euro input{padding-right:44px;font-size:22px;font-weight:600}
 .euro span{position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:22px;font-weight:600;color:var(--muted)}
@@ -328,7 +338,7 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
 </head>
 <body>
 
-<a class="xmas-strip hidden" id="xmas-strip" href="#buoni">🎄 <b>Buoni regalo di Natale</b>: ordinali entro il 20 dicembre <span aria-hidden="true">→</span></a>
+<a class="xmas-strip hidden" id="xmas-strip" href="#buoni">🎄 <b>Buoni regalo di Natale</b>: regalando più trattamenti risparmi fino a 30 € <span aria-hidden="true">→</span></a>
 <header>
   <div class="wrap nav">
     <a class="brand" href="#top"><span>Irene Argenio<small>naturopata</small></span></a>
@@ -473,6 +483,7 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
       <h2 style="margin-top:10px">Regala un momento di benessere</h2>
       <p class="lead" style="margin-top:14px">Componi il tuo buono qui sotto: lo vedi prendere forma mentre scrivi. Poi mandami la richiesta su WhatsApp con un tocco.</p>
 
+      <div class="promo-banner hidden" id="promo-banner"><span style="font-size:26px" aria-hidden="true">🎄</span><p><span class="big">Promo di Natale</span>Regala più trattamenti di Osteonatura: <b>2 trattamenti 15 € in meno</b>, <b>3 trattamenti 30 € in meno</b>. Fino al 6 gennaio.</p></div>
       <div class="tabs" role="tablist" aria-label="Occasione" id="occ-tabs"></div>
 
       <div class="gift-grid">
@@ -491,6 +502,9 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
           <div class="field" id="f-tratt">
             <label for="g-tratt">Scegli il trattamento</label>
             <select id="g-tratt"></select>
+            <div id="extra-tratts" class="extra-tratts"></div>
+            <button type="button" class="add-tratt" id="add-tratt">+ Aggiungi un altro trattamento</button>
+            <p class="promo-note hidden" id="promo-note"></p>
             <p class="hint" id="tratt-value"></p>
           </div>
 
@@ -899,8 +913,33 @@ $$("#buoni .tab").forEach(t=>t.addEventListener("click",()=>{
 }));
 const val = name => (document.querySelector(`input[name="${name}"]:checked`)||{}).value;
 
+/* PROMO DI NATALE: solo Osteonatura (studio 0), fino al 6 gennaio */
+const PROMO = { from:new Date(2026,10,1), until:new Date(2027,0,6,23,59), studio:0, off:{2:15, 3:30} };
+const promoOn = () => { const d=new Date(); return d>=PROMO.from && d<=PROMO.until; };
+const optionsHTML = () => TREATMENTS.map((list,si)=>`<optgroup label="${CONFIG.studios[si]}">`+list.map(t=>`<option value="${t[0]}">${t[1]} · ${PRICES[t[0]]} €</option>`).join("")+"</optgroup>").join("");
+function selTratts(){ return [$("#g-tratt").value, ...$$("#extra-tratts select").map(s=>s.value)]; }
+function trattPrice(){
+  const ids=selTratts(), full=ids.reduce((a,id)=>a+ALL[id].price,0);
+  const allPromo = ids.length>1 && ids.every(id=>ALL[id].si===PROMO.studio);
+  const off = promoOn() && allPromo ? (PROMO.off[ids.length]||0) : 0;
+  return {ids, full, off, total: full-off, mixed: ids.length>1 && !allPromo};
+}
+function trattLabel(short){
+  const ids=selTratts(), count={}; ids.forEach(id=>count[id]=(count[id]||0)+1);
+  return Object.keys(count).map(id=>{ const n=short ? ALL[id].name.split(" – ")[0] : ALL[id].name; return (count[id]>1 ? count[id]+" × " : "") + n; }).join(" + ");
+}
+function addTratt(value){
+  if($$("#extra-tratts select").length>=2) return;
+  const row=document.createElement("div"); row.className="extra-row";
+  row.innerHTML=`<select aria-label="Altro trattamento">${optionsHTML()}</select><button type="button" aria-label="Togli questo trattamento">×</button>`;
+  row.querySelector("select").value = value || $("#g-tratt").value;
+  row.querySelector("button").addEventListener("click",()=>{ row.remove(); updateGift(); });
+  $("#extra-tratts").appendChild(row); updateGift();
+}
+$("#add-tratt").addEventListener("click",()=>addTratt());
+if(promoOn()) $("#promo-banner").classList.remove("hidden");
 function giftWhat(){
-  if(val("kind")==="tratt") return ALL[$("#g-tratt").value].name;
+  if(val("kind")==="tratt") return trattLabel(false);
   const a = ($("#g-amount-other").value||"").replace(/[^\d]/g,"");
   return a ? a+" €" : "Importo a tua scelta";
 }
@@ -947,7 +986,7 @@ function drawVoucher(c){
   if(A.line){ x.fillStyle=A.line.color; for(let px=A.line.x0; px<=A.line.x1; px+=A.line.gap){ x.beginPath(); x.arc(px*s, A.line.y*s, A.line.r*s, 0, Math.PI*2); x.fill(); } }
   x.fillStyle="#2F4A3A"; x.textBaseline="alphabetic";
   const to=$("#g-to").value.trim(), from=$("#g-from").value.trim(), msg=$("#g-msg").value.trim();
-  put(giftWhat().split(" – ")[0], A.what, 700, "center");   // sul buono basta il nome principale (es. "Rituale Balinese")
+  put(val("kind")==="tratt" ? trattLabel(true) : giftWhat(), A.what, 700, "center");   // sul buono basta il nome principale (es. "Rituale Balinese")
   put(to, A.per, 700); put(from, A.da, 700);
   if(msg) put("“"+msg+"”", A.ded, 500);
   if(A.occ){ x.fillStyle=OCC_COLOR[occ]||"#4F7457"; put(OCC[occ].title, A.occ, 700, "center"); }
@@ -960,10 +999,10 @@ function voucherImage(){ const c=document.createElement("canvas"); drawVoucher(c
 function registerGift(){
   if(!CONFIG.voucherEndpoint) return;
   try{
-    const deliver=val("deliver"), tr=val("kind")==="tratt" ? ALL[$("#g-tratt").value] : null;
+    const deliver=val("deliver"), trS=val("kind")==="tratt" ? [...new Set(selTratts().map(id=>CONFIG.studios[ALL[id].si]))].join(" + ") : "";
     const data=new URLSearchParams({
       codice: GIFT_CODE, per: $("#g-to").value.trim(), da: $("#g-from").value.trim(), dedica: $("#g-msg").value.trim(),
-      regalo: giftWhat(), valore: giftAmount()||"", studio: tr ? CONFIG.studios[tr.si] : (deliver==="studio" ? $("#g-studio").selectedOptions[0].textContent : ""),
+      regalo: giftWhat() + (val("kind")==="tratt" && trattPrice().off ? " (promo Natale −" + trattPrice().off + " €)" : ""), valore: giftAmount()||"", studio: trS ? trS : (deliver==="studio" ? $("#g-studio").selectedOptions[0].textContent : ""),
       occasione: OCC[occ].title, consegna: deliver==="studio" ? "Ritiro in studio" : deliver==="email" ? "Email" : "WhatsApp",
       email: $("#g-email").value.trim(), pagamento: val("pay"), immagine: voucherImage()
     });
@@ -975,7 +1014,7 @@ $("#gift-mail").addEventListener("click", registerGift);
 try{ Promise.all([document.fonts.load("700 100px Caveat"), document.fonts.load("500 90px Caveat"), document.fonts.load("600 28px Figtree"), document.fonts.load("500 28px Figtree")]).then(()=>drawVoucher($("#voucher"))); }catch(e){}
 
 function giftAmount(){
-  if(val("kind")==="tratt") return String(ALL[$("#g-tratt").value].price);
+  if(val("kind")==="tratt") return String(trattPrice().total);
   const a = ($("#g-amount-other").value||"").replace(/[^\d]/g,"");
   return a || null;
 }
@@ -990,7 +1029,15 @@ function updateGift(){
     : "Ti mando il buono digitale su WhatsApp, pronto da inoltrare.";
   $("#f-email").classList.toggle("hidden", deliver!=="email");
   const pay = val("pay"), amount = giftAmount();
-  if(kind==="tratt") $("#tratt-value").innerHTML = "Valore del buono: <b>" + amount + " €</b>";
+  if(kind==="tratt"){
+    const tp=trattPrice();
+    $("#tratt-value").innerHTML = tp.off ? `Totale: <s>${tp.full} €</s> <b>${tp.total} €</b> con la promo di Natale (−${tp.off} €)` : `Valore del buono: <b>${tp.total} €</b>`;
+    $("#add-tratt").classList.toggle("hidden", tp.ids.length>=3);
+    const pn=$("#promo-note");
+    if(promoOn() && tp.ids.length===1 && ALL[tp.ids[0]].si===PROMO.studio){ pn.textContent="🎄 Aggiungi un altro trattamento di Osteonatura e risparmi 15 €, con tre ne risparmi 30 €."; pn.classList.remove("hidden"); }
+    else if(promoOn() && tp.mixed){ pn.textContent="La promo di Natale vale quando tutti i trattamenti del buono sono di Osteonatura."; pn.classList.remove("hidden"); }
+    else pn.classList.add("hidden");
+  }
   let payHint, payNow = null;
   if(pay==="Bonifico") payHint = "Ti mando l'IBAN insieme alla conferma.";
   else if(pay==="In studio") payHint = "Paghi quando passi in studio, anche con la carta.";
@@ -1010,7 +1057,8 @@ function updateGift(){
   const lines = [
     "Ciao Irene! Vorrei un buono regalo 🎁",
     "Occasione: " + OCC[occ].title,
-    "Regalo: " + giftWhat() + (val("kind")==="tratt" ? " (" + CONFIG.studios[ALL[$("#g-tratt").value].si] + ", " + ALL[$("#g-tratt").value].price + " €)" : ""),
+    "Regalo: " + giftWhat() + (val("kind")==="tratt" ? " (" + [...new Set(selTratts().map(id=>CONFIG.studios[ALL[id].si]))].join(" + ") + ")" : ""),
+    val("kind")==="tratt" && "Totale: " + trattPrice().total + " €" + (trattPrice().off ? " (promo di Natale −" + trattPrice().off + " €)" : ""),
     to && "Per: " + to,
     from && "Da parte di: " + from,
     msg && "Dedica: " + msg,
@@ -1053,10 +1101,10 @@ $("#book-form").addEventListener("change", updateBook);
 $("#book-form").addEventListener("submit", e=>e.preventDefault());
 
 updateGift(); updateBook();
-/* Striscia di Natale: dal 1 novembre al 20 dicembre */
+/* Striscia di Natale: dal 1 novembre al 6 gennaio (come la promo) */
 (function(){
   const d=new Date(), m=d.getMonth(), g=d.getDate();
-  if(m===10 || (m===11 && g<=20)){
+  if(m===10 || m===11 || (m===0 && g<=6)){
     const s=$("#xmas-strip"); s.classList.remove("hidden");
     s.addEventListener("click",()=>{ const t=document.querySelector('#occ-tabs [data-occ="natale"]'); if(t) t.click(); goStep(1); });
   }
