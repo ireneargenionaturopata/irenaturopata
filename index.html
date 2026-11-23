@@ -223,6 +223,8 @@ fieldset{border:0;margin:0;padding:0;display:grid;gap:8px}
    A Natale lo sfondo è la sua grafica; nelle altre occasioni la stessa impaginazione disegnata in CSS/SVG. */
 .voucher{--vacc:#2F4A3A;position:relative;aspect-ratio:2000/920;border-radius:14px;overflow:hidden;background:#FBF6EE;color:#2F4A3A;
   box-shadow:0 20px 34px -20px #0006,0 1px 0 #0001;transform:rotate(-1deg);container-type:inline-size}
+.voucher-img{display:block;width:100%;height:auto;border-radius:12px;box-shadow:0 20px 34px -20px #0006,0 1px 0 #0001;transform:rotate(-1deg);background:#FBF6EE}
+@media (prefers-reduced-motion: reduce){.voucher-img{transform:none}}
 .v-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none}
 .voucher.t-natale .v-bg{display:block}
 .v-paper{position:absolute;inset:0;width:100%;height:100%}
@@ -566,29 +568,7 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
         </form>
 
         <div class="voucher-wrap">
-          <div class="voucher t-natale" id="voucher" aria-label="Anteprima del buono regalo">
-            <img class="v-bg" src="img/buono-natale.jpg" alt="">
-            <svg class="v-paper" viewBox="0 0 2000 920" preserveAspectRatio="none" aria-hidden="true">
-              <rect x="26" y="26" width="1948" height="868" rx="22" fill="none" stroke="#C9A86A" stroke-width="3"/>
-              <text x="1000" y="235" text-anchor="middle" font-family="Caveat, cursive" font-size="190" font-weight="700" fill="#2F4A3A">buono regalo</text>
-              <path d="M670 292 C760 270 840 300 940 284 M1060 284 C1160 300 1240 270 1330 292" stroke="#C9A86A" stroke-width="3.5" fill="none"/>
-              <path d="M1000 300 c-12-14-30-4-20 8 l20 18 l20-18 c10-12-8-22-20-8z" fill="var(--vacc)"/>
-              <g stroke="#B8A98C" stroke-width="3" stroke-dasharray="3 7"><path d="M550 435 H1495"/><path d="M705 534 H1495"/><path d="M705 653 H1495"/><path d="M705 772 H1495"/></g>
-              <g font-family="Caveat, cursive" font-size="68" fill="#2F4A3A"><text x="612" y="528">per:</text><text x="612" y="648">da:</text></g>
-              <g fill="none" stroke="var(--vacc)" stroke-width="5" stroke-linejoin="round"><rect x="500" y="478" width="70" height="56" rx="3"/><path d="M500 496 H570 M535 478 V534 M535 478 c-12-22-36-16-28 0 M535 478 c12-22 36-16 28 0"/></g>
-              <path d="M535 655 c-28-20-40-52-16-64 c10-4 16 4 16 12 c0-8 6-16 16-12 c24 12 12 44-16 64z" fill="#2F4A3A"/>
-              <path d="M535 698 l12 28 30 2-24 18 10 30-28-18-28 18 10-30-24-18 30-2z" fill="#D9B45F"/>
-              <g transform="translate(30 560) scale(2.2)"><g fill="none" stroke="#6F8F72" stroke-width="2.2" stroke-linecap="round"><path d="M0 0 C40 40 70 90 80 160"/><path d="M22 30 C10 34 2 48 4 58 C16 54 24 44 22 30Z" fill="#9DBB93" stroke="none"/><path d="M40 58 C54 56 66 64 70 74 C56 78 44 72 40 58Z" fill="#9DBB93" stroke="none"/><path d="M52 92 C40 98 34 112 38 122 C50 116 56 104 52 92Z" fill="#B9D1AE" stroke="none"/><path d="M68 120 C82 118 94 128 96 138 C82 140 70 134 68 120Z" fill="#9DBB93" stroke="none"/></g></g>
-              <g transform="translate(1965 60) scale(-2.2 2.2) rotate(-20)"><g fill="none" stroke="#6F8F72" stroke-width="2.2" stroke-linecap="round"><path d="M0 0 C40 40 70 90 80 160"/><path d="M22 30 C10 34 2 48 4 58 C16 54 24 44 22 30Z" fill="#9DBB93" stroke="none"/><path d="M40 58 C54 56 66 64 70 74 C56 78 44 72 40 58Z" fill="#9DBB93" stroke="none"/><path d="M52 92 C40 98 34 112 38 122 C50 116 56 104 52 92Z" fill="#B9D1AE" stroke="none"/><path d="M68 120 C82 118 94 128 96 138 C82 140 70 134 68 120Z" fill="#9DBB93" stroke="none"/></g></g>
-              <g fill="var(--vacc)"><circle cx="300" cy="140" r="9"/><circle cx="1760" cy="820" r="9"/><circle cx="1820" cy="200" r="7"/><circle cx="220" cy="800" r="7"/></g>
-            </svg>
-            <svg class="deco" id="v-deco" viewBox="0 0 150 150" aria-hidden="true"></svg>
-            <p class="v-occ" id="v-occ">Buon Natale</p>
-            <p class="v-row what" id="v-what">Riflessologia plantare</p>
-            <p class="v-row to" id="v-to"></p>
-            <p class="v-row from" id="v-from"></p>
-            <p class="v-row msg" id="v-msg"></p>
-          </div>
+          <canvas class="voucher-img" id="voucher" width="2000" height="920" role="img" aria-label="Anteprima del buono regalo"></canvas>
           
         </div>
       </div>
@@ -935,24 +915,42 @@ window.addEventListener("resize",()=>{ try{fitRows()}catch(e){} });
 /* ---------- Buono come immagine + registrazione nel foglio Google ---------- */
 const GIFT_CODE = (()=>{ const d=new Date(), A="ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; let r=""; for(let i=0;i<4;i++) r+=A[Math.floor(Math.random()*A.length)];
   return "IA-" + String(d.getFullYear()).slice(2) + String(d.getMonth()+1).padStart(2,"0") + "-" + r; })();
-const BG = {}; ["natale","generico"].forEach(k=>{ const im=new Image(); im.src = k==="natale" ? "img/buono-natale.jpg" : "img/buono-generico.jpg"; BG[k]=im; });
-const OCC_COLOR = {compleanno:"#C8661A", valentino:"#B03752", mamma:"#A24F6B", altro:"#4F7457"};
-function voucherImage(){
-  const W=2000, H=920, c=document.createElement("canvas"); c.width=W; c.height=H;
-  const x=c.getContext("2d"), bg = occ==="natale" ? BG.natale : BG.generico;
-  if(bg.complete && bg.naturalWidth) x.drawImage(bg,0,0,W,H); else { x.fillStyle="#FBF6EE"; x.fillRect(0,0,W,H); }
-  const fit=(t,max,size,weight)=>{ let s=size; do { x.font=`${weight} ${s}px Caveat, cursive`; } while(x.measureText(t).width>max && (s-=2)>size*0.5); };
+const CONTACT = "Info e prenotazioni: WhatsApp 392 893 8682 · argenioirene@gmail.com";
+/* Grafiche dei buoni (immagini di Irene) e posizione delle righe, in pixel dell'immagine originale */
+const ART = {
+  natale:   {src:"img/buono-natale.jpg", w:2000, h:920,
+             what:{cx:1022,y:425,max:930,size:100}, per:{x:720,y:522,max:770,size:94}, da:{x:720,y:641,max:770,size:94},
+             ded:{x:600,y:760,max:890,size:90}, code:{x:1495,y:806,size:24}, contact:{cx:1015,y:850,size:26}},
+  compleanno:{src:"img/buono-compleanno.jpg", w:1584, h:672,
+             what:{cx:818,y:290,max:520,size:44}, per:{x:590,y:333,max:530,size:60}, da:{x:590,y:408,max:530,size:60},
+             ded:{x:515,y:483,max:605,size:54}, code:{x:1125,y:520,size:18}, contact:{cx:818,y:592,size:23}},
+  occasioni:{src:"img/buono-occasioni.jpg", w:1024, h:474,
+             what:{cx:550,y:197,max:340,size:27}, per:{x:380,y:231,max:340,size:38}, da:{x:380,y:284,max:340,size:38},
+             ded:{x:330,y:336,max:395,size:35}, code:{x:727,y:360,size:12}, contact:{cx:540,y:410,size:15}, occ:{cx:512,y:50,size:22}}
+};
+const artFor = o => o==="natale" ? ART.natale : o==="compleanno" ? ART.compleanno : ART.occasioni;
+const BG = {}; Object.keys(ART).forEach(k=>{ const im=new Image(); im.onload=()=>{ try{ drawVoucher($("#voucher")); }catch(e){} }; im.src=ART[k].src; BG[k]=im; });
+const OCC_COLOR = {valentino:"#B03752", mamma:"#A24F6B", altro:"#4F7457"};
+function drawVoucher(c){
+  const A = artFor(occ), key = occ==="natale" ? "natale" : occ==="compleanno" ? "compleanno" : "occasioni";
+  const W = 2000, s = W/A.w, H = Math.round(A.h*s);
+  if(c.width!==W) c.width=W; if(c.height!==H) c.height=H;
+  const x=c.getContext("2d"), bg=BG[key];
+  x.clearRect(0,0,W,H);
+  if(bg && bg.complete && bg.naturalWidth) x.drawImage(bg,0,0,W,H); else { x.fillStyle="#FBF6EE"; x.fillRect(0,0,W,H); }
+  const put=(t,p,weight,align)=>{ if(!t) return; let z=p.size*s; x.textAlign=align||"left";
+    do { x.font=`${weight} ${z}px Caveat, cursive`; } while(p.max && x.measureText(t).width>p.max*s && (z-=2)>p.size*s*0.5);
+    x.fillText(t,(p.cx!=null?p.cx:p.x)*s,p.y*s); };
   x.fillStyle="#2F4A3A"; x.textBaseline="alphabetic";
-  const what=giftWhat(), to=$("#g-to").value.trim(), from=$("#g-from").value.trim(), msg=$("#g-msg").value.trim();
-  x.textAlign="center"; fit(what,930,100,700); x.fillText(what,1022,425);
-  x.textAlign="left";
-  if(to){ fit(to,770,94,700); x.fillText(to,720,522); }
-  if(from){ fit(from,770,94,700); x.fillText(from,720,641); }
-  if(msg){ const m="“"+msg+"”"; fit(m,890,90,500); x.fillText(m,600,760); }
-  if(occ!=="natale"){ x.textAlign="center"; x.fillStyle=OCC_COLOR[occ]||"#4F7457"; x.font="700 64px Caveat, cursive"; x.fillText(OCC[occ].title,1000,90); }
-  x.textAlign="left"; x.fillStyle="#7A7566"; x.font="600 28px Figtree, sans-serif"; x.fillText("N° " + GIFT_CODE, 705, 862);
-  return c.toDataURL("image/jpeg", 0.88);
+  const to=$("#g-to").value.trim(), from=$("#g-from").value.trim(), msg=$("#g-msg").value.trim();
+  put(giftWhat(), A.what, 700, "center");
+  put(to, A.per, 700); put(from, A.da, 700);
+  if(msg) put("“"+msg+"”", A.ded, 500);
+  if(A.occ){ x.fillStyle=OCC_COLOR[occ]||"#4F7457"; put(OCC[occ].title, A.occ, 700, "center"); }
+  x.fillStyle="#3E4A40"; x.textAlign="center"; x.font=`500 ${A.contact.size*s}px Figtree, sans-serif`; x.fillText(CONTACT, A.contact.cx*s, A.contact.y*s);
+  x.fillStyle="#8A8576"; x.textAlign="right"; x.font=`600 ${A.code.size*s}px Figtree, sans-serif`; x.fillText("N° " + GIFT_CODE, A.code.x*s, A.code.y*s);
 }
+function voucherImage(){ const c=document.createElement("canvas"); drawVoucher(c); return c.toDataURL("image/jpeg",0.88); }
 function registerGift(){
   if(!CONFIG.voucherEndpoint) return;
   try{
@@ -968,7 +966,7 @@ function registerGift(){
 }
 $("#gift-send").addEventListener("click", registerGift);
 $("#gift-mail").addEventListener("click", registerGift);
-try{ document.fonts.load("700 100px Caveat"); document.fonts.load("500 90px Caveat"); document.fonts.load("600 28px Figtree"); }catch(e){}
+try{ Promise.all([document.fonts.load("700 100px Caveat"), document.fonts.load("500 90px Caveat"), document.fonts.load("600 28px Figtree"), document.fonts.load("500 28px Figtree")]).then(()=>drawVoucher($("#voucher"))); }catch(e){}
 
 function giftAmount(){
   if(val("kind")==="tratt") return String(ALL[$("#g-tratt").value].price);
@@ -1000,16 +998,8 @@ function updateGift(){
   if(payNow){ pn.href = payNow; pn.textContent = (pay==="PayPal" ? "Paga subito " + amount + " € con PayPal" : "Paga subito " + amount + " € con carta"); }
   $("#pack").classList.toggle("hidden", occ!=="natale");
 
-  const v = $("#voucher");
-  v.className = "voucher t-" + occ;
-  $("#v-deco").innerHTML = OCC[occ].deco;
-  $("#v-occ").textContent = OCC[occ].title;
   const to = $("#g-to").value.trim(), from = $("#g-from").value.trim(), msg = $("#g-msg").value.trim();
-  $("#v-to").textContent = to;
-  $("#v-what").textContent = giftWhat();
-  $("#v-msg").textContent = msg ? "“" + msg + "”" : "";
-  fitRows();
-  $("#v-from").textContent = from;
+  drawVoucher($("#voucher"));
 
   const lines = [
     "Ciao Irene! Vorrei un buono regalo 🎁",
