@@ -101,18 +101,24 @@ function doPost(e) {
     const sh = foglio();
     const riga = trovaRiga(sh, codice) || (sh.getLastRow() + 1);
 
-    // immagine e PDF del buono (il sito li manda già compilati)
-    let linkPdf = '', linkImg = '';
+    // immagine e PDF del buono (il sito li manda già compilati).
+    // Se qualcosa va storto con i file, la riga viene scritta lo stesso e l'errore finisce nelle Note.
+    let linkPdf = '', linkImg = '', nota = '';
     if (p.immagine && p.immagine.indexOf('base64,') > 0) {
-      const tipo = p.immagine.substring(5, p.immagine.indexOf(';'));
-      const dati = Utilities.base64Decode(p.immagine.split('base64,')[1]);
-      const folder = DriveApp.getFolderById(PropertiesService.getScriptProperties().getProperty('CARTELLA_ID'));
-      folder.getFilesByName(codice + '.jpg').hasNext() && folder.getFilesByName(codice + '.jpg').next().setTrashed(true);
-      folder.getFilesByName(codice + '.pdf').hasNext() && folder.getFilesByName(codice + '.pdf').next().setTrashed(true);
-      const img = folder.createFile(Utilities.newBlob(dati, tipo, codice + '.jpg'));
-      const pdf = folder.createFile(img.getBlob().getAs('application/pdf').setName(codice + '.pdf'));
-      linkImg = img.getUrl();
-      linkPdf = pdf.getUrl();
+      try {
+        const folder = DriveApp.getFolderById(PropertiesService.getScriptProperties().getProperty('CARTELLA_ID'));
+        ['.jpg', '.pdf'].forEach(ext => { const it = folder.getFilesByName(codice + ext); while (it.hasNext()) it.next().setTrashed(true); });
+        const dati = Utilities.base64Decode(p.immagine.split('base64,')[1]);
+        const img = folder.createFile(Utilities.newBlob(dati, 'image/jpeg', codice + '.jpg'));
+        linkImg = img.getUrl();
+        // PDF: pagina orizzontale con il buono a tutta larghezza
+        const html = '<html><head><style>@page{size:A4 landscape;margin:12mm}body{margin:0}img{width:100%}</style></head>' +
+                     '<body><img src="' + p.immagine + '"></body></html>';
+        const pdf = folder.createFile(Utilities.newBlob(html, 'text/html', codice + '.html').getAs('application/pdf').setName(codice + '.pdf'));
+        linkPdf = pdf.getUrl();
+      } catch (err) {
+        nota = 'Problema con i file del buono: ' + err.message;
+      }
     }
 
     const t = (s, n) => String(s || '').slice(0, n || 200);
@@ -130,7 +136,8 @@ function doPost(e) {
       'Email cliente': t(p.email, 120),
       'Pagamento': t(p.pagamento, 40),
       'Buono (PDF)': linkPdf,
-      'Buono (immagine)': linkImg
+      'Buono (immagine)': linkImg,
+      'Note': nota
     };
     Object.keys(valori).forEach(k => sh.getRange(riga, C[k]).setValue(valori[k]));
     sh.getRange(riga, C['Pagato']).insertCheckboxes();
