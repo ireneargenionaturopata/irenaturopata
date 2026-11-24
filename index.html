@@ -277,7 +277,10 @@ fieldset{border:0;margin:0;padding:0;display:grid;gap:8px}
 .wiz-dots{display:flex;gap:6px}
 .wiz-dots i{width:28px;height:6px;border-radius:3px;background:var(--line)}
 .wiz-dots i.on{background:#E59AA9}
-.wiz-nav{display:flex;gap:10px;flex-wrap:wrap}
+.wiz-nav{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.wiz-tot{font-weight:600;font-size:16px;line-height:1.25;flex:1 1 auto}
+.wiz-tot s{color:var(--muted);font-weight:400}
+@media (max-width:760px){.wstep .wiz-nav{position:sticky;bottom:calc(80px + env(safe-area-inset-bottom));z-index:5;margin:18px -10px 0;padding:10px;border-radius:20px;background:color-mix(in srgb,var(--card) 96%,transparent);backdrop-filter:blur(8px);border:1.5px solid var(--edge);box-shadow:0 10px 30px -12px #0004;flex-wrap:nowrap}.wstep .wiz-nav .btn{min-height:50px;padding:0 20px}.wstep .wiz-nav .btn-ghost{flex:0 0 auto}.wstep .wiz-nav .btn-main{flex:1 1 auto}}
 /* Buono regalo: come quello stampato di Irene. Carta crema, cornice dorata, righe "per / da / validità".
    A Natale lo sfondo è la sua grafica; nelle altre occasioni la stessa impaginazione disegnata in CSS/SVG. */
 .voucher{--vacc:#2F4A3A;position:relative;aspect-ratio:2000/920;border-radius:14px;overflow:hidden;background:#FBF6EE;color:#2F4A3A;
@@ -477,7 +480,7 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
         <a class="btn btn-ghost insta" href="https://www.instagram.com/irenaturopata/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>Seguimi su Instagram · @irenaturopata</a>
       </div>
       <div class="facts">
-        <img class="about-img" src="img/irene-eagles.jpg" alt="Irene durante un trattamento di riflessologia plantare" style="aspect-ratio:1/1;object-position:center 30%">
+        <img class="about-img" loading="lazy" decoding="async" src="img/irene-eagles.jpg" alt="Irene durante un trattamento di riflessologia plantare" style="aspect-ratio:1/1;object-position:center 30%">
       </div>
     </div>
   </section>
@@ -493,10 +496,10 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
       <div class="cards" id="cards"></div>
       <a class="preg-teaser" href="#gravidanza"><span class="preg-ic sm" aria-hidden="true">🤰</span><span><b>Percorso di riflessologia in gravidanza</b><br><span class="hint">Dal 4° mese · in tutti e due gli studi</span></span><span class="go">Scopri →</span></a>
       <div class="gallery" aria-label="Foto dallo studio">
-        <img src="img/studio1.jpg" alt="Riflessologia plantare in studio">
-        <img src="img/oli.jpg" alt="Una goccia di olio essenziale cade da una pipetta">
-        <img src="img/svedese.jpg" alt="Irene durante un massaggio rilassante" style="object-position:center 20%">
-        <img src="img/studio2.jpg" alt="Irene al lavoro sul lettino">
+        <img loading="lazy" decoding="async" src="img/studio1.jpg" alt="Riflessologia plantare in studio">
+        <img loading="lazy" decoding="async" src="img/oli.jpg" alt="Una goccia di olio essenziale cade da una pipetta">
+        <img loading="lazy" decoding="async" src="img/svedese.jpg" alt="Irene durante un massaggio rilassante" style="object-position:center 20%">
+        <img loading="lazy" decoding="async" src="img/studio2.jpg" alt="Irene al lavoro sul lettino">
       </div>
     </div>
   </section>
@@ -575,7 +578,7 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
             </div>
             <p class="hint">Chi lo riceve lo usa per il trattamento che preferisce, in tutti e due gli studi.</p>
           </div>
-          <div class="wiz-nav"><button type="button" class="btn btn-main" data-go="2">Avanti →</button></div>
+          <div class="wiz-nav"><span class="wiz-tot" id="wiz-tot" aria-live="polite"></span><button type="button" class="btn btn-main" data-go="2">Avanti →</button></div>
           </div>
 
           <div class="wstep hidden" data-step="2">
@@ -950,13 +953,24 @@ function renderStudioInfo(){
   const a=STUDIO_ADDR[curStudio], q=encodeURIComponent(a);
   $("#studio-info").innerHTML=`<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>${a}</span><a href="https://www.google.com/maps/search/?api=1&query=${q}" target="_blank" rel="noopener">Apri in Maps</a>`;
 }
-$("#studio-tabs").addEventListener("click",e=>{ const b=e.target.closest("[data-si]"); if(!b) return; curStudio=+b.dataset.si; renderCards(); renderStudioInfo(); });
+$("#studio-tabs").addEventListener("click",e=>{ const b=e.target.closest("[data-si]"); if(!b) return; chooseStudio(+b.dataset.si); });
 function pickForBooking(id){
   const t=ALL[id]; $("#b-studio").value=String(t.si); fillBookTratt(); $("#b-tratt").value=id; updateBook();
   const w=document.querySelector(".book-wa"); if(w) w.open=true;
 }
 document.addEventListener("click",e=>{ const a=e.target.closest("[data-book]"); if(a) pickForBooking(a.dataset.book); });
 renderCards(); renderStudioInfo();
+/* Lo studio scelto vale in tutto il sito (e il sito lo ricorda alla visita dopo) */
+let giftTouched=false, bookTouched=false;
+function chooseStudio(i, from){
+  if(i!==0 && i!==1) return;
+  if(i!==curStudio){ curStudio=i; renderCards(); renderStudioInfo(); }
+  if(from!=="gift" && !giftTouched && typeof setGiftStudio==="function") setGiftStudio(i);
+  if(from!=="book" && !bookTouched){ $("#b-studio").value=String(i); fillBookTratt(); if(typeof updateBook==="function") updateBook(); }
+  $$("#cal-btns a").forEach((a,k)=>{ a.classList.toggle("btn-main", k===i); a.classList.toggle("btn-ghost", k!==i); });
+  try{ localStorage.setItem("studio", String(i)); }catch(e){}
+}
+$("#b-studio").addEventListener("change", ()=>{ bookTouched=true; chooseStudio(+$("#b-studio").value, "book"); });
 
 function waLink(text){
   if(!CONFIG.whatsapp) return null;
@@ -1031,8 +1045,9 @@ function setGiftStudio(i){
   giftStudio=i; giftCounts={}; giftCounts[TREATMENTS[i][0][0]]=1;
   $("#g-studio").value=String(i); renderGiftPicker(); updateGift();
 }
-$("#gift-seg").addEventListener("click",e=>{ const b=e.target.closest("[data-gs]"); if(b) setGiftStudio(+b.dataset.gs); });
+$("#gift-seg").addEventListener("click",e=>{ const b=e.target.closest("[data-gs]"); if(b){ giftTouched=true; setGiftStudio(+b.dataset.gs); chooseStudio(+b.dataset.gs, "gift"); } });
 $("#gift-tiles").addEventListener("click",e=>{
+  giftTouched=true;
   const a=e.target.closest("[data-add]"), m=e.target.closest("[data-sub]");
   if(a){ const id=a.dataset.add; if(giftTotalCount()<3){ giftCounts[id]=(giftCounts[id]||0)+1; } else if(!giftCounts[id]) { toast("Puoi regalare al massimo 3 trattamenti"); return; } }
   else if(m){ const id=m.dataset.sub; giftCounts[id]--; if(giftCounts[id]<=0) delete giftCounts[id]; }
@@ -1047,7 +1062,7 @@ if(promoOn()){
   $("#xmas-strip").innerHTML = `🎄 <b>Buoni regalo di Natale</b>: fino a ${o[3]} € in meno, ${ph.last} <span aria-hidden="true">→</span>`;
 }
 else { $("#val-tiles").classList.add("hidden"); $("#f-importo").classList.remove("hidden"); }
-$("#preg-gift").addEventListener("click",()=>{ const k=document.querySelector("input[name=kind][value=tratt]"); if(k) k.checked=true; giftStudio=0; giftCounts={"o-grav":1}; $("#g-studio").value="0"; renderGiftPicker(); goStep(1); updateGift(); });
+$("#preg-gift").addEventListener("click",()=>{ giftTouched=true; const k=document.querySelector("input[name=kind][value=tratt]"); if(k) k.checked=true; giftStudio=0; giftCounts={"o-grav":1}; $("#g-studio").value="0"; renderGiftPicker(); goStep(1); updateGift(); });
 function giftWhat(){
   if(val("kind")==="tratt") return trattLabel(false);
   if(promoOn()) return "Buono da " + valChosen() + " €";
@@ -1146,6 +1161,10 @@ function updateGift(){
     $("#tratt-sum").innerHTML = !n ? "Tocca un trattamento per sceglierlo."
       : (n===1 ? "1 trattamento" : n+" trattamenti") + " · " + (tp.off ? `<s>${tp.full} €</s> <b>${tp.total} €</b> · sconto di Natale −${tp.off} €` : `<b>${tp.total} €</b>`)
         + (promoOn() && n<3 ? `<br><span class="x">🎄 Con ${n+1} trattamenti risparmi ${PROMO.off[n+1]} €</span>` : "");
+    $("#wiz-tot").innerHTML = n ? (tp.off ? `<s>${tp.full} €</s> ${tp.total} €` : `${tp.total} €`) : "";
+  } else {
+    const v=+giftAmount()||0, vi=VALUES.indexOf(v), off=(promoOn() && vi>=0) ? (PROMO.off[vi+1]||0) : 0;
+    $("#wiz-tot").innerHTML = v ? (off ? `<s>${v} €</s> ${v-off} €` : `${v} €`) : "";
   }
   let payHint, payNow = null;
   if(pay==="Bonifico") payHint = "Ti mando l'IBAN insieme alla conferma.";
@@ -1185,8 +1204,9 @@ function goStep(n){
   $$("#gift-form .wstep").forEach(s=>s.classList.toggle("hidden", s.dataset.step!==String(n)));
   $("#wiz-count").textContent = "Passo " + n + " di 4";
   $$(".wiz-dots i").forEach((d,i)=>d.classList.toggle("on", i<n));
-  const top = $("#gift-form").getBoundingClientRect().top + window.scrollY - (window.innerWidth<=900 ? 360 : 100);
-  if(window.scrollY > top) window.scrollTo({top, behavior:"smooth"});
+  const head = $("#gift-form .wiz-head"), hh = (document.querySelector("header")||{offsetHeight:0}).offsetHeight;
+  const top = head.getBoundingClientRect().top + window.scrollY - hh - 16;
+  if(Math.abs(window.scrollY - top) > 40) window.scrollTo({top, behavior:"smooth"});
   const first = $(`#gift-form .wstep[data-step="${n}"] input:not([type=radio]), #gift-form .wstep[data-step="${n}"] select`);
   if(n===2 && first) setTimeout(()=>first.focus({preventScroll:true}), 250);
 }
@@ -1212,18 +1232,27 @@ $("#book-form").addEventListener("change", updateBook);
 $("#book-form").addEventListener("submit", e=>e.preventDefault());
 
 updateGift(); updateBook();
+(function(){ let s=null; try{ s=localStorage.getItem("studio"); }catch(e){} chooseStudio(s==="1" ? 1 : 0); })();
 /* Finestre: domande, com'è una seduta, gravidanza, studi */
 (function(){
   let last=null;
-  const close=ov=>{ ov.hidden=true; document.body.style.overflow=""; if(last) last.focus(); };
-  const open=(id,e)=>{ const ov=document.getElementById(id); if(!ov) return; if(e) e.preventDefault(); last=document.activeElement;
-    $$(".pop").forEach(o=>o.hidden=true); ov.hidden=false; ov.querySelector(".faq-panel").scrollTop=0; document.body.style.overflow="hidden"; ov.querySelector(".faq-close").focus(); };
+  const barMark=()=>{ document.dispatchEvent(new Event("popchange")); };
+  const hide=ov=>{ ov.hidden=true; document.body.style.overflow=""; barMark(); if(last) last.focus({preventScroll:true}); };
+  /* chiusura: se la finestra ha aggiunto un passo alla cronologia, lo togliamo (così "indietro" non esce dal sito) */
+  const close=(ov,viaLink)=>{ if(history.state && history.state.pop){ if(viaLink){ history.replaceState(null,""); hide(ov); } else history.back(); } else hide(ov); };
+  const open=(id,e)=>{ const ov=document.getElementById(id); if(!ov) return; if(e) e.preventDefault();
+    const already = $$(".pop").some(o=>!o.hidden);
+    if(!already) last=document.activeElement;
+    $$(".pop").forEach(o=>o.hidden=true); ov.hidden=false; ov.querySelector(".faq-panel").scrollTop=0; document.body.style.overflow="hidden"; ov.querySelector(".faq-close").focus({preventScroll:true});
+    if(history.state && history.state.pop) history.replaceState({pop:id},""); else history.pushState({pop:id},"");
+    barMark(); };
+  window.addEventListener("popstate",()=>{ $$(".pop").forEach(ov=>{ if(!ov.hidden) hide(ov); }); });
   document.addEventListener("click",e=>{
     const a=e.target.closest('a[href^="#"]'); if(!a) return;
     const id=a.getAttribute("href").slice(1), target=document.getElementById(id);
     const inPop=a.closest(".pop");
     if(target && target.classList.contains("pop")) { open(id,e); return; }
-    if(inPop) close(inPop);
+    if(inPop) close(inPop, true);
   });
   $$(".pop").forEach(ov=>{
     ov.querySelector(".faq-close").addEventListener("click",()=>close(ov));
@@ -1245,9 +1274,11 @@ updateGift(); updateBook();
   function mark(){
     const y=window.innerHeight*0.4; let cur=null;
     secs.forEach((s,i)=>{ if(!s) return; const r=s.getBoundingClientRect(); if(r.top<=y && r.bottom>y) cur=i; });
+    const openPop=$$(".pop").find(o=>!o.hidden);
+    if(openPop){ const k=links.findIndex(a=>a.getAttribute("href")==="#"+openPop.id); if(k>=0) cur=k; }
     links.forEach((a,i)=>a.classList.toggle("on", i===cur && !a.classList.contains("prenota")));
   }
-  window.addEventListener("scroll",mark,{passive:true}); mark();
+  window.addEventListener("scroll",mark,{passive:true}); document.addEventListener("popchange",mark); mark();
 })();
 document.querySelector('a[href="#privacy"]').addEventListener("click",()=>{ $("#privacy details").open = true; });
 </script>
