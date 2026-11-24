@@ -221,6 +221,44 @@ fieldset{border:0;margin:0;padding:0;display:grid;gap:8px}
 @media (max-width:900px){.voucher-wrap{position:static;order:-1}}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .wstep{display:grid;gap:18px}
+.kind-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.kind-card{position:relative;display:grid;gap:2px;justify-items:center;text-align:center;padding:18px 12px 16px;border:1.5px solid var(--edge);border-radius:18px;background:#fff;cursor:pointer;transition:border-color .15s,background .15s,box-shadow .15s}
+.kind-card input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.kind-card .kc-ic{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:#F4F8F1;color:var(--leaf);margin-bottom:6px}
+.kind-card .kc-ic svg{width:24px;height:24px}
+.kind-card .kc-t{font-family:var(--display);font-size:19px;line-height:1.15}
+.kind-card .kc-s{font-size:14px;color:var(--muted)}
+.kind-card:has(input:checked){border:2px solid var(--leaf);background:#F4F8F1;box-shadow:0 8px 20px -14px #2E3B3366}
+.kind-card:has(input:checked) .kc-ic{background:var(--leaf);color:#fff}
+.kind-card:has(input:focus-visible){outline:3px solid #7FA377;outline-offset:2px}
+.pick{display:grid;gap:10px}
+.pick-lab{margin:6px 0 0;font-weight:600;font-size:16px}
+.pick-lab span{font-weight:400;color:var(--muted);font-size:14px;margin-left:4px}
+.seg{display:grid;grid-template-columns:1fr 1fr;background:#EFEBE4;border-radius:999px;padding:4px;gap:4px}
+.seg button{border:0;background:none;border-radius:999px;min-height:44px;font:600 16px var(--body);color:var(--muted);cursor:pointer}
+.seg button[aria-checked="true"]{background:#fff;color:var(--ink);box-shadow:0 2px 8px -4px #2E3B3366}
+.tiles{display:grid;gap:8px}
+.tile{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1.5px solid var(--edge);border-radius:16px;background:#fff;transition:border-color .15s,background .15s}
+.tile.on{border-color:var(--leaf);background:#F4F8F1}
+.tile-main{flex:1;min-width:0;text-align:left;background:none;border:0;padding:0;cursor:pointer;font:inherit;color:inherit}
+.tile-name{display:block;font-weight:600;font-size:16px;line-height:1.25}
+.tile-sub{display:block;font-size:13px;color:var(--muted);line-height:1.3}
+.tile-price{font-family:var(--display);font-size:18px;white-space:nowrap}
+.step-ctl{display:flex;align-items:center;gap:6px}
+.step-ctl button{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--edge);background:#fff;font-size:20px;line-height:1;color:var(--ink);cursor:pointer}
+.step-ctl button:disabled{opacity:.35;cursor:default}
+.step-ctl b{min-width:16px;text-align:center}
+.tile:not(.on) .step-ctl .minus, .tile:not(.on) .step-ctl b{display:none}
+.sum{border-radius:14px;padding:12px 16px;background:#FBF6EE;font-size:16px;line-height:1.45}
+.sum s{opacity:.55}
+.sum .x{display:inline-block;margin-top:4px;font-size:14px;color:#A24F6B}
+.val-tiles{grid-template-columns:repeat(3,1fr)}
+.vtile{position:relative;display:grid;gap:2px;justify-items:center;padding:14px 6px;border:1.5px solid var(--edge);border-radius:16px;background:#fff;cursor:pointer;text-align:center}
+.vtile input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.vtile .v{font-family:var(--display);font-size:26px;line-height:1}
+.vtile .p{font-size:13px;color:var(--muted)}
+.vtile .p b{color:#A24F6B}
+.vtile:has(input:checked){border:2px solid var(--leaf);background:#F4F8F1}
 .extra-tratts{display:grid;gap:8px}
 .extra-row{display:flex;gap:8px;align-items:center}
 .extra-row select{flex:1}
@@ -384,7 +422,7 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
 </head>
 <body>
 
-<a class="xmas-strip hidden" id="xmas-strip" href="#buoni">🎄 <b>Buoni regalo di Natale</b>: ogni trattamento a 55 €, a scelta <span aria-hidden="true">→</span></a>
+<a class="xmas-strip hidden" id="xmas-strip" href="#buoni">🎄 <b>Buoni regalo di Natale</b>: fino a 30 € in meno <span aria-hidden="true">→</span></a>
 <header>
   <div class="wrap nav">
     <a class="brand" href="#top"><span>Irene Argenio<small>naturopata</small></span></a>
@@ -508,7 +546,7 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
       <h2 style="margin-top:10px">Regala un momento di benessere</h2>
       <p class="lead" style="margin-top:14px">Componi il tuo buono qui sotto: lo vedi prendere forma mentre scrivi. Poi mandami la richiesta su WhatsApp con un tocco.</p>
 
-      <div class="promo-banner hidden" id="promo-banner"><span style="font-size:26px" aria-hidden="true">🎄</span><p><span class="big">Buoni di Natale a prezzo unico</span>Ogni trattamento in buono costa <b>55 €</b>, qualunque trattamento e in tutti e due gli studi: chi lo riceve sceglie quello che preferisce. Regalandone di più risparmi ancora: <b>2 trattamenti 95 €</b>, <b>3 trattamenti 135 €</b>. Fino al 6 gennaio.</p></div>
+      <div class="promo-banner hidden" id="promo-banner"><span style="font-size:26px" aria-hidden="true">🎄</span><p><span class="big">Buoni di Natale</span>Regalando un trattamento risparmi <b>5 €</b>, con due <b>15 €</b>, con tre <b>30 €</b>. Oppure scegli un buono a valore: <b>60 € lo paghi 55</b>. Fino al 6 gennaio.</p></div>
       <div class="tabs" role="tablist" aria-label="Occasione" id="occ-tabs"></div>
 
       <div class="gift-grid">
@@ -516,36 +554,26 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
           <div class="wiz-head"><span id="wiz-count">Passo 1 di 4</span><div class="wiz-dots"><i class="on"></i><i></i><i></i><i></i></div></div>
           <div class="wstep" data-step="1">
           <h3 class="step-title">Cosa vuoi regalare?</h3>
-          <fieldset>
-            <legend class="sr">Cosa vuoi regalare?</legend>
-            <div class="choices">
-              <label class="choice"><input type="radio" name="kind" value="tratt" checked><span id="kind-tratt-label">Un trattamento</span></label>
-              <label class="choice"><input type="radio" name="kind" value="importo"><span>Un importo</span></label>
-            </div>
-          </fieldset>
-
-          <fieldset class="hidden" id="f-flex">
-            <legend>Quanti trattamenti vuoi regalare?</legend>
-            <div class="choices">
-              <label class="choice"><input type="radio" name="flexn" value="1" checked><span>1 · 55 €</span></label>
-              <label class="choice"><input type="radio" name="flexn" value="2"><span>2 · <s style="opacity:.6">110 €</s>&nbsp;95 €</span></label>
-              <label class="choice"><input type="radio" name="flexn" value="3"><span>3 · <s style="opacity:.6">165 €</s>&nbsp;135 €</span></label>
-            </div>
-            <p class="hint">Chi riceve il buono sceglie il trattamento che preferisce, in uno dei due studi.</p>
-          </fieldset>
-          <div class="field" id="f-tratt">
-            <label for="g-tratt">Scegli il trattamento</label>
-            <select id="g-tratt"></select>
-            <div id="extra-tratts" class="extra-tratts"></div>
-            <button type="button" class="add-tratt" id="add-tratt">+ Aggiungi un altro trattamento</button>
-            <p class="promo-note hidden" id="promo-note"></p>
-            <p class="hint" id="tratt-value"></p>
+          <div class="kind-cards" role="radiogroup" aria-label="Cosa vuoi regalare">
+            <label class="kind-card"><input type="radio" name="kind" value="tratt" checked><span class="kc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 20c-1-9 5-15 15-16 0 10-6 16-15 16z"/><path d="M5 20l9-9"/></svg></span><span class="kc-t">Un trattamento</span><span class="kc-s">Scegli tu cosa regalare</span></label>
+            <label class="kind-card"><input type="radio" name="kind" value="valore"><span class="kc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9" width="18" height="12" rx="2"/><path d="M12 9v12M3 13h18M12 9c-2-4-6-4-6-1.5S10 9 12 9zm0 0c2-4 6-4 6-1.5S14 9 12 9z"/></svg></span><span class="kc-t">Un buono a valore</span><span class="kc-s">Chi lo riceve sceglie</span></label>
           </div>
 
-          <div class="field hidden" id="f-importo">
-            <label for="g-amount-other">Quanto vuoi regalare?</label>
-            <div class="euro"><input type="text" id="g-amount-other" inputmode="numeric" placeholder="Es. 60" autocomplete="off"><span>€</span></div>
-            <p class="hint">Scrivi l'importo che preferisci: chi lo riceve lo usa per il trattamento che vuole.</p>
+          <div class="pick" id="f-tratt">
+            <p class="pick-lab">In quale studio?</p>
+            <div class="seg" id="gift-seg" role="radiogroup" aria-label="Studio"></div>
+            <p class="pick-lab">Quale trattamento? <span>puoi sceglierne fino a 3</span></p>
+            <div class="tiles" id="gift-tiles"></div>
+            <div class="sum" id="tratt-sum" aria-live="polite"></div>
+          </div>
+
+          <div class="pick hidden" id="f-valore">
+            <div class="tiles val-tiles" id="val-tiles"></div>
+            <div class="field hidden" id="f-importo">
+              <label for="g-amount-other">Quanto vuoi regalare?</label>
+              <div class="euro"><input type="text" id="g-amount-other" inputmode="numeric" placeholder="Es. 60" autocomplete="off"><span>€</span></div>
+            </div>
+            <p class="hint">Chi lo riceve lo usa per il trattamento che preferisce, in tutti e due gli studi.</p>
           </div>
           <div class="wiz-nav"><button type="button" class="btn btn-main" data-go="2">Avanti →</button></div>
           </div>
@@ -893,7 +921,6 @@ const fill = (sel, items) => { $(sel).innerHTML = items.map(([v,l])=>`<option va
 const PRICES = {"o-grav":55,"e-grav":60,"o-rifl":55,"o-sved":60,"o-linfo":60,"o-nat":60,"e-bali":60,"e-chakra":70,"e-viso":55,"e-legg":70};
 const ALL = {}; TREATMENTS.forEach((list,si)=>list.forEach(t=>ALL[t[0]]={si,name:t[1],price:PRICES[t[0]]}));
 const esc = s => s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-$("#g-tratt").innerHTML = TREATMENTS.map((list,si)=>`<optgroup label="${CONFIG.studios[si]}">`+list.map(t=>`<option value="${t[0]}">${t[1]} · ${PRICES[t[0]]} €</option>`).join("")+"</optgroup>").join("");
 const studioOpts = CONFIG.studios.map((s,i)=>[String(i),s]);
 fill("#g-studio", studioOpts);
 fill("#b-studio", studioOpts);
@@ -960,49 +987,59 @@ $$("#buoni .tab").forEach(t=>t.addEventListener("click",()=>{
 }));
 const val = name => (document.querySelector(`input[name="${name}"]:checked`)||{}).value;
 
-/* PROMO DI NATALE: tutti i trattamenti, fino al 6 gennaio. Un buono = un solo studio. */
-const PROMO = { from:new Date(2026,10,1), until:new Date(2027,0,6,23,59), exclude:[], off:{2:15, 3:30} };
-const promoOk = id => !PROMO.exclude.includes(id);
+/* NATALE (dal 1/11 al 6/1): sconto sui buoni. 1 trattamento −5 €, 2 −15 €, 3 −30 €.
+   Il buono a valore (60/120/180 €) si paga con lo stesso sconto. */
+const PROMO = { from:new Date(2026,10,1), until:new Date(2027,0,6,23,59), off:{1:5, 2:15, 3:30} };
 const promoOn = () => { const d=new Date(); return d>=PROMO.from && d<=PROMO.until; };
-const optionsHTML = () => TREATMENTS.map((list,si)=>`<optgroup label="${CONFIG.studios[si]}">`+list.map(t=>`<option value="${t[0]}">${t[1]} · ${PRICES[t[0]]} €</option>`).join("")+"</optgroup>").join("");
-function selTratts(){ return [$("#g-tratt").value, ...$$("#extra-tratts select").map(s=>s.value)]; }
-/* Natale: buoni a prezzo unico, trattamento e studio a scelta di chi riceve */
-const FLEX_PRICE = 55;
-const flexOn = () => promoOn();
-const flexN = () => +(val("flexn")||1);
+const VALUES = [60,120,180];
+let giftStudio = 0, giftCounts = {"o-rifl":1};
+const giftTotalCount = () => Object.values(giftCounts).reduce((a,b)=>a+b,0);
+function selTratts(){ const out=[]; Object.keys(giftCounts).forEach(id=>{ for(let i=0;i<giftCounts[id];i++) out.push(id); }); return out; }
 function trattPrice(){
-  if(flexOn()){ const n=flexN(), full=FLEX_PRICE*n, off=PROMO.off[n]||0; return {ids:[], full, off, total: full-off, mixed:false, flex:true}; }
   const ids=selTratts(), full=ids.reduce((a,id)=>a+ALL[id].price,0);
-  const allPromo = ids.length>1 && ids.every(promoOk);
-  const off = promoOn() && allPromo ? (PROMO.off[ids.length]||0) : 0;
-  return {ids, full, off, total: full-off, mixed: ids.length>1 && !allPromo};
+  const off = promoOn() ? (PROMO.off[ids.length]||0) : 0;
+  return {ids, full, off, total: full-off};
 }
 function trattLabel(short){
-  if(flexOn()){ const n=flexN(); return n===1 ? "1 trattamento a scelta" : n+" trattamenti a scelta"; }
   const ids=selTratts(), count={}; ids.forEach(id=>count[id]=(count[id]||0)+1);
   return Object.keys(count).map(id=>{ const n=short ? ALL[id].name.split(" – ")[0] : ALL[id].name; return (count[id]>1 ? count[id]+" × " : "") + n; }).join(" + ");
 }
-const studioOptions = si => TREATMENTS[si].map(t=>`<option value="${t[0]}">${t[1]} · ${PRICES[t[0]]} €</option>`).join("");
-function syncExtraStudio(){
-  const si=ALL[$("#g-tratt").value].si;
-  $$("#extra-tratts select").forEach(s=>{ const keep=s.value; s.innerHTML=studioOptions(si); s.value = ALL[keep] && ALL[keep].si===si ? keep : $("#g-tratt").value; });
-  $("#add-tratt").textContent = "+ Aggiungi un altro trattamento a " + CONFIG.studios[si];
+const valChosen = () => +(val("valtile")||60);
+const esc2 = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function renderGiftPicker(){
+  $("#gift-seg").innerHTML = CONFIG.studios.map((s,i)=>`<button type="button" role="radio" aria-checked="${i===giftStudio}" data-gs="${i}">${s}</button>`).join("");
+  const tot = giftTotalCount();
+  $("#gift-tiles").innerHTML = TREATMENTS[giftStudio].map(t=>{
+    const id=t[0], n=giftCounts[id]||0, parts=t[1].split(" – ");
+    return `<div class="tile${n?" on":""}">
+      <button type="button" class="tile-main" data-add="${id}" aria-label="Aggiungi ${esc2(t[1])}"><span class="tile-name">${esc2(parts[0])}</span>${parts[1]?`<span class="tile-sub">${esc2(parts[1])}</span>`:""}</button>
+      <span class="tile-price">${PRICES[id]} €</span>
+      <span class="step-ctl"><button type="button" class="minus" data-sub="${id}" aria-label="Togli una seduta">−</button><b>${n||""}</b><button type="button" data-add="${id}" aria-label="Aggiungi una seduta" ${tot>=3?"disabled":""}>+</button></span>
+    </div>`; }).join("");
+  if(promoOn()){
+    $("#val-tiles").innerHTML = VALUES.map((v,i)=>`<label class="vtile"><input type="radio" name="valtile" value="${v}" ${i===0?"checked":""}><span class="v">${v} €</span><span class="p">lo paghi <b>${v-(PROMO.off[i+1]||0)} €</b></span></label>`).join("");
+  }
 }
-function addTratt(value){
-  if($$("#extra-tratts select").length>=2) return;
-  const row=document.createElement("div"); row.className="extra-row";
-  row.innerHTML=`<select aria-label="Altro trattamento">${studioOptions(ALL[$("#g-tratt").value].si)}</select><button type="button" aria-label="Togli questo trattamento">×</button>`;
-  row.querySelector("select").value = value || $("#g-tratt").value;
-  row.querySelector("button").addEventListener("click",()=>{ row.remove(); updateGift(); });
-  $("#extra-tratts").appendChild(row); updateGift();
+function setGiftStudio(i){
+  if(i===giftStudio) return;
+  giftStudio=i; giftCounts={}; giftCounts[TREATMENTS[i][0][0]]=1;
+  $("#g-studio").value=String(i); renderGiftPicker(); updateGift();
 }
-$("#add-tratt").addEventListener("click",()=>addTratt());
-$("#preg-gift").addEventListener("click",()=>{ const k=document.querySelector("input[name=kind][value=tratt]"); if(k) k.checked=true; $("#g-tratt").value="o-grav"; syncExtraStudio(); goStep(1); updateGift(); });
-$("#g-tratt").addEventListener("change", syncExtraStudio);
-syncExtraStudio();
-if(promoOn()){ $("#promo-banner").classList.remove("hidden"); $("#kind-tratt-label").textContent="Trattamenti a scelta"; }
+$("#gift-seg").addEventListener("click",e=>{ const b=e.target.closest("[data-gs]"); if(b) setGiftStudio(+b.dataset.gs); });
+$("#gift-tiles").addEventListener("click",e=>{
+  const a=e.target.closest("[data-add]"), m=e.target.closest("[data-sub]");
+  if(a){ const id=a.dataset.add; if(giftTotalCount()<3){ giftCounts[id]=(giftCounts[id]||0)+1; } else if(!giftCounts[id]) { toast("Puoi regalare al massimo 3 trattamenti"); return; } }
+  else if(m){ const id=m.dataset.sub; giftCounts[id]--; if(giftCounts[id]<=0) delete giftCounts[id]; }
+  else return;
+  renderGiftPicker(); updateGift();
+});
+renderGiftPicker();
+if(promoOn()) $("#promo-banner").classList.remove("hidden");
+else { $("#val-tiles").classList.add("hidden"); $("#f-importo").classList.remove("hidden"); }
+$("#preg-gift").addEventListener("click",()=>{ const k=document.querySelector("input[name=kind][value=tratt]"); if(k) k.checked=true; giftStudio=0; giftCounts={"o-grav":1}; $("#g-studio").value="0"; renderGiftPicker(); goStep(1); updateGift(); });
 function giftWhat(){
   if(val("kind")==="tratt") return trattLabel(false);
+  if(promoOn()) return "Buono da " + valChosen() + " €";
   const a = ($("#g-amount-other").value||"").replace(/[^\d]/g,"");
   return a ? a+" €" : "Importo a tua scelta";
 }
@@ -1049,7 +1086,7 @@ function drawVoucher(c){
   if(A.line){ x.fillStyle=A.line.color; for(let px=A.line.x0; px<=A.line.x1; px+=A.line.gap){ x.beginPath(); x.arc(px*s, A.line.y*s, A.line.r*s, 0, Math.PI*2); x.fill(); } }
   x.fillStyle="#2F4A3A"; x.textBaseline="alphabetic";
   const to=$("#g-to").value.trim(), from=$("#g-from").value.trim(), msg=$("#g-msg").value.trim();
-  put(val("kind")==="tratt" ? trattLabel(true) : giftWhat(), A.what, 700, "center");   // sul buono basta il nome principale (es. "Rituale Balinese")
+  put(val("kind")==="tratt" ? (selTratts().length ? trattLabel(true) : "") : giftWhat(), A.what, 700, "center");   // sul buono basta il nome principale (es. "Rituale Balinese")
   put(to, A.per, 700); put(from, A.da, 700);
   if(msg) put("“"+msg+"”", A.ded, 500);
   if(A.occ){ x.fillStyle=OCC_COLOR[occ]||"#4F7457"; put(OCC[occ].title, A.occ, 700, "center"); }
@@ -1062,7 +1099,7 @@ function voucherImage(){ const c=document.createElement("canvas"); drawVoucher(c
 function registerGift(){
   if(!CONFIG.voucherEndpoint) return;
   try{
-    const deliver=val("deliver"), trS=val("kind")==="tratt" && flexOn() ? "A scelta" : val("kind")==="tratt" ? [...new Set(selTratts().map(id=>CONFIG.studios[ALL[id].si]))].join(" + ") : "";
+    const deliver=val("deliver"), trS=val("kind")==="tratt" ? CONFIG.studios[giftStudio] : "A scelta";
     const data=new URLSearchParams({
       codice: GIFT_CODE, per: $("#g-to").value.trim(), da: $("#g-from").value.trim(), dedica: $("#g-msg").value.trim(),
       regalo: giftWhat() + (val("kind")==="tratt" && trattPrice().off ? " (promo Natale −" + trattPrice().off + " €)" : ""), valore: giftAmount()||"", studio: trS ? trS : (deliver==="studio" ? $("#g-studio").selectedOptions[0].textContent : ""),
@@ -1077,14 +1114,15 @@ $("#gift-mail").addEventListener("click", registerGift);
 try{ Promise.all([document.fonts.load("700 100px Caveat"), document.fonts.load("500 90px Caveat"), document.fonts.load("600 28px Figtree"), document.fonts.load("500 28px Figtree")]).then(()=>drawVoucher($("#voucher"))); }catch(e){}
 
 function giftAmount(){
-  if(val("kind")==="tratt") return String(trattPrice().total);
+  if(val("kind")==="tratt") return selTratts().length ? String(trattPrice().total) : null;
+  if(promoOn()){ const v=valChosen(); return String(v-(PROMO.off[v/60]||0)); }
   const a = ($("#g-amount-other").value||"").replace(/[^\d]/g,"");
   return a || null;
 }
 function updateGift(){
   const kind = val("kind"), deliver = val("deliver");
   $("#f-tratt").classList.toggle("hidden", kind!=="tratt");
-  $("#f-importo").classList.toggle("hidden", kind!=="importo");
+  $("#f-valore").classList.toggle("hidden", kind!=="valore");
   $("#f-studio").classList.toggle("hidden", deliver!=="studio");
   $("#deliver-hint").textContent = deliver==="studio"
     ? (occ==="natale" ? "Ti preparo il buono nella confezione natalizia e lo ritiri quando vuoi." : "Ti preparo il buono nella sua confezione e lo ritiri quando vuoi.")
@@ -1092,19 +1130,11 @@ function updateGift(){
     : "Ti mando il buono digitale su WhatsApp, pronto da inoltrare.";
   $("#f-email").classList.toggle("hidden", deliver!=="email");
   const pay = val("pay"), amount = giftAmount();
-  $("#f-flex").classList.toggle("hidden", !(kind==="tratt" && flexOn()));
-  if(kind==="tratt" && flexOn()) $("#f-tratt").classList.add("hidden");
-  if(kind==="tratt" && flexOn()){
-    const tp=trattPrice();
-    $("#tratt-value").innerHTML = "";
-    $("#f-flex .hint").innerHTML = (tp.off ? `Totale: <s>${tp.full} €</s> <b>${tp.total} €</b>. ` : `Valore del buono: <b>${tp.total} €</b>. `) + "Chi lo riceve sceglie il trattamento che preferisce, in uno dei due studi.";
-  } else if(kind==="tratt"){
-    const tp=trattPrice();
-    $("#tratt-value").innerHTML = tp.off ? `Totale: <s>${tp.full} €</s> <b>${tp.total} €</b> con la promo di Natale (−${tp.off} €)` : `Valore del buono: <b>${tp.total} €</b>`;
-    $("#add-tratt").classList.toggle("hidden", tp.ids.length>=3);
-    const pn=$("#promo-note");
-    if(promoOn() && tp.ids.length===1 && promoOk(tp.ids[0])){ pn.textContent="🎄 Aggiungi un altro trattamento e risparmi 15 €, con tre ne risparmi 30 €."; pn.classList.remove("hidden"); }
-    else pn.classList.add("hidden");
+  if(kind==="tratt"){
+    const tp=trattPrice(), n=tp.ids.length;
+    $("#tratt-sum").innerHTML = !n ? "Tocca un trattamento per sceglierlo."
+      : (n===1 ? "1 trattamento" : n+" trattamenti") + " · " + (tp.off ? `<s>${tp.full} €</s> <b>${tp.total} €</b> · sconto di Natale −${tp.off} €` : `<b>${tp.total} €</b>`)
+        + (promoOn() && n<3 ? `<br><span class="x">🎄 Con ${n+1} trattamenti risparmi ${PROMO.off[n+1]} €</span>` : "");
   }
   let payHint, payNow = null;
   if(pay==="Bonifico") payHint = "Ti mando l'IBAN insieme alla conferma.";
@@ -1125,8 +1155,8 @@ function updateGift(){
   const lines = [
     "Ciao Irene! Vorrei un buono regalo 🎁",
     "Occasione: " + OCC[occ].title,
-    "Regalo: " + giftWhat() + (val("kind")==="tratt" && flexOn() ? " (trattamento e studio a scelta, prezzo di Natale)" : val("kind")==="tratt" ? " (" + [...new Set(selTratts().map(id=>CONFIG.studios[ALL[id].si]))].join(" + ") + ")" : ""),
-    val("kind")==="tratt" && "Totale: " + trattPrice().total + " €" + (trattPrice().off ? " (promo di Natale −" + trattPrice().off + " €)" : ""),
+    "Regalo: " + giftWhat() + (val("kind")==="tratt" ? " (" + CONFIG.studios[giftStudio] + ")" : " (trattamento e studio a scelta)"),
+    "Da pagare: " + (giftAmount()||"?") + " €" + (val("kind")==="tratt" && trattPrice().off ? " (sconto di Natale −" + trattPrice().off + " €)" : val("kind")==="valore" && promoOn() ? " (prezzo di Natale)" : ""),
     to && "Per: " + to,
     from && "Da parte di: " + from,
     msg && "Dedica: " + msg,
@@ -1138,7 +1168,7 @@ function updateGift(){
   $("#gift-mail").href = "mailto:argenioirene@gmail.com?subject=" + encodeURIComponent("Buono regalo") + "&body=" + encodeURIComponent(lines.join("\n"));
 }
 $("#gift-form").addEventListener("input", updateGift);
-$("#gift-form").addEventListener("change", e=>{ if(e.target.id==="g-tratt") $("#g-studio").value=String(ALL[e.target.value].si); updateGift(); });
+$("#gift-form").addEventListener("change", updateGift);
 $("#gift-form").addEventListener("submit", e=>e.preventDefault());
 function goStep(n){
   $$("#gift-form .wstep").forEach(s=>s.classList.toggle("hidden", s.dataset.step!==String(n)));
@@ -1149,7 +1179,9 @@ function goStep(n){
   const first = $(`#gift-form .wstep[data-step="${n}"] input:not([type=radio]), #gift-form .wstep[data-step="${n}"] select`);
   if(n===2 && first) setTimeout(()=>first.focus({preventScroll:true}), 250);
 }
-$("#gift-form").addEventListener("click", e=>{ const b=e.target.closest("[data-go]"); if(b) goStep(+b.dataset.go); });
+$("#gift-form").addEventListener("click", e=>{ const b=e.target.closest("[data-go]"); if(!b) return;
+  if(b.dataset.go==="2" && val("kind")==="tratt" && !selTratts().length){ toast("Scegli almeno un trattamento"); return; }
+  goStep(+b.dataset.go); });
 
 /* Prenotazione WhatsApp */
 function updateBook(){
