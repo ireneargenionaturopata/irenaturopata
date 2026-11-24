@@ -918,7 +918,7 @@ const toast = msg => { const t=$("#toast"); t.textContent=msg; t.classList.add("
 const fill = (sel, items) => { $(sel).innerHTML = items.map(([v,l])=>`<option value="${v}">${l}</option>`).join(""); };
 
 /* PREZZI: si cambiano solo qui */
-const PRICES = {"o-grav":55,"e-grav":60,"o-rifl":55,"o-sved":60,"o-linfo":60,"o-nat":60,"e-bali":60,"e-chakra":70,"e-viso":55,"e-legg":70};
+const PRICES = {"o-grav":55,"e-grav":60,"o-rifl":55,"o-sved":60,"o-linfo":60,"o-nat":60,"e-bali":70,"e-chakra":70,"e-viso":55,"e-legg":70};
 const ALL = {}; TREATMENTS.forEach((list,si)=>list.forEach(t=>ALL[t[0]]={si,name:t[1],price:PRICES[t[0]]}));
 const esc = s => s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const studioOpts = CONFIG.studios.map((s,i)=>[String(i),s]);
