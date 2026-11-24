@@ -546,7 +546,7 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
       <h2 style="margin-top:10px">Regala un momento di benessere</h2>
       <p class="lead" style="margin-top:14px">Componi il tuo buono qui sotto: lo vedi prendere forma mentre scrivi. Poi mandami la richiesta su WhatsApp con un tocco.</p>
 
-      <div class="promo-banner hidden" id="promo-banner"><span style="font-size:26px" aria-hidden="true">🎄</span><p><span class="big">Buoni di Natale</span>Regalando un trattamento risparmi <b>5 €</b>, con due <b>15 €</b>, con tre <b>30 €</b>. Oppure scegli un buono a valore: <b>60 € lo paghi 55</b>. Fino al 6 gennaio.</p></div>
+      <div class="promo-banner hidden" id="promo-banner"><span style="font-size:26px" aria-hidden="true">🎄</span><p><span class="big">Più regali, più risparmi</span><span id="promo-text"></span></p></div>
       <div class="tabs" role="tablist" aria-label="Occasione" id="occ-tabs"></div>
 
       <div class="gift-grid">
@@ -989,8 +989,14 @@ const val = name => (document.querySelector(`input[name="${name}"]:checked`)||{}
 
 /* NATALE (dal 1/11 al 6/1): sconto sui buoni. 1 trattamento −5 €, 2 −15 €, 3 −30 €.
    Il buono a valore (60/120/180 €) si paga con lo stesso sconto. */
-const PROMO = { from:new Date(2026,10,1), until:new Date(2027,0,6,23,59), off:{1:5, 2:15, 3:30} };
-const promoOn = () => { const d=new Date(); return d>=PROMO.from && d<=PROMO.until; };
+/* Fino al 20/12: −10 / −25 / −40 €. Dal 21 al 25/12: sconto dimezzato −5 / −10 / −20 €. Dal 26/12 niente sconto. */
+const PROMO_PHASES = [
+  { from:new Date(2026,10,1),  until:new Date(2026,11,20,23,59), off:{1:10, 2:25, 3:40}, last:"fino al 20 dicembre" },
+  { from:new Date(2026,11,21), until:new Date(2026,11,25,23,59), off:{1:5, 2:10, 3:20},  last:"fino al 25 dicembre" }
+];
+const promoPhase = () => { const d=new Date(); return PROMO_PHASES.find(p=>d>=p.from && d<=p.until) || null; };
+const PROMO = { get off(){ const p=promoPhase(); return p ? p.off : {}; } };
+const promoOn = () => !!promoPhase();
 const VALUES = [60,120,180];
 let giftStudio = 0, giftCounts = {"o-rifl":1};
 const giftTotalCount = () => Object.values(giftCounts).reduce((a,b)=>a+b,0);
@@ -1034,7 +1040,12 @@ $("#gift-tiles").addEventListener("click",e=>{
   renderGiftPicker(); updateGift();
 });
 renderGiftPicker();
-if(promoOn()) $("#promo-banner").classList.remove("hidden");
+if(promoOn()){
+  const o=PROMO.off, ph=promoPhase();
+  $("#promo-text").innerHTML = `Regali un trattamento: <b>${o[1]} € in meno</b>. Due: <b>${o[2]} € in meno</b>. Tre: <b>${o[3]} € in meno</b>. Oppure un buono a valore: <b>60 € lo paghi ${60-o[1]}</b>. Solo ${ph.last}.`;
+  $("#promo-banner").classList.remove("hidden");
+  $("#xmas-strip").innerHTML = `🎄 <b>Buoni regalo di Natale</b>: fino a ${o[3]} € in meno, ${ph.last} <span aria-hidden="true">→</span>`;
+}
 else { $("#val-tiles").classList.add("hidden"); $("#f-importo").classList.remove("hidden"); }
 $("#preg-gift").addEventListener("click",()=>{ const k=document.querySelector("input[name=kind][value=tratt]"); if(k) k.checked=true; giftStudio=0; giftCounts={"o-grav":1}; $("#g-studio").value="0"; renderGiftPicker(); goStep(1); updateGift(); });
 function giftWhat(){
@@ -1223,7 +1234,7 @@ updateGift(); updateBook();
 /* Striscia di Natale: dal 1 novembre al 6 gennaio (come la promo) */
 (function(){
   const d=new Date(), m=d.getMonth(), g=d.getDate();
-  if(m===10 || m===11 || (m===0 && g<=6)){
+  if(promoOn()){
     const s=$("#xmas-strip"); s.classList.remove("hidden");
     s.addEventListener("click",()=>{ const t=document.querySelector('#occ-tabs [data-occ="natale"]'); if(t) t.click(); goStep(1); });
   }
