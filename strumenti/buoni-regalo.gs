@@ -19,7 +19,7 @@ const CONFIG = {
   FIRMA: 'Irene Argenio · Naturopata',
   EMAIL: 'argenioirene@gmail.com',
   WHATSAPP: '392 893 8682',
-  SITO: 'https://ireneargenionaturopata.github.io/irenaturopata/',
+  SITO: 'https://ireneargenio.it/',
   MESI_VALIDITA: 12,
   NOME_FOGLIO: 'Buoni regalo – Irene Argenio',
   NOME_CARTELLA: 'Buoni regalo'
