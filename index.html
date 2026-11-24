@@ -384,7 +384,7 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
 </head>
 <body>
 
-<a class="xmas-strip hidden" id="xmas-strip" href="#buoni">🎄 <b>Buoni regalo di Natale</b>: regalando più trattamenti risparmi fino a 30 € <span aria-hidden="true">→</span></a>
+<a class="xmas-strip hidden" id="xmas-strip" href="#buoni">🎄 <b>Buoni regalo di Natale</b>: ogni trattamento a 55 €, a scelta <span aria-hidden="true">→</span></a>
 <header>
   <div class="wrap nav">
     <a class="brand" href="#top"><span>Irene Argenio<small>naturopata</small></span></a>
@@ -508,7 +508,7 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
       <h2 style="margin-top:10px">Regala un momento di benessere</h2>
       <p class="lead" style="margin-top:14px">Componi il tuo buono qui sotto: lo vedi prendere forma mentre scrivi. Poi mandami la richiesta su WhatsApp con un tocco.</p>
 
-      <div class="promo-banner hidden" id="promo-banner"><span style="font-size:26px" aria-hidden="true">🎄</span><p><span class="big">Promo di Natale</span>Regala più trattamenti nello stesso studio: <b>2 trattamenti 15 € in meno</b>, <b>3 trattamenti 30 € in meno</b>. Fino al 6 gennaio.</p></div>
+      <div class="promo-banner hidden" id="promo-banner"><span style="font-size:26px" aria-hidden="true">🎄</span><p><span class="big">Buoni di Natale a prezzo unico</span>Ogni trattamento in buono costa <b>55 €</b>, qualunque trattamento e in tutti e due gli studi: chi lo riceve sceglie quello che preferisce. Regalandone di più risparmi ancora: <b>2 trattamenti 95 €</b>, <b>3 trattamenti 135 €</b>. Fino al 6 gennaio.</p></div>
       <div class="tabs" role="tablist" aria-label="Occasione" id="occ-tabs"></div>
 
       <div class="gift-grid">
@@ -519,11 +519,20 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
           <fieldset>
             <legend class="sr">Cosa vuoi regalare?</legend>
             <div class="choices">
-              <label class="choice"><input type="radio" name="kind" value="tratt" checked><span>Un trattamento</span></label>
+              <label class="choice"><input type="radio" name="kind" value="tratt" checked><span id="kind-tratt-label">Un trattamento</span></label>
               <label class="choice"><input type="radio" name="kind" value="importo"><span>Un importo</span></label>
             </div>
           </fieldset>
 
+          <fieldset class="hidden" id="f-flex">
+            <legend>Quanti trattamenti vuoi regalare?</legend>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="flexn" value="1" checked><span>1 · 55 €</span></label>
+              <label class="choice"><input type="radio" name="flexn" value="2"><span>2 · <s style="opacity:.6">110 €</s>&nbsp;95 €</span></label>
+              <label class="choice"><input type="radio" name="flexn" value="3"><span>3 · <s style="opacity:.6">165 €</s>&nbsp;135 €</span></label>
+            </div>
+            <p class="hint">Chi riceve il buono sceglie il trattamento che preferisce, in uno dei due studi.</p>
+          </fieldset>
           <div class="field" id="f-tratt">
             <label for="g-tratt">Scegli il trattamento</label>
             <select id="g-tratt"></select>
@@ -957,13 +966,19 @@ const promoOk = id => !PROMO.exclude.includes(id);
 const promoOn = () => { const d=new Date(); return d>=PROMO.from && d<=PROMO.until; };
 const optionsHTML = () => TREATMENTS.map((list,si)=>`<optgroup label="${CONFIG.studios[si]}">`+list.map(t=>`<option value="${t[0]}">${t[1]} · ${PRICES[t[0]]} €</option>`).join("")+"</optgroup>").join("");
 function selTratts(){ return [$("#g-tratt").value, ...$$("#extra-tratts select").map(s=>s.value)]; }
+/* Natale: buoni a prezzo unico, trattamento e studio a scelta di chi riceve */
+const FLEX_PRICE = 55;
+const flexOn = () => promoOn();
+const flexN = () => +(val("flexn")||1);
 function trattPrice(){
+  if(flexOn()){ const n=flexN(), full=FLEX_PRICE*n, off=PROMO.off[n]||0; return {ids:[], full, off, total: full-off, mixed:false, flex:true}; }
   const ids=selTratts(), full=ids.reduce((a,id)=>a+ALL[id].price,0);
   const allPromo = ids.length>1 && ids.every(promoOk);
   const off = promoOn() && allPromo ? (PROMO.off[ids.length]||0) : 0;
   return {ids, full, off, total: full-off, mixed: ids.length>1 && !allPromo};
 }
 function trattLabel(short){
+  if(flexOn()){ const n=flexN(); return n===1 ? "1 trattamento a scelta" : n+" trattamenti a scelta"; }
   const ids=selTratts(), count={}; ids.forEach(id=>count[id]=(count[id]||0)+1);
   return Object.keys(count).map(id=>{ const n=short ? ALL[id].name.split(" – ")[0] : ALL[id].name; return (count[id]>1 ? count[id]+" × " : "") + n; }).join(" + ");
 }
@@ -985,7 +1000,7 @@ $("#add-tratt").addEventListener("click",()=>addTratt());
 $("#preg-gift").addEventListener("click",()=>{ const k=document.querySelector("input[name=kind][value=tratt]"); if(k) k.checked=true; $("#g-tratt").value="o-grav"; syncExtraStudio(); goStep(1); updateGift(); });
 $("#g-tratt").addEventListener("change", syncExtraStudio);
 syncExtraStudio();
-if(promoOn()) $("#promo-banner").classList.remove("hidden");
+if(promoOn()){ $("#promo-banner").classList.remove("hidden"); $("#kind-tratt-label").textContent="Trattamenti a scelta"; }
 function giftWhat(){
   if(val("kind")==="tratt") return trattLabel(false);
   const a = ($("#g-amount-other").value||"").replace(/[^\d]/g,"");
@@ -1047,7 +1062,7 @@ function voucherImage(){ const c=document.createElement("canvas"); drawVoucher(c
 function registerGift(){
   if(!CONFIG.voucherEndpoint) return;
   try{
-    const deliver=val("deliver"), trS=val("kind")==="tratt" ? [...new Set(selTratts().map(id=>CONFIG.studios[ALL[id].si]))].join(" + ") : "";
+    const deliver=val("deliver"), trS=val("kind")==="tratt" && flexOn() ? "A scelta" : val("kind")==="tratt" ? [...new Set(selTratts().map(id=>CONFIG.studios[ALL[id].si]))].join(" + ") : "";
     const data=new URLSearchParams({
       codice: GIFT_CODE, per: $("#g-to").value.trim(), da: $("#g-from").value.trim(), dedica: $("#g-msg").value.trim(),
       regalo: giftWhat() + (val("kind")==="tratt" && trattPrice().off ? " (promo Natale −" + trattPrice().off + " €)" : ""), valore: giftAmount()||"", studio: trS ? trS : (deliver==="studio" ? $("#g-studio").selectedOptions[0].textContent : ""),
@@ -1077,7 +1092,13 @@ function updateGift(){
     : "Ti mando il buono digitale su WhatsApp, pronto da inoltrare.";
   $("#f-email").classList.toggle("hidden", deliver!=="email");
   const pay = val("pay"), amount = giftAmount();
-  if(kind==="tratt"){
+  $("#f-flex").classList.toggle("hidden", !(kind==="tratt" && flexOn()));
+  if(kind==="tratt" && flexOn()) $("#f-tratt").classList.add("hidden");
+  if(kind==="tratt" && flexOn()){
+    const tp=trattPrice();
+    $("#tratt-value").innerHTML = "";
+    $("#f-flex .hint").innerHTML = (tp.off ? `Totale: <s>${tp.full} €</s> <b>${tp.total} €</b>. ` : `Valore del buono: <b>${tp.total} €</b>. `) + "Chi lo riceve sceglie il trattamento che preferisce, in uno dei due studi.";
+  } else if(kind==="tratt"){
     const tp=trattPrice();
     $("#tratt-value").innerHTML = tp.off ? `Totale: <s>${tp.full} €</s> <b>${tp.total} €</b> con la promo di Natale (−${tp.off} €)` : `Valore del buono: <b>${tp.total} €</b>`;
     $("#add-tratt").classList.toggle("hidden", tp.ids.length>=3);
@@ -1104,7 +1125,7 @@ function updateGift(){
   const lines = [
     "Ciao Irene! Vorrei un buono regalo 🎁",
     "Occasione: " + OCC[occ].title,
-    "Regalo: " + giftWhat() + (val("kind")==="tratt" ? " (" + [...new Set(selTratts().map(id=>CONFIG.studios[ALL[id].si]))].join(" + ") + ")" : ""),
+    "Regalo: " + giftWhat() + (val("kind")==="tratt" && flexOn() ? " (trattamento e studio a scelta, prezzo di Natale)" : val("kind")==="tratt" ? " (" + [...new Set(selTratts().map(id=>CONFIG.studios[ALL[id].si]))].join(" + ") + ")" : ""),
     val("kind")==="tratt" && "Totale: " + trattPrice().total + " €" + (trattPrice().off ? " (promo di Natale −" + trattPrice().off + " €)" : ""),
     to && "Per: " + to,
     from && "Da parte di: " + from,
