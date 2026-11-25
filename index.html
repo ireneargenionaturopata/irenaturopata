@@ -414,6 +414,8 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
 
 @keyframes grow{from{stroke-dashoffset:400}to{stroke-dashoffset:0}}
 
+.space-name{margin:4px 0 0;font-family:"Caveat",cursive;font-weight:700;font-size:20px;line-height:1.15;color:var(--plum,#7A4E86)}
+.space-tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#5E7A58;background:#EEF4EC;border-radius:999px;padding:4px 10px;margin-right:6px}
 </style>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"HealthAndBeautyBusiness","name":"Irene Argenio Naturopata","telephone":"+393928938682","email":"argenioirene@gmail.com","vatID":"IT17500241009","priceRange":"55–70 €",
@@ -755,7 +757,7 @@ footer .disc{margin-top:32px;padding-top:20px;border-top:1px solid #ffffff22;fon
           </div>
         </article>
         <article class="studio">
-          <div class="top"><h3 data-studio="1">Eagles Studio</h3></div>
+          <div class="top"><h3 data-studio="1">Eagles Studio</h3><p class="space-name">Healing Space · uno spazio per ritrovare calma ed equilibrio</p></div>
           <div class="body">
             <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Via Cortina d'Ampezzo, 345, Roma<br><a href="https://www.google.com/maps/search/?api=1&amp;query=Via+Cortina+d%27Ampezzo+345+Roma" target="_blank" rel="noopener">Apri in Google Maps</a></span></div>
             <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Giorni e orari liberi li vedi nel calendario</span></div>
@@ -951,7 +953,7 @@ function renderCards(){
 const STUDIO_ADDR=["Via Augusto Tebaldi, 61, Roma","Via Cortina d'Ampezzo, 345, Roma"];
 function renderStudioInfo(){
   const a=STUDIO_ADDR[curStudio], q=encodeURIComponent(a);
-  $("#studio-info").innerHTML=`<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>${a}</span><a href="https://www.google.com/maps/search/?api=1&query=${q}" target="_blank" rel="noopener">Apri in Maps</a>`;
+  $("#studio-info").innerHTML=(curStudio===1 ? `<span class="space-tag">Healing Space</span>` : "") + `<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>${a}</span><a href="https://www.google.com/maps/search/?api=1&query=${q}" target="_blank" rel="noopener">Apri in Maps</a>`;
 }
 $("#studio-tabs").addEventListener("click",e=>{ const b=e.target.closest("[data-si]"); if(!b) return; chooseStudio(+b.dataset.si); });
 function pickForBooking(id){
